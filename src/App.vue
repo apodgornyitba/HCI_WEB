@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
+      color="light-blue lighten-4"
       dark
     >
       <div class="d-flex align-center">
@@ -15,14 +15,14 @@
           width="40"
         />
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+<!--        <v-img-->
+<!--          alt="Vuetify Name"-->
+<!--          class="shrink mt-1 hidden-sm-and-down"-->
+<!--          contain-->
+<!--          min-width="100"-->
+<!--          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"-->
+<!--          width="100"-->
+<!--        />-->
       </div>
 
       <v-spacer></v-spacer>
@@ -32,7 +32,7 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
+        <span class="mr-2"></span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
