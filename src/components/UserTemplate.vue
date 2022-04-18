@@ -1,28 +1,26 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col
+          v-for="n in 6"
+          :key="n"
+          class="d-flex child-flex"
+          cols="4"
+      >
         <v-img
             :src="require('../assets/User.png')"
-            width="100"
-        />
+            width="50"
+            aspect-ratio="1.5"
+        >
+        </v-img>
       </v-col>
       <v-col>
-        <v-img
-            :src="require('../assets/User.png')"
-            width="100"
-        />
-      </v-col>
-      <v-col>
-        <v-img
-            :src="require('../assets/User.png')"
-            width="100"
-        />
         <AddUser/>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
 
 <script>
 export default {
@@ -31,7 +29,3 @@ export default {
 }
 import AddUser from "@/components/AddUser";
 </script>
-
-<style scoped>
-
-</style>

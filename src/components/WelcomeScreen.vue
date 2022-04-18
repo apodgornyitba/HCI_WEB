@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row align = "center">
       <v-col>
         <v-img
           :src="require('../assets/logo.png')"
@@ -12,16 +12,15 @@
       </v-col>
 
       <v-col class="text-center">
-        <h1 class="display-2 font-weight-bold mb-3">
+        <h1 class="display-3">
           ¡Bienvenido/a!
         </h1>
-        <p class="subheading font-weight-regular">
+        <p class="subheading font-weight-light">
           Elegí tu usuario para continuar
         </p>
         <UserTemplate/>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
@@ -30,21 +29,5 @@
   export default {
     name: 'WelcomeScreen',
     components: {UserTemplate},
-    data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-    }),
   }
 </script>

@@ -1,22 +1,25 @@
 <template>
   <v-app>
     <v-main>
-      <SuperiorBar/>
+      <HeaderV/>
       <WelcomeScreen/>
+      <FooterV/>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import WelcomeScreen from './components/WelcomeScreen';
-import SuperiorBar from './components/SuperiorBar'
+import HeaderV from './components/Header';
+import FooterV from './components/Footer'
 
 export default {
   name: 'App',
 
   components: {
     WelcomeScreen,
-    SuperiorBar,
+    HeaderV,
+    FooterV,
   },
 
   data: () => ({
