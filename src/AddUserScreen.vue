@@ -1,5 +1,5 @@
 <template>
-  <p></p>
+  <p>asdasd</p>
 </template>
 
 <script>

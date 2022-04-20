@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col
           v-for="n in 6"
@@ -15,6 +15,7 @@
         </v-img>
       </v-col>
       <v-col>
+        <v-spacer></v-spacer>
         <AddUser/>
       </v-col>
     </v-row>

@@ -19,7 +19,7 @@
       <v-col class="text-center" >
         <v-btn text to="/help" rounded> <strong style="color:white">Contacto</strong> </v-btn>
       </v-col>
-        <v-btn href="https://www.youtube.com/" dark icon>
+        <v-btn href="https://www.youtube.com/smarthouse" dark icon>
           <v-icon>mdi-youtube</v-icon>
         </v-btn>
         <v-btn href="https://www.instagram.com/" dark icon>

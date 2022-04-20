@@ -1,12 +1,13 @@
 <template>
   <v-btn
-      to="/AddUserScreen.vue"
+      :to="{path: 'src/AddUserScreen'}"
       target="_blank"
       icon
       outlined
       x-large
       text
   >
+
     <v-icon>mdi-plus</v-icon>
   </v-btn>
 </template>
