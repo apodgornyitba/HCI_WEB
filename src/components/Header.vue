@@ -2,8 +2,9 @@
 <template>
   <v-app-bar
       app
-      color="light-blue lighten-4"
-      dark
+      color="secondary"
+      flat
+      class="rounded-xl rounded-t-0"
   >
     <div class="d-flex align-center">
       <v-img

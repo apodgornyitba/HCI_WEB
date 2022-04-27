@@ -1,6 +1,6 @@
 <template>
     
-    <v-footer padless color="#446DAB">
+    <v-footer color="primary">
       
     <v-col class="text-center" cols="3">
       <strong style="color:white">Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>

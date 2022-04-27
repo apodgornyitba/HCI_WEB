@@ -4,18 +4,29 @@
       <v-col
           v-for="n in 6"
           :key="n"
-          class="d-flex child-flex"
+
           cols="4"
       >
-        <v-img
-            :src="require('../assets/User.png')"
-            width="50"
-            aspect-ratio="1.5"
-        >
-        </v-img>
+<!--        <v-img-->
+<!--            :src="require('../assets/User.png')"-->
+<!--            width="50"-->
+<!--            aspect-ratio="1.5"-->
+<!--        >-->
+<!--        </v-img>-->
+            <v-btn
+                outlined
+                large
+                fab
+                elevation="0"
+                height="100"
+                width="100"
+            >
+              <v-icon
+                  size="50"
+              >mdi-account-outline</v-icon>
+            </v-btn>
       </v-col>
-      <v-col>
-        <v-spacer></v-spacer>
+      <v-col class="text-right">
         <AddUser/>
       </v-col>
     </v-row>

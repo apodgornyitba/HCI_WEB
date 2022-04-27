@@ -1,14 +1,13 @@
 <template>
   <v-btn
       :to="{path: 'src/AddUserScreen'}"
-      target="_blank"
       icon
       outlined
-      x-large
-      text
+      width="60"
+      height="60"
   >
 
-    <v-icon>mdi-plus</v-icon>
+    <v-icon large>mdi-plus</v-icon>
   </v-btn>
 </template>
 
