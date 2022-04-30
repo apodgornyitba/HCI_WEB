@@ -1,8 +1,6 @@
 <template>
   <v-container>
 <!--    Espaciadores-->
-    <v-row><v-col/></v-row>
-    <v-row><v-col/></v-row>
 
     <v-row align = "center">
       <v-col>

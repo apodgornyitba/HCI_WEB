@@ -14,15 +14,15 @@
 <!--        >-->
 <!--        </v-img>-->
             <v-btn
+                to="/mainScreen"
                 outlined
                 large
                 fab
                 elevation="0"
-                height="100"
-                width="100"
+                x-large
             >
               <v-icon
-                  size="50"
+                  x-large
               >mdi-account-outline</v-icon>
             </v-btn>
       </v-col>

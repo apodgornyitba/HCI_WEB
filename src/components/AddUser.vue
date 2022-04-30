@@ -1,6 +1,6 @@
 <template>
   <v-btn
-      :to="{path: 'src/AddUserScreen'}"
+      to="/addUser"
       icon
       outlined
       width="60"
