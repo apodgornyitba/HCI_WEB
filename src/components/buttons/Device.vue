@@ -1,11 +1,10 @@
 <template>
   <v-card-actions>
     <v-btn
-        color="secondary"
+        color="quaternary base"
         height="110"
         width="110"
-        class="d-flex flex-column btnDevice"
-        style="color:black"
+        class="d-flex flex-column btnDevice txt--text text--normal"
         elevation="3"
         raised
         @click="toggleImage()"

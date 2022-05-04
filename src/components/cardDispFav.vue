@@ -6,7 +6,8 @@
   >
     <v-card-actions>
       <v-btn
-          color="secondary"
+          color="quaternary base"
+          class="txt--text text--normal"
           elevation="3"
           height="110"
           width="110"

@@ -2,7 +2,7 @@
 <template>
   <v-app-bar
       app
-      color="secondary"
+      color="quaternary base"
       flat
       class="rounded-xl rounded-t-0"
   >

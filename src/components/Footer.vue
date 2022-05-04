@@ -1,16 +1,17 @@
 <template>
     <v-footer
-        color="primary"
+        color="secondary darken-1"
+        class="txt--text text--lighten-1"
     >
       <v-row
           no-gutters
           class="my-0 py-0"
       >
         <v-card-text
-            class="white--text text-left py-0"
+            class="text-left py-0"
             style="width: fit-content; margin: auto 0;"
         >
-          <strong style="color:white">Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>
+          <strong>Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>
         </v-card-text>
 
         <v-spacer></v-spacer>
@@ -21,10 +22,11 @@
             no-gutters
         >
           <v-btn
+              color="txt lighten-1"
+              class="my-1"
+              text rounded
               v-for="link in links" :key="link.path"
               :href="link.path"
-              color="white" text rounded
-              class="my-1"
           >
             <span>{{ link.name }}</span>
           </v-btn>
@@ -37,12 +39,14 @@
             class="justify-end py-0"
             no-gutters
         >
-          <v-btn v-for="link in social" :key="link.path"
-                 :href="link.path"
-                 :title="link.name"
-                 color="white" text rounded
-                 class="my-1"
-                 dark icon
+          <v-btn
+              color="txt lighten-1"
+              class="my-1"
+              text rounded
+              dark icon
+              v-for="link in social" :key="link.path"
+              :href="link.path"
+              :title="link.name"
           >
             <v-icon>{{ link.icon }}</v-icon>
           </v-btn>

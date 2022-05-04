@@ -22,13 +22,12 @@
           >
             <v-card-actions>
               <v-btn
-                  color="pentaternary"
-                  style="color: white"
+                  color="secondary base"
                   elevation="3"
                   height="100"
                   width="300"
                   raised
-
+                  class="txt--text text--normal"
               >
                 Hora de cine
               </v-btn>
