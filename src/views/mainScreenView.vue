@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <HeaderV/>
+    <HeaderV2/>
     <v-main>
       <v-row>
         <v-col cols="4">
