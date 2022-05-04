@@ -21,12 +21,12 @@
             no-gutters
         >
           <v-btn
-              v-for="link in links" :key="link"
+              v-for="link in links" :key="link.path"
               :href="link.path"
               color="white" text rounded
               class="my-1"
           >
-            {{ link.name }}
+            <span>{{ link.name }}</span>
           </v-btn>
         </v-row>
 
@@ -37,7 +37,7 @@
             class="justify-end py-0"
             no-gutters
         >
-          <v-btn v-for="link in social" :key="link"
+          <v-btn v-for="link in social" :key="link.path"
                  :href="link.path"
                  :title="link.name"
                  color="white" text rounded
@@ -62,15 +62,15 @@
     data: () => ({
 
       links: [
-        {path: '/help', name: 'Ayuda'},
-        {path: '/about', name: '¿Quiénes somos?'},
-        {path: '/contact', name: 'Contacto'}
+        {path: "/help", name: "Ayuda"},
+        {path: "/about", name: "¿Quiénes somos?"},
+        {path: "/contact", name: "Contacto"}
       ],
       social: [
-        {path: 'https://www.youtube.com/smarthouse', name: 'YouTube', icon: 'mdi-youtube'},
-        {path: 'https://www.instagram.com/', name: 'Instagram', icon: 'mdi-instagram'},
-        {path: 'https://www.twitter.com/', name: 'Twitter', icon: 'mdi-twitter'},
-        {path: 'https://www.facebook.com/', name: 'Facebook', icon: 'mdi-facebook'},
+        {path: "https://www.youtube.com/smarthouse", name: "YouTube", icon: "mdi-youtube"},
+        {path: "https://www.instagram.com/", name: "Instagram", icon: "mdi-instagram"},
+        {path: "https://www.twitter.com/", name: "Twitter", icon: "mdi-twitter"},
+        {path: "https://www.facebook.com/", name: "Facebook", icon: "mdi-facebook"},
       ]
     }),
   }
