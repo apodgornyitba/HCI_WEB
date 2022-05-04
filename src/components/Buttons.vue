@@ -125,6 +125,7 @@
         </v-list>
       </v-menu>
     </div>
+
     <!-- SWITCH ON/OFF-->
      <v-switch
      color="primary"
