@@ -2,17 +2,11 @@
   <v-container fluid>
     <v-row>
       <v-col
-          v-for="n in 6"
-          :key="n"
+          v-for="(name, index) in Names"
+          :key="index"
 
           cols="4"
       >
-<!--        <v-img-->
-<!--            :src="require('../assets/User.png')"-->
-<!--            width="50"-->
-<!--            aspect-ratio="1.5"-->
-<!--        >-->
-<!--        </v-img>-->
             <v-btn
                 to="/mainScreen"
                 outlined
@@ -25,6 +19,7 @@
                   x-large
               >mdi-account-outline</v-icon>
             </v-btn>
+            <v-list-item-title>{{ name.title }}</v-list-item-title>
       </v-col>
       <v-col class="text-right">
         <AddUser/>
@@ -37,7 +32,23 @@
 <script>
 export default {
   name: "UserTemplate",
-  components: {AddUser}
+  components: {AddUser},
+  data: () => ({
+    Names: [
+      { title: 'Martin' },
+      { title: 'Sol' },
+      { title: 'Andres' },
+      { title: 'Gonzalo'},
+      { title: 'Emiliano'},
+      { title: 'Marcela'},
+    ],
+  }),
 }
 import AddUser from "@/components/AddUser";
 </script>
+
+<style>
+.userTemplate > span{
+  flex-direction: column;
+}
+</style>
