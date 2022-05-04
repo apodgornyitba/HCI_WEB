@@ -4,26 +4,19 @@
       style="margin-left: 50px; margin-top: 50px; margin-bottom: 150px"
       max-width="900"
   >
-    <v-card-actions>
-      <v-btn
-          to="/houseScreen"
-          color="secondary"
-          elevation="3"
-          height="110"
-          width="110"
-          style="color:black"
-          raised
-      >
-        <v-icon>mdi-home-variant-outline</v-icon>
-        Hogar 1
-      </v-btn>
-    </v-card-actions>
+    <BtnDevice
+      title="Hogar 1"
+      img-off="icons/home-bw-512px.png"
+      img-on="icons/home-color-512px.png"
+    />
   </v-card>
 </template>
 
 <script>
+import BtnDevice from "@/components/buttons/Device";
 export default {
-  name: "cardHomes"
+  name: "cardHomes",
+  components: {BtnDevice}
 }
 </script>
 
