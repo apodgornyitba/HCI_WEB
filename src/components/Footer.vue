@@ -1,37 +1,55 @@
 <template>
-    
-    <v-footer color="primary">
-      
-    <v-col class="text-center" cols="3">
-      <strong style="color:white">Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>
-    </v-col>
+    <v-footer
+        color="primary"
+    >
+      <v-row
+          no-gutters
+          class="my-0 py-0"
+      >
+        <v-card-text
+            class="white--text text-left py-0"
+            style="width: fit-content; margin: auto 0;"
+        >
+          <strong style="color:white">Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>
+        </v-card-text>
 
-      <!-- PROGRAMAR BOTONES -> DECIRLES A Q PANTALLA IR -->
+        <v-spacer></v-spacer>
 
-    <v-col offset-sm="4"/>
-    <v-col class="text-center" > 
-     <v-btn text to="/help" rounded> <strong style="color:white">Ayuda</strong> </v-btn>
-       <!-- TENEMOS AYUDA EN EL FOOTER Y ARRIBA COMO ICONO -->
-    </v-col>
-      <v-col class="text-center" >
-        <v-btn text to="/info" rounded> <strong style="color:white">Quienes somos?</strong> </v-btn>
-      </v-col>
-      <v-col class="text-center" >
-        <v-btn text to="/contact" rounded> <strong style="color:white">Contacto</strong> </v-btn>
-      </v-col>
-        <v-btn href="https://www.youtube.com/" dark icon>
-          <v-icon>mdi-youtube</v-icon>
-        </v-btn>
-        <v-btn href="https://www.instagram.com/" dark icon>
-          <v-icon>mdi-instagram</v-icon>
-        </v-btn>
-        <v-btn href="https://www.twitter.com/" dark icon>
-          <v-icon>mdi-twitter</v-icon>
-        </v-btn>
-        <v-btn href="https://www.facebook.com/" dark icon>
-          <v-icon>mdi-facebook</v-icon>
-        </v-btn>
-   </v-footer>
+        <v-row
+            class="justify-space-around py-0"
+            width="fit-content"
+            no-gutters
+        >
+          <v-btn
+              v-for="link in links" :key="link"
+              :href="link.path"
+              color="white" text rounded
+              class="my-1"
+          >
+            {{ link.name }}
+          </v-btn>
+        </v-row>
+
+        <v-spacer></v-spacer>
+
+        <v-row
+            width="fit-content"
+            class="justify-end py-0"
+            no-gutters
+        >
+          <v-btn v-for="link in social" :key="link"
+                 :href="link.path"
+                 :title="link.name"
+                 color="white" text rounded
+                 class="my-1"
+                 dark icon
+          >
+            <v-icon>{{ link.icon }}</v-icon>
+          </v-btn>
+        </v-row>
+
+      </v-row>
+    </v-footer>
     
 </template>
 
@@ -42,12 +60,18 @@
     },
     
     data: () => ({
-      icons: [
-        'mdi-youtube',
-        'mdi-instagram',
-        'mdi-twitter',
-        'mdi-facebook',
+
+      links: [
+        {path: '/help', name: 'Ayuda'},
+        {path: '/about', name: '¿Quiénes somos?'},
+        {path: '/contact', name: 'Contacto'}
       ],
+      social: [
+        {path: 'https://www.youtube.com/smarthouse', name: 'YouTube', icon: 'mdi-youtube'},
+        {path: 'https://www.instagram.com/', name: 'Instagram', icon: 'mdi-instagram'},
+        {path: 'https://www.twitter.com/', name: 'Twitter', icon: 'mdi-twitter'},
+        {path: 'https://www.facebook.com/', name: 'Facebook', icon: 'mdi-facebook'},
+      ]
     }),
   }
 </script>
