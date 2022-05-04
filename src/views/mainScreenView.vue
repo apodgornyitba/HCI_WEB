@@ -2,7 +2,15 @@
   <v-app>
     <HeaderV/>
     <v-main>
-      <!--COMPLETAR-->
+      <v-row>
+        <v-col cols="4">
+          <cardRutinas/>
+        </v-col>
+        <v-col>
+          <cardHomes/>
+          <cardDispFav/>
+        </v-col>
+      </v-row>
     </v-main>
     <FooterV/>
   </v-app>
@@ -10,10 +18,13 @@
 
 <script>
 import FooterV from "@/components/Footer";
-import HeaderV from "@/components/Header";
+import HeaderV2 from "@/components/Header2";
+import CardRutinas from "@/components/cardRutinas";
+import CardHomes from "@/components/cardHomes";
+import CardDispFav from "@/components/cardDispFav";
 
 export default {
   name: "mainScreenView.vue",
-  components: {FooterV, HeaderV}
+  components: {CardDispFav, CardHomes, CardRutinas, HeaderV2, FooterV }
 }
 </script>
