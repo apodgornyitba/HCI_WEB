@@ -1,59 +1,51 @@
 <template>
-  <v-card-actions>
-    <v-btn
-        color="quaternary base"
-        height="110"
-        width="110"
-        class="d-flex flex-column btnDevice txt--text text--normal"
-        elevation="3"
-        raised
-        @click="toggleImage()"
-    >
-      <v-img
-          max-height="65"
-          max-width="65"
-          :src="getImage()"
-          class="ma-1 pa-0"
-      ></v-img>
-      <v-card-text
-          class="ma-1 pa-1"
-      >
-        {{ this.title }}
-      </v-card-text>
-    </v-btn>
-  </v-card-actions>
+  <btn-generic
+      :title="`${this.title}`"
+      :image="getImage()"
+      :eclass="this.componentClass.join(' ')"
+      @click="toggleStatus"
+      height="110"
+      width="110"
+      color="quaternary base"
+  />
 </template>
 
 <script>
+import btnGeneric from "@/components/buttons/Generic";
+
 export default {
-  name: "BtnDevice",
+  name: "btn-device",
   props: {
     'title': String,
-    'imgOff': String,
-    'imgOn': String,
+    'imageOff': String,
+    'imageOn': String,
   },
   data() {
     return {
+      componentClass: ['btn-device', 'text--base'],
       isActivated: false
     }
   },
   methods: {
     getImage() {
-      if (this.isActivated) {
-        return require(`@/assets/${this.imgOn}`)
-      } else {
-        return require(`@/assets/${this.imgOff}`);
-      }
+      return (this.isActivated)
+          ? this.imageOn
+          : this.imageOff;
     },
-    toggleImage() {
+    toggleStatus() {
       this.isActivated = !this.isActivated;
+
+      if (this.isActivated) {
+        this.componentClass.push('btn--active');
+      } else {
+        this.componentClass = this.componentClass.filter(e => e !== 'btn--active');
+      }
     }
-  }
+  },
+  components: {btnGeneric}
 }
 </script>
 
 <style>
-.btnDevice > span {
-  flex-direction: column !important;
-}
+
 </style>
