@@ -7,17 +7,9 @@
           no-gutters
           class="my-0 py-0"
       >
-        <v-card-text
-            class="text-left py-0"
-            style="width: fit-content; margin: auto 0;"
-        >
-          <strong>Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>
-        </v-card-text>
-
-        <v-spacer></v-spacer>
 
         <v-row
-            class="justify-space-around py-0"
+            class="justify-start mx-0 pa-0"
             width="fit-content"
             no-gutters
         >
@@ -31,6 +23,15 @@
             <span>{{ link.name }}</span>
           </v-btn>
         </v-row>
+
+        <v-spacer></v-spacer>
+
+        <v-card-text
+            class="text-left mx-0 my-auto py-0 text-subtitle-1"
+            style="width: fit-content;"
+        >
+          <strong>Copyright © {{ new Date().getFullYear() }} — SmartHouse S.R.L.</strong>
+        </v-card-text>
 
         <v-spacer></v-spacer>
 
@@ -66,7 +67,6 @@
     data: () => ({
 
       links: [
-        {path: "/help", name: "Ayuda"},
         {path: "/about", name: "¿Quiénes somos?"},
         {path: "/contact", name: "Contacto"}
       ],
