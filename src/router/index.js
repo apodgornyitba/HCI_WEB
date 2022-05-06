@@ -45,6 +45,11 @@ const routes = [
     name: 'houseScreen',
     component: () => import('../views/houseScreenView.vue')
   },
+  {
+    path: '/acknowledgment',
+    name: 'acknowledgment',
+    component: () => import('../views/AcknowledgementsView.vue')
+  },
 ]
 
 const router = new VueRouter({
