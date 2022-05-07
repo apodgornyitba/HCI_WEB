@@ -3,7 +3,7 @@
       app
       color="quaternary base"
       flat
-      class="rounded-xl rounded-t-0"
+      class="rounded-lg rounded-t-0"
   >
     <div class="d-flex align-center">
 

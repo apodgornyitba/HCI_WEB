@@ -21,6 +21,7 @@
 import CardRutinas from "@/components/cardRutinas";
 import CardHomes from "@/components/cardHomes";
 import CardDispFav from "@/components/cardDispFav";
+import HeaderTrueView from "@/views/headerTrueView";
 
 export default {
   name: "mainScreenView.vue",

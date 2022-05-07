@@ -19,6 +19,8 @@ export default {
   props: {
     'imageOff': String,
     'imageOn': String,
+    disableBorder: Boolean,
+    forceBorder: Boolean,
   },
   data() {
     return {
@@ -46,7 +48,7 @@ export default {
     toggleStatus() {
       this.isActivated = !this.isActivated;
 
-      if (this.isActivated) {
+      if (!this.disableBorder && (this.forceBorder || this.isActivated)) {
         this.componentClass.push('btn--active');
       } else {
         this.componentClass = this.componentClass.filter(e => e !== 'btn--active');
