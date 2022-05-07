@@ -1,31 +1,19 @@
 <template>
-  <v-card
-      outlined
-      max-width="250"
+  <container-noutline
+      title="[HOGAR]"
   >
-    <v-card-actions>
-      <v-col>
-        <v-btn
-            color="quaternary base"
-            class="txt--text text--normal"
-            elevation="3"
-            height="110"
-            width="110"
-            raised
-        >
-          <v-icon>mdi-speaker</v-icon>
-          Parlante
-        </v-btn>
-      </v-col>
-      <v-col>
-        <v-switch
-            color="primary"
+    <template v-for="dev in this.devices">
+      <card-device
+          :key="dev.name"
+          :name="dev.name"
+          :image="dev.image"
+          :state1="dev.state1"
+          :state2="dev.state2"
+          class="my-3 mx-1 pa-0"
+      />
+    </template>
 
-            inset>
-        </v-switch>
-      </v-col>
-    </v-card-actions>
-  </v-card>
+  </container-noutline>
 </template>
 
 

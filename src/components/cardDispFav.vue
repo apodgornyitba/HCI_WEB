@@ -1,29 +1,40 @@
 <template>
-  <v-card
-      outlined
-      style="margin-left: 50px;margin-top: 50px"
-      max-width="900"
+  <container-horizontal
+      title="Dispositivos Favoritos"
   >
-    <v-card-actions>
-      <v-btn
-          color="quaternary base"
-          class="txt--text text--normal"
-          elevation="3"
-          height="110"
-          width="110"
-          style="color:black"
-          raised
+    <template v-for="dev in this.devices">
+      <btn-device
+          :key="dev.name"
+          :image-off="`icons/64/${dev.image}-bw.png`"
+          :image-on="`icons/64/${dev.image}-color.png`"
+          class="my-3 mx-1 pa-0"
       >
-        <v-icon>mdi-speaker</v-icon>
-        Parlante
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+        {{ dev.name }}
+      </btn-device>
+    </template>
+  </container-horizontal>
+
 </template>
 
 <script>
+import BtnDevice from "@/components/buttons/Device";
+import ContainerHorizontal from "@/components/containers/ContainerHorizontal";
+
 export default {
-  name: "cardDispFav"
+  name: "cardDispFav",
+  components: {
+    BtnDevice,
+    ContainerHorizontal
+  },
+  data: () => ({
+    devices: [
+      {name: 'Parlante', image: 'speaker'},
+      {name: 'Lampara', image: 'lamp'},
+      {name: 'Alarma', image: 'alarm'},
+      {name: 'Horno', image: 'oven'},
+      {name: 'AC', image: 'ac'},
+    ]
+  })
 }
 </script>
 

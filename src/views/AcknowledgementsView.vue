@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <HeaderV2/>
+    <HeaderV/>
     <v-main>
       <v-row
           class="ma-1 mx-4"
@@ -109,6 +109,7 @@
 <script>
 import HeaderV2 from "@/components/Header2";
 import FooterV from "@/components/Footer";
+import HeaderV from "@/components/Header";
 
 export default {
   name: "AcknowledgementsView",
