@@ -107,13 +107,12 @@
 </template>
 
 <script>
-import HeaderV2 from "@/components/Header2";
 import FooterV from "@/components/Footer";
 import HeaderV from "@/components/Header";
 
 export default {
   name: "AcknowledgementsView",
-  components: {FooterV, HeaderV2},
+  components: {HeaderV, FooterV},
 
   data: () => ({
     flaticon: {

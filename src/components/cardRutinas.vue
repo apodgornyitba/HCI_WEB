@@ -22,7 +22,7 @@
     >
       <v-card-actions>
         <v-btn
-            color="pentaternary"
+            color="secondary"
             style="color: white"
             elevation="3"
             height="100"

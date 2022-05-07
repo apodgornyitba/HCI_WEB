@@ -3,6 +3,7 @@
       title="Hogares"
   >
     <template v-for="n in 4">
+
       <btn-device
           :key="n"
           image-off="icons/64/home-bw.png"
@@ -12,6 +13,7 @@
         Hogar {{ n }}
       </btn-device>
     </template>
+
   </container-horizontal>
 
 </template>

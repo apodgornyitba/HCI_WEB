@@ -51,10 +51,12 @@ import HeaderTrueView from "@/views/headerTrueView";
 
 export default {
   name: "houseScreenView",
-  components: {CardDispHouse, CardRutinas, FooterV, HeaderV2}
+  components: {HeaderTrueView, CardDispHouse, CardRutinas}
 }
 </script>
 
 <style scoped>
-
+.houseScreenView > span {
+  flex-direction: column !important;
+}
 </style>
