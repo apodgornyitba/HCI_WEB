@@ -1,13 +1,14 @@
 <template>
   <btn-generic
-      :title="`${this.title}`"
       :image="getImage()"
-      :eclass="this.componentClass.join(' ')"
+      :extra-classes="this.componentClass.join(' ')"
       @click="toggleStatus"
       height="110"
       width="110"
       color="quaternary base"
-  />
+  >
+    <slot></slot>
+  </btn-generic>
 </template>
 
 <script>
@@ -16,7 +17,6 @@ import btnGeneric from "@/components/buttons/Generic";
 export default {
   name: "btn-device",
   props: {
-    'title': String,
     'imageOff': String,
     'imageOn': String,
   },
@@ -28,9 +28,20 @@ export default {
   },
   methods: {
     getImage() {
-      return (this.isActivated)
-          ? this.imageOn
-          : this.imageOff;
+      /* Try to get an existing image; fallback to an empty path */
+      function validImage(primary, backup) {
+        if (primary) {
+          return primary;
+        } else if (backup) {
+          return backup;
+        }
+        return '';
+      }
+
+      const on = validImage(this.imageOn, this.imageOff);
+      const off = validImage(this.imageOff, this.imageOn);
+
+      return (this.isActivated) ? on : off;
     },
     toggleStatus() {
       this.isActivated = !this.isActivated;

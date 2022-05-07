@@ -1,10 +1,11 @@
 <template>
-    <btn-generic
-        :title="`${this.title}`"
-        :image="`${this.image}`"
-        width="220"
-        eclass="btn-primary text--lighten-1"
-    />
+  <btn-generic
+      :image="(this.image) ? this.image : ''"
+      width="220"
+      extra-classes="btn-primary text--lighten-1"
+  >
+    <slot></slot>
+  </btn-generic>
 </template>
 
 <script>
@@ -13,7 +14,6 @@ import btnGeneric from "@/components/buttons/Generic";
 export default {
   name: "btn-primary",
   props: {
-    'title': String,
     'image': String,
   },
   methods: {},

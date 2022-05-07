@@ -1,7 +1,7 @@
 <template>
   <v-card-actions>
     <v-btn
-        :class="eclassHandler()"
+        :class="extraClassesHandler()"
         :color="bindProperty('color','primary base')"
         :height="this.height"
         :width="this.width"
@@ -21,7 +21,7 @@
       <v-card-text
           class="ma-1 pa-1"
       >
-        {{ this.title }}
+        <slot></slot>
       </v-card-text>
     </v-btn>
   </v-card-actions>
@@ -31,9 +31,8 @@
 export default {
   name: "btn-generic",
   props: {
-    'title': String,
     'image': String,
-    'eclass': String,
+    'extraClasses': String,
   },
   data: function () {
     return {
@@ -46,14 +45,18 @@ export default {
     clickHandler() {
       this.$emit('click', this.part);
     },
-    eclassHandler() {
+    extraClassesHandler() {
       let c = this.componentClass.join(' ');
-      if (this.eclass) {
-        c += ' ' + this.eclass;
+      if (this.extraClasses) {
+        c += ' ' + this.extraClasses;
       }
       return c;
     },
     getImage() {
+      if (!this.image) {
+        return '';
+      }
+
       return require(`@/assets/${this.image}`)
     },
     getImageSize() {

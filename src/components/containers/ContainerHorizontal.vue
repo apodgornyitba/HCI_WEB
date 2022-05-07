@@ -15,7 +15,7 @@
           class="ma-0 pa-0"
       >
         <v-card
-            class="ma-0 my-1 py-4 px-4"
+            class="ma-0 my-1 pa-4"
             outlined
         >
           <v-row

@@ -1,36 +1,17 @@
 <template>
-<!--  <v-card
-      outlined
-      style="margin-left: 50px; margin-top: 50px; margin-bottom: 150px"
-      max-width="900"
-  >
-    <btn-device
-      title="Hogar 1"
-      image-off="icons/home-bw-512px.png"
-      image-on="icons/home-color-512px.png"
-    />
-  </v-card>-->
   <container-horizontal
       title="Hogares"
   >
-    <btn-device
-        title="Hogar 1"
-        image-off="icons/home-bw-512px.png"
-        image-on="icons/home-color-512px.png"
-        class="my-0 mx-1 pa-0"
-    />
-    <btn-device
-        title="Hogar 2"
-        image-off="icons/home-bw-512px.png"
-        image-on="icons/home-color-512px.png"
-        class="my-0 mx-1 pa-0"
-    />
-    <btn-device
-        title="Hogar 3"
-        image-off="icons/home-bw-512px.png"
-        image-on="icons/home-color-512px.png"
-        class="my-0 mx-1 pa-0"
-    />
+    <template v-for="n in 4">
+      <btn-device
+          :key="n"
+          image-off="icons/64/home-bw.png"
+          image-on="icons/64/home-color.png"
+          class="my-3 mx-1 pa-0"
+      >
+        Hogar {{ n }}
+      </btn-device>
+    </template>
   </container-horizontal>
 
 </template>
@@ -38,9 +19,13 @@
 <script>
 import BtnDevice from "@/components/buttons/Device";
 import ContainerHorizontal from "@/components/containers/ContainerHorizontal";
+
 export default {
   name: "cardHomes",
-  components: {ContainerHorizontal, BtnDevice}
+  components: {
+    BtnDevice,
+    ContainerHorizontal
+  }
 }
 </script>
 

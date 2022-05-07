@@ -1,11 +1,12 @@
 <template>
-    <btn-generic
-        :title="`${this.title}`"
-        :image="`${this.image}`"
-        width="220"
-        color="primary darken-1"
-        eclass="btn-secondary text--lighten-1"
-    />
+  <btn-generic
+      :image="(this.image) ? this.image : ''"
+      width="220"
+      color="primary darken-1"
+      extra-classes="btn-secondary text--lighten-1"
+  >
+    <slot></slot>
+  </btn-generic>
 </template>
 
 <script>

@@ -1,11 +1,12 @@
 <template>
-    <btn-generic
-        :title="`${this.title}`"
-        height="55"
-        width="165"
-        color="quaternary darken-1"
-        eclass="btn-tertiary text--lighten-1"
-    />
+  <btn-generic
+      height="55"
+      width="165"
+      color="quaternary darken-1"
+      extra-classes="btn-tertiary text--lighten-1"
+  >
+    <slot></slot>
+  </btn-generic>
 </template>
 
 <script>
