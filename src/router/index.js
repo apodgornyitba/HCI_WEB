@@ -40,6 +40,21 @@ const routes = [
     name: 'acknowledgment',
     component: () => import('../views/AcknowledgementsView.vue')
   },
+  {
+    path: '/modifyDevices',
+    name: 'modifyDevices',
+    component: () => import('../views/modifyDevicesView.vue')
+  },
+  {
+    path: '/Parlante',
+    name: 'Parlante',
+    component: () => import('../views/ParlanteView.vue')
+  },
+  {
+    path: '/Lampara',
+    name: 'Lampara',
+    component: () => import('../views/LamparaView.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -16,6 +16,7 @@
                   outlined
                   style="color:black"
                   large
+                  to="/modifyDevices"
               >
                 <v-icon>
                   mdi-pencil
