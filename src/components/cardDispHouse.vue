@@ -29,7 +29,7 @@ export default {
     devices: [
       {name: 'Parlante', image: 'speaker', state1: 'Volumen', state2: '[Cancion]'},
       {name: 'Lampara', image: 'lamp', state1: 'Intensidad', state2: 'Color'},
-      {name: 'Alarma', image: 'alarm', state1: 'Modo', state2: ''},
+      {name: 'Alarma', image: 'alarm', state1: 'Modo', state2: 'Estado'},
       {name: 'Horno', image: 'oven', state1: 'Temperatura', state2: 'Modo'},
       {name: 'AC', image: 'ac', state1: 'Temperatura', state2: 'Modo'}
     ]
