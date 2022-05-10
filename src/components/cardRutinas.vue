@@ -1,59 +1,57 @@
 <template>
-  <v-container>
-    <div style="margin-left: 50px">
-      <v-btn
-          large
-          icon
-      >
-        <v-icon> mdi-update </v-icon>
-      </v-btn>
-      <v-btn
-          large
-          icon
-      >
-        <v-icon> mdi-lightbulb-on-outline </v-icon>
-      </v-btn>
-    </div>
-    <v-card
-        outlined
-        style="margin-left: 50px"
-        max-width="320"
-        height="460"
-    >
-      <v-card-actions>
-        <v-btn
-            color="pentaternary"
-            style="color: white"
-            elevation="3"
-            height="100"
-            width="300"
-            raised
+  <container-vertical
+      :tabs="this.tabs"
+      class="ma-2 pa-0"
+  >
+    <template v-slot:tab-1>
 
-        >
-          Hora de cine
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-<!--    <v-card
-        outlined
-        style="margin-left: 50px"
-        max-width="400"
-        height="480"
-    >
-      <v-card-actions>
-        <v-btn
-            text
-        >
-          Parlante 1
-        </v-btn>
-      </v-card-actions>
-    </v-card>-->
-  </v-container>
+      <btn-primary
+          image="icons/64/cinema-bw.png"
+          class="mx-auto justify-center"
+      >
+        Hora de cine
+      </btn-primary>
+      <btn-primary
+          image="icons/64/sunrise-bw.png"
+          class="mx-auto justify-center"
+      >
+        Hora de despertar
+      </btn-primary>
+
+      <btn-primary
+          image="icons/64/night-bw.png"
+          class="mx-auto justify-center"
+      >
+        Hora de dormir
+      </btn-primary>
+    </template>
+
+
+    <template v-slot:tab-2>
+      <p>abc def</p>
+    </template>
+
+  </container-vertical>
 </template>
 
 <script>
+import ContainerVertical from "@/components/containers/ContainerVertical";
+import BtnPrimary from "@/components/buttons/Primary";
+
 export default {
-  name: "cardRutinas"
+  name: "cardRutinas",
+  components: {BtnPrimary, ContainerVertical},
+
+  data() {
+    return {
+      tabs: [
+        {id: 1, title: 'Rutinas', icon: 'mdi-phone', image: 'spinclock'},
+        {id: 2, title: 'Dispositivos', icon: 'mdi-heart', image: 'bulb_smart'},
+        {id: 3, title: '', icon: 'mdi-qrcode-remove'},
+        {id: 4, title: '', icon: 'mdi-qrcode-scan'},
+      ]
+    }
+  },
 }
 </script>
 
