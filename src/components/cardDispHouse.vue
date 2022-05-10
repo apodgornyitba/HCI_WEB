@@ -1,37 +1,39 @@
 <template>
-  <v-card
-      outlined
-      max-width="250"
+  <container-noutline
+      title="[HOGAR]"
   >
-    <v-card-actions>
-      <v-col>
-        <v-btn
-            color="quaternary base"
-            class="txt--text text--normal"
-            elevation="3"
-            height="110"
-            width="110"
-            raised
-        >
-          <v-icon>mdi-speaker</v-icon>
-          Parlante
-        </v-btn>
-      </v-col>
-      <v-col>
-        <v-switch
-            color="primary"
+    <template v-for="dev in this.devices">
+      <card-device
+          :key="dev.name"
+          :name="dev.name"
+          :image="dev.image"
+          :state1="dev.state1"
+          :state2="dev.state2"
+          class="my-3 mx-1 pa-0"
+      />
+    </template>
 
-            inset>
-        </v-switch>
-      </v-col>
-    </v-card-actions>
-  </v-card>
+  </container-noutline>
 </template>
 
 
 <script>
+
+import ContainerNoutline from "@/components/containers/ContainerNoutline";
+import CardDevice from "@/components/cardDevice";
+
 export default {
-  name: "cardDispHouse"
+  name: "cardDispHouse",
+  components: {CardDevice, ContainerNoutline},
+  data: () => ({
+    devices: [
+      {name: 'Parlante', image: 'speaker', state1: 'Volumen', state2: '[Cancion]'},
+      {name: 'Lampara', image: 'lamp', state1: 'Intensidad', state2: 'Color'},
+      {name: 'Alarma', image: 'alarm', state1: 'Modo', state2: ''},
+      {name: 'Horno', image: 'oven', state1: 'Temperatura', state2: 'Modo'},
+      {name: 'AC', image: 'ac', state1: 'Temperatura', state2: 'Modo'}
+    ]
+  })
 }
 </script>
 

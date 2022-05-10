@@ -68,7 +68,7 @@
 
       links: [
         {path: "/about", name: "¿Quiénes somos?"},
-        {path: "/contact", name: "Contacto"}
+        {path: "/acknowledgment", name: "Legales" }
       ],
       social: [
         {path: "https://www.youtube.com/smarthouse", name: "YouTube", icon: "mdi-youtube"},

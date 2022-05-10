@@ -1,30 +1,30 @@
 <template>
   <v-app>
-    <HeaderV2/>
-    <v-main>
-      <v-row>
-        <v-col cols="4">
-          <cardRutinas/>
-        </v-col>
-        <v-col>
-          <cardHomes/>
-          <cardDispFav/>
-        </v-col>
-      </v-row>
-    </v-main>
-    <FooterV/>
+    <header-true-view>
+      <v-main>
+        <v-row>
+          <v-col cols="4">
+            <cardRutinas/>
+          </v-col>
+          <v-col>
+            <cardHomes/>
+            <cardDispFav/>
+          </v-col>
+        </v-row>
+      </v-main>
+    </header-true-view>
   </v-app>
 </template>
 
 <script>
-import FooterV from "@/components/Footer";
-import HeaderV2 from "@/components/Header2";
+
 import CardRutinas from "@/components/cardRutinas";
 import CardHomes from "@/components/cardHomes";
 import CardDispFav from "@/components/cardDispFav";
+import HeaderTrueView from "@/views/headerTrueView";
 
 export default {
   name: "mainScreenView.vue",
-  components: {CardDispFav, CardHomes, CardRutinas, HeaderV2, FooterV }
+  components: {HeaderTrueView, CardDispFav, CardHomes, CardRutinas}
 }
 </script>

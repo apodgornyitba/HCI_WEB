@@ -1,80 +1,62 @@
 <template>
   <v-app>
-    <HeaderV2/>
-    <v-main>
-      <v-row>
-        <v-col cols="4">
-          <cardRutinas/>
-          <div style="margin-left: 70px">
-             <v-btn
-                 icon
-                 outlined
-                 style="color:black"
-                 large
-             >
-               <v-icon>
-                 mdi-pencil
-               </v-icon>
-             </v-btn>
-            <v-btn
-                icon
-                outlined
-                style="margin-left: 290px;color:black"
-                large
-            >
-              <v-icon>
-                mdi-plus
-              </v-icon>
-            </v-btn>
-          </div>
-        </v-col>
-        <v-col>
-          <v-card
-              flat
-              style="margin-top: 50px"
-          >
-            <v-card-title><h1>[Nombre Hogar]</h1></v-card-title>
+    <header-true-view>
+      <v-main>
+        <v-row>
+          <v-col>
+            <cardRutinas/>
+          </v-col>
+          <v-col cols="8">
             <cardDispHouse/>
-          </v-card>
-        </v-col>
-
-        <v-btn
-            icon
-            outlined
-            style="color:black"
-            large
-        >
-          <v-icon>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
-          <v-btn
-              icon
-              outlined
-              style="color:black"
-              large
-          >
-            <v-icon>
-              mdi-qrcode
-            </v-icon>
-        </v-btn>
-      </v-row>
-    </v-main>
-    <FooterV/>
+          </v-col>
+          <v-col>
+            <v-row style="margin-top: 50px">
+              <v-btn
+                  icon
+                  outlined
+                  style="color:black"
+                  large
+              >
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              Modificar dispitivos
+            </v-row>
+            <v-row style="margin-top: 200px">
+              <v-btn
+                  icon
+                  outlined
+                  style="color:black"
+                  x-large
+              >
+                <v-icon>
+                  mdi-qrcode
+                </v-icon>
+              </v-btn>
+              Generar QR
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-main>
+    </header-true-view>
   </v-app>
 </template>
 
 <script>
-import HeaderV2 from "@/components/Header2";
-import FooterV from "@/components/Footer";
+
 import CardRutinas from "@/components/cardRutinas";
 import CardDispHouse from "@/components/cardDispHouse";
+import HeaderTrueView from "@/views/headerTrueView";
+
 export default {
   name: "houseScreenView",
-  components: {CardDispHouse, CardRutinas, FooterV, HeaderV2}
+  components: {HeaderTrueView, CardDispHouse, CardRutinas}
 }
 </script>
 
 <style scoped>
-
+.houseScreenView > span {
+  flex-direction: column !important;
+}
 </style>

@@ -21,16 +21,6 @@ const routes = [
     component: () => import('../views/aboutView.vue')
   },
   {
-    path: '/info',
-    name: 'info',
-    component: () => import('../views/infoView.vue')
-  },
-  {
-    path: '/contact',
-    name: 'contact',
-    component: () => import('../views/contactView.vue')
-  },
-  {
     path: '/addUser',
     name: 'addUser',
     component: () => import('../views/AddUserScreenView.vue')
