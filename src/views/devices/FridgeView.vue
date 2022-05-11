@@ -16,14 +16,17 @@
       >
         <SliderMM
             title="Temperatura Heladera (°C)"
+            max = "8"
+            min = "2"
         />
 
         <SliderMM
             title="Temperatura Freezer (°C)"
+            max = "-8"
+            min = "-20"
         />
       </v-row>
     </template>
-
 
     <template v-slot:right-pane>
       <v-row
@@ -34,9 +37,8 @@
             image-off="icons/64/champagneglass-bw.png"
             image-on="icons/64/champagneglass-color.png"
         >
-          Modo Fiesta
+          Fiesta
         </btn-device>
-
 
         <btn-device
             image-off="icons/64/refrigerator_small-bw.png"
@@ -45,12 +47,11 @@
           Normal
         </btn-device>
 
-
         <btn-device
             image-off="icons/64/beach-bw.png"
             image-on="icons/64/beach-color.png"
         >
-          Modo Vacaciones
+          Vacaciones
         </btn-device>
       </v-row>
     </template>

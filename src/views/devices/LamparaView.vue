@@ -1,25 +1,38 @@
 <template>
-  <v-app>
-    <header-true-view>
-      <v-main>
-        <v-col cols="2">
-          <device-component
-              name="Lampara"
-              image="lamp"
-          />
-        </v-col>
-        <v-col cols="3">
+  <device-generic>
+
+    <template v-slot:left-pane>
+      <device-component
+          name="Lampara"
+          image="lamp"
+      />
+    </template>
+
+    <template v-slot:middle-pane>
+      <v-row no-gutters
+             class="justify-center ma-10 pa-0">
           <v-btn
               elevation="0"
               fab
               tile
               x-large
-              :color = "getColor()"
           />
+          <!-- :color = "getColor()" FALTA IMPLEMENATAR -->
+      </v-row>
+      <v-row no-gutters
+             class="ma-10 pa-0">
+
          <SliderMM
          title="Intensidad"/>
-        </v-col>
-        <v-col>
+
+      </v-row>
+    </template>
+
+      <template v-slot:right-pane>
+        <v-row
+            no-gutters
+            class="justify-center ma-10 pa-10"
+        >
           <v-container fluid>
             <v-row>
               <v-col
@@ -37,20 +50,20 @@
               </v-col>
             </v-row>
           </v-container>
-        </v-col>
-  </v-main>
-  </header-true-view>
-  </v-app>
+        </v-row>
+      </template>
+  </device-generic>
+
 </template>
 
 <script>
+import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
-import HeaderTrueView from "@/views/headerTrueView";
 import SliderMM from "@/components/accesories/SliderMM";
 
 export default {
   name: "LamparaView",
-  components: {SliderMM, DeviceComponent, HeaderTrueView},
+  components: {SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
         Color: [
     { desc: 'red' },
@@ -60,8 +73,8 @@ export default {
     { desc: 'orange'},
     { desc: 'purple'}
     ],
-  }),
-  methods: {
+  })
+  /*methods: {
     getState() {
       if (!this.image) {
         return '';
@@ -72,7 +85,7 @@ export default {
       }
       return `icons/64/${this.image}-bw.png`;
     }
-  },
+  },*/
 }
 </script>
 
