@@ -3,6 +3,7 @@
     <header-true-view>
       <v-row
           no-gutters
+          class="mt-16"
       >
         <v-row
             no-gutters
@@ -38,16 +39,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-/* device-generic--left-pane */
-/* device-generic--middle-pane */
-/* device-generic--right-pane */
-
-/*
-.device-generic--container {
-  display: flex;
-  flex-direction: column;
-}
-*/
+<style scoped>
 
 </style>

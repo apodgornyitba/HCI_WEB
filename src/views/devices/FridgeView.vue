@@ -5,11 +5,15 @@
       <device-component
           name="Heladera"
           image="refrigerator"
+          class="ma-auto align-center justify-center"
       />
     </template>
 
     <template v-slot:middle-pane>
-      <v-row no-gutters>
+      <v-row
+          no-gutters
+          class="align-center justify-center"
+      >
         <SliderMM
             title="Temperatura Heladera (°C)"
         />
@@ -24,7 +28,7 @@
     <template v-slot:right-pane>
       <v-row
           no-gutters
-          class="justify-center"
+          class="align-center justify-center"
       >
         <btn-device
             image-off="icons/64/champagneglass-bw.png"
