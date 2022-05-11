@@ -5,13 +5,27 @@
         <h1>{{ this.name }}</h1>
       </v-col>
       <v-col>
-        <v-btn
-            elevation="0"
-            icon
-            style="color: black"
-        >
-          <v-icon>mdi-star-outline</v-icon>
-        </v-btn>
+<!--        <v-tooltip>-->
+            <v-btn
+                @click="toggleStatus"
+                elevation="0"
+                icon
+                style="color: black"
+            >
+              <v-icon
+                  v-if="!active"
+              >mdi-star-outline
+              </v-icon>
+
+              <v-icon
+                  v-else
+                  large
+                  style="color: #FDD835"
+              >mdi-star
+              </v-icon>
+            </v-btn>
+<!--          <span>Añadir a Favoritos</span>-->
+<!--        </v-tooltip>-->
       </v-col>
     </v-row>
     <v-row>
@@ -51,6 +65,7 @@ export default {
 data: function () {
   return {
     switchState: false,
+    active: false,
     width: 400,
     height: 400,
   }
@@ -90,6 +105,9 @@ data: function () {
         return "Encendido";
       }
       return "Apagado";
+    },
+    toggleStatus() {
+      this.active = !this.active;
     }
   },
 }
