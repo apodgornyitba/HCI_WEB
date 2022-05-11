@@ -65,6 +65,22 @@ const routes = [
     name: 'Puerta',
     component: () => import('../views/devices/PuertaView')
   },
+
+  {
+    path: '/grifo',
+    name: 'Grifo',
+    component: () => import('../views/devices/GrifoView')
+  },
+  {
+    path: '/ac',
+    name: 'AC',
+    component: () => import('../views/devices/ACView')
+  },
+  {
+    path: '/horno',
+    name: 'Horno',
+    component: () => import('../views/devices/HornoView')
+  },
 ]
 
 const router = new VueRouter({

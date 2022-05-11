@@ -18,14 +18,8 @@
               x-large
               :color="getColor()"
           />
-          <!-- :color = "getColor()" FALTA IMPLEMENATAR -->
-      </v-row>
-      <v-row no-gutters
-             class="ma-10 pa-0">
-
          <SliderMM
          title="Intensidad"/>
-
       </v-row>
     </template>
 

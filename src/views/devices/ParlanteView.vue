@@ -7,7 +7,7 @@
     >
 
       <device-component
-          name="Parlante"
+          name="Persiana"
           image="speaker"
           class="ma-auto align-center justify-center"
       />
