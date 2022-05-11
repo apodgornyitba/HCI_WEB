@@ -16,6 +16,7 @@
               fab
               tile
               x-large
+              :color="getColor()"
           />
           <!-- :color = "getColor()" FALTA IMPLEMENATAR -->
       </v-row>
@@ -45,6 +46,7 @@
                     fab
                     tile
                     small
+                    @click="setColor( color.desc )"
                     :color = " color.desc "
                 />
               </v-col>
@@ -73,19 +75,17 @@ export default {
     { desc: 'orange'},
     { desc: 'purple'}
     ],
-  })
-  /*methods: {
-    getState() {
-      if (!this.image) {
-        return '';
-      }
-
-      if (this.switchState) {
-        return `icons/64/${this.image}-color.png`;
-      }
-      return `icons/64/${this.image}-bw.png`;
+    color: ''
+  }),
+  methods: {
+    setColor(color) {
+      this.color = color;
+    },
+    getColor() {
+      return this.color;
     }
-  },*/
+  },
+
 }
 </script>
 
