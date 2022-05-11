@@ -5,15 +5,19 @@
         <h1>{{ this.name }}</h1>
       </v-col>
       <v-col>
-<!--        <v-tooltip>-->
+        <v-tooltip right>
+          <template v-slot:activator="{on, attrs}">
             <v-btn
                 @click="toggleStatus"
                 elevation="0"
                 icon
+                v-bind="attrs"
+                v-on="on"
                 style="color: black"
             >
               <v-icon
                   v-if="!active"
+                  large
               >mdi-star-outline
               </v-icon>
 
@@ -24,8 +28,9 @@
               >mdi-star
               </v-icon>
             </v-btn>
-<!--          <span>Añadir a Favoritos</span>-->
-<!--        </v-tooltip>-->
+          </template>
+          <span>Añadir a Favoritos</span>
+        </v-tooltip>
       </v-col>
     </v-row>
     <v-row>
@@ -114,11 +119,5 @@ data: function () {
 </script>
 
 <style scoped>
-.device-component--hidden-text {
-  display: none;
-}
 
-.device-component--hidden-text:hover {
-  display: block;
-}
 </style>
