@@ -114,5 +114,11 @@ data: function () {
 </script>
 
 <style scoped>
+.device-component--hidden-text {
+  display: none;
+}
 
+.device-component--hidden-text:hover {
+  display: block;
+}
 </style>

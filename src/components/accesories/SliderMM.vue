@@ -5,8 +5,8 @@
   <v-slider
       v-model="slider"
       class="align-center"
-      :max="max"
-      :min="min"
+      :max="(this.max) ? this.max : this.maxDefault"
+      :min="(this.min) ? this.min : this.minDefault"
       hide-details
   >
     <template v-slot:append>
@@ -29,12 +29,14 @@ export default {
   name: "SliderMM",
   props: {
     'title': String,
+    max: Number,
+    min: Number,
   },
   data() {
     return {
-      min: 0,
-      max: 100,
-      slider: 40,
+      minDefault: 0,
+      maxDefault: 100,
+      slider: 0,
     }
   }
 }

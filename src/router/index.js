@@ -48,12 +48,17 @@ const routes = [
   {
     path: '/Parlante',
     name: 'Parlante',
-    component: () => import('../views/ParlanteView.vue')
+    component: () => import('../views/devices/ParlanteView.vue')
   },
   {
     path: '/Lampara',
     name: 'Lampara',
-    component: () => import('../views/LamparaView.vue')
+    component: () => import('../views/devices/LamparaView.vue')
+  },
+  {
+    path: '/heladera',
+    name: 'Heladera',
+    component: () => import('../views/devices/FridgeView')
   },
 ]
 
