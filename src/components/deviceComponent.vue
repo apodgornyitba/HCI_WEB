@@ -1,39 +1,51 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>{{ this.name }}</h1>
-      </v-col>
-      <v-col>
-        <v-tooltip right>
-          <template v-slot:activator="{on, attrs}">
-            <v-btn
-                @click="toggleStatus"
-                elevation="0"
-                icon
-                v-bind="attrs"
-                v-on="on"
-                style="color: black"
-            >
-              <v-icon
-                  v-if="!active"
-                  large
-              >mdi-star-outline
-              </v-icon>
+  <v-container
+    class="pa-4"
+  >
+    <v-row
+        class="justify-center align-center mx-4"
+    >
+      <v-spacer/>
+      <h2
+          class="text-center"
+      >
+        {{ this.name }}
+      </h2>
 
-              <v-icon
-                  v-else
-                  large
-                  style="color: #FDD835"
-              >mdi-star
-              </v-icon>
-            </v-btn>
-          </template>
-          <span>Añadir a Favoritos</span>
-        </v-tooltip>
-      </v-col>
+      <v-spacer/>
+
+      <v-tooltip right>
+        <template v-slot:activator="{on, attrs}">
+          <v-btn
+              @click="toggleStatus"
+              elevation="0"
+              icon
+              v-bind="attrs"
+              v-on="on"
+              style="color: black"
+          >
+            <v-icon
+                v-if="!active"
+                large
+            >
+              mdi-star-outline
+            </v-icon>
+
+            <v-icon
+                v-else
+                large
+                style="color: #FDD835"
+            >
+              mdi-star
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>Añadir a Favoritos</span>
+      </v-tooltip>
     </v-row>
-    <v-row>
+    <v-row
+        class="align-center justify-center"
+    >
       <v-img
           v-if="this.image"
           :src="getStateImage()"
@@ -42,19 +54,26 @@
           class="mt-3 mb-0 pa-0"
       />
     </v-row>
-    <v-row>
-      <v-col>
+
+    <v-row
+        class="align-center justify-center"
+    >
+      <v-spacer/>
+
       <h2>{{ getState() }}</h2>
-      </v-col>
-      <v-col>
-        <v-switch
-            v-model="switchState"
-            color="primary"
-            inset
-        >
-        </v-switch>
-      </v-col>
+
+      <v-spacer/>
+
+      <v-switch
+          v-model="switchState"
+          color="primary"
+          inset
+      >
+      </v-switch>
+
+      <v-spacer/>
     </v-row>
+
   </v-container>
 </template>
 
@@ -62,19 +81,19 @@
 export default {
   name: "deviceComponent",
 
-  props:{
+  props: {
     'name': String,
     'image': String,
 
   },
-data: function () {
-  return {
-    switchState: false,
-    active: false,
-    width: 400,
-    height: 400,
-  }
-},
+  data: function () {
+    return {
+      switchState: false,
+      active: false,
+      width: 400,
+      height: 400,
+    }
+  },
   methods: {
     getImageSize() {
       const size = 0.5 * Math.min(this.height, this.width);
