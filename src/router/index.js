@@ -46,12 +46,12 @@ const routes = [
     component: () => import('../views/modifyDevicesView.vue')
   },
   {
-    path: '/Parlante',
+    path: '/parlante',
     name: 'Parlante',
     component: () => import('../views/devices/ParlanteView.vue')
   },
   {
-    path: '/Lampara',
+    path: '/lampara',
     name: 'Lampara',
     component: () => import('../views/devices/LamparaView.vue')
   },
@@ -59,6 +59,11 @@ const routes = [
     path: '/heladera',
     name: 'Heladera',
     component: () => import('../views/devices/FridgeView')
+  },
+  {
+    path: '/puerta',
+    name: 'Puerta',
+    component: () => import('../views/devices/PuertaView')
   },
 ]
 

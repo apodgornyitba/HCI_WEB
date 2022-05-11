@@ -3,27 +3,28 @@
     <header-true-view>
       <v-row
           no-gutters
+          class="ma-10 pa-10"
       >
-        <v-row
+        <v-col
             no-gutters
             class="device-generic--left-pane"
         >
           <slot name="left-pane"></slot>
-        </v-row>
+        </v-col>
 
-        <v-row
+        <v-col
             no-gutters
             class="device-generic--middle-pane"
         >
           <slot name="middle-pane"></slot>
-        </v-row>
+        </v-col>
 
-        <v-row
+        <v-col
             no-gutters
             class="device-generic--right-pane"
         >
           <slot name="right-pane"></slot>
-        </v-row>
+        </v-col>
       </v-row>
     </header-true-view>
   </v-app>
