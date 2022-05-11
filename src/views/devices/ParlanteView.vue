@@ -30,7 +30,14 @@
          </v-btn-toggle>
         <SliderMM
           title="Volumen"
+          max="10"
         />
+       </v-col>
+       <v-col>
+         <v-list >
+          <!-- LISTA DE REPRODUCCION -->
+         </v-list>
+         <!-- BOTON PARA CAMBIAR DE GENERO -->
        </v-col>
      </v-main>
    </header-true-view>
