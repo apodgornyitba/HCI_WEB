@@ -29,7 +29,6 @@
               v-bind="attrs"
               v-on="on"
               text
-              flat
           >
             [HOGAR]
           </v-btn>
