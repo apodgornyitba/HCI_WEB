@@ -1,6 +1,5 @@
 <template>
   <device-generic>
-
     <template v-slot:left-pane>
       <device-component
           name="Heladera"
@@ -16,14 +15,14 @@
       >
         <SliderMM
             title="Temperatura Heladera (°C)"
-            max = "8"
-            min = "2"
+            :max="8"
+            :min="2"
         />
 
         <SliderMM
             title="Temperatura Freezer (°C)"
-            max = "-8"
-            min = "-20"
+            :max="-8"
+            :min="-20"
         />
       </v-row>
     </template>
@@ -67,8 +66,7 @@ import BtnDevice from "@/components/buttons/Device";
 
 export default {
   name: "FridgeView",
-  components: {BtnDevice, SliderMM, DeviceGeneric, DeviceComponent}
-
+  components: {BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
 }
 </script>
 
