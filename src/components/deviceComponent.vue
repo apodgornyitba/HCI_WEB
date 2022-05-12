@@ -84,7 +84,8 @@ export default {
   props: {
     'name': String,
     'image': String,
-
+    'on': String,
+    'off': String,
   },
   data: function () {
     return {
@@ -126,9 +127,9 @@ export default {
       }
 
       if (this.switchState) {
-        return "Encendido";
+        return (this.on) ? this.on : "Encendido";
       }
-      return "Apagado";
+      return (this.off) ? this.off : "Apagado";
     },
     toggleStatus() {
       this.active = !this.active;
