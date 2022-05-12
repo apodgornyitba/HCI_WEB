@@ -2,24 +2,26 @@
   <v-card-text
       class="ma-2 pa-0 text-p"
   >
-  <v-slider
-      v-model="slider"
-      class="align-center"
-      :max="(this.max) ? this.max : this.maxDefault"
-      :min="(this.min) ? this.min : this.minDefault"
-      hide-details
-  >
-    <template v-slot:append>
-      <v-text-field
-          v-model="slider"
-          class="mt-0 pt-0"
-          hide-details
-          single-line
-          type="number"
-          style="width: 60px"
-      ></v-text-field>
-    </template>
-  </v-slider>
+    <v-slider
+        v-model="slider"
+        class="align-center"
+        :max="(this.max) ? this.max : maxDefault"
+        :min="(this.min) ? this.min : minDefault"
+        hide-details
+        @change="setFieldValue"
+    >
+      <template v-slot:append>
+        <v-text-field
+            v-model="sliderValue"
+            hide-details
+            single-line
+            type="number"
+            class="mt-0 pt-0"
+            style="width: 40px"
+            @change="validateSliderInput"
+        ></v-text-field>
+      </template>
+    </v-slider>
     {{ this.title }}
   </v-card-text>
 </template>
@@ -32,12 +34,31 @@ export default {
     max: Number,
     min: Number,
   },
-  data() {
-    return {
-      minDefault: 0,
-      maxDefault: 100,
-      slider: 0,
-    }
+  data: () => ({
+    slider: 0,
+    sliderValue: 0,
+    maxDefault: 100,
+    minDefault: 0,
+  }),
+  methods: {
+    setFieldValue(v) {
+      this.sliderValue = v;
+    },
+    validateSliderInput(val) {
+      /* This nasty function makes the slider's value and text field's value be always equal */
+      const max = (this.max) ? this.max : this.maxDefault;
+      const min = (this.min) ? this.min : this.minDefault;
+
+      if (val > max) {
+        this.setFieldValue(max);
+      } else if (val < min) {
+        this.setFieldValue(min);
+      }
+      this.slider = this.sliderValue;
+    },
+  },
+  mounted() {
+    this.validateSliderInput(0);
   }
 }
 </script>
