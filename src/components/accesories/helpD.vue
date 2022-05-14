@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left ma-2">
+  <div class="ma-2">
     <v-dialog
       v-model="dialog"
       width="500"
@@ -9,10 +9,11 @@
         <v-btn
             outlined
             icon
-            x-large
+            large
             color="black"
             v-bind="attrs"
             v-on="on"
+            class="btn--ayuda"
         >
           <v-icon>mdi-help</v-icon>
         </v-btn>
@@ -26,7 +27,7 @@
         <v-card-text
           class="mt-4"
         >
-          <h2>{{ this.message }}</h2>
+          <h3>{{ this.message }}</h3>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -50,7 +51,7 @@
 
 <script>
 export default {
-  name: "helpButton",
+  name: "helpD",
   props: {
     message: String,
   },
@@ -61,5 +62,9 @@ export default {
 </script>
 
 <style scoped>
-
+.btn--ayuda {
+  position: absolute;
+  top: 75px;
+  right: 25px;
+}
 </style>

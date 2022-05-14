@@ -1,13 +1,15 @@
 <template>
   <container-noutline>
-    <v-row>
-    <v-text-field
-        label="Nombre "
-        outlined
-        class="rounded-lg"
-        required
-        
-    />
+    <v-row
+      class="justify-center align-center"
+    >
+      <v-col cols="4">
+        <txt-field
+            v-model="ambienceName"
+            label="Nombre del ambiente"
+            class="mx-1"
+        />
+      </v-col>
     </v-row>
     <v-row>
     <template v-for="dev in this.devices">
@@ -27,11 +29,13 @@
 
 import ContainerNoutline from "@/components/containers/ContainerNoutline";
 import CardModify from "@/components/cardModify";
+import TxtField from "@/components/accesories/txt-field";
 
 export default {
   name: "cardModifyHouse",
-  components: {CardModify, ContainerNoutline},
+  components: {TxtField, CardModify, ContainerNoutline},
   data: () => ({
+    ambienceName: '', /* TODO: Al cambiar de pantalla agregar nombre del ambiente */
     devices: [
       {name: 'Parlante', image: 'speaker'},
       {name: 'Lampara', image: 'lamp'},

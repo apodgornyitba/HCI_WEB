@@ -8,6 +8,7 @@
         <btn-device
             :image-off= "`icons/64/${this.image}-bw.png`"
             class="my-3 mx-1 pa-0"
+            disabled
         >
           {{ this.name }}
         </btn-device>

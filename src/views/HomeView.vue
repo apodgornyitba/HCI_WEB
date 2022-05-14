@@ -11,8 +11,8 @@
 <script>
 // @ is an alias to /src
 import WelcomeScreen from "@/views/WelcomeScreenView";
-import HeaderV from "@/components/Header";
-import FooterV from "@/components/Footer";
+import HeaderV from "@/components/accesories/Header";
+import FooterV from "@/components/accesories/Footer";
 
 export default {
   name: 'HomeView',

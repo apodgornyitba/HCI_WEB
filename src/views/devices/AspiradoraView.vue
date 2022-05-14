@@ -1,11 +1,9 @@
 <template>
 
   <device-generic>
-
     <template
         v-slot:left-pane
     >
-
       <device-component
           name="Aspiradora"
           image="vacuumcleaner_robot"
@@ -60,6 +58,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Eliga el modo y el ambiente de trabajo, o decida donde poner a cargarla'"
+        />
+      </v-row>
       <v-container
           class="align-center justify-space-around"
       >
@@ -96,10 +99,11 @@
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "AspiradoraView",
-  components: {DeviceGeneric, BtnDevice, DeviceComponent},
+  components: {HelpD, DeviceGeneric, BtnDevice, DeviceComponent},
   data: () => ({
     rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/    ],
   })

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PageNotFound from "@/views/PageNotFound";
 
 Vue.use(VueRouter)
 
@@ -9,11 +10,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
-  },
-  {
-    path: '/help',
-    name: 'help',
-    component: () => import('../views/ayudaView.vue')
   },
   {
     path: '/about',
@@ -40,10 +36,16 @@ const routes = [
     name: 'routinecreation',
     component: () => import('../views/routine/RoutineCreationView.vue')
   },
+
   {
     path: '/modifyDevices',
     name: 'modifyDevices',
     component: () => import('../views/modifyDevicesView.vue')
+  },
+  {
+    path: '/modifyHome',
+    name: 'modifyHome',
+    component: () => import('../views/modifyHomeView.vue')
   },
   {
     path: '/addDevice',
@@ -107,6 +109,11 @@ const routes = [
     component: () => import('../views/devices/AlarmaView')
   },
 
+  {
+    name: 'PageNotFound',
+    path: '/:pathMatch(.*)*',
+    component: PageNotFound
+  },
 ]
 
 const router = new VueRouter({

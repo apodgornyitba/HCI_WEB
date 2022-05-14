@@ -51,6 +51,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Decida a que volumen escuchar su gènero de música favorito'"
+        />
+      </v-row>
       <v-container
           class="align-center justify-space-around"
       >
@@ -58,7 +63,7 @@
           <v-card
               min-width="300"
           >
-            <v-select label = "GENERO MUSICAL"
+            <v-select label = "GÉNERO MUSICAL"
                       :items = "genres" >
             </v-select>
           </v-card>
@@ -67,7 +72,7 @@
             class="my-10 align-center justify-center"
         >
           <v-card
-              min-width="250"
+              min-width="300"
               outlined
           >
           <v-virtual-scroll
@@ -99,9 +104,10 @@
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
+import HelpD from "@/components/accesories/helpD";
 export default {
   name: "ParlanteView",
-  components: {DeviceGeneric, SliderMM, DeviceComponent},
+  components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
 
   data: () => ({
     songs: [

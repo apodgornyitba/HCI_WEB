@@ -51,7 +51,7 @@ export default {
   data: () => ({
     Names: [
       { title: 'Grupo_5' },
-      { title: 'Catedra' },
+      { title: 'Cátedra' },
     ],
   }),
   methods: {
@@ -60,7 +60,7 @@ export default {
       this.$router.push('mainScreen');
     },
     Catedra() {
-      localStorage.setItem('username', 'Catedra');
+      localStorage.setItem('username', 'Cátedra');
       this.$router.push('mainScreen');
     },
   },

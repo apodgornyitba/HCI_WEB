@@ -3,14 +3,21 @@
     <HeaderV/>
     <v-main>
       <v-row
-          class="ma-1 mx-4"
+          class="align-center ma-1 mx-4"
       >
+        <v-col>
         <v-card-text
             class="text-h1"
         >
           Reconocimientos a terceros y licencias
         </v-card-text>
-
+        </v-col>
+        <v-col>
+        <help-button
+            :message="'Seleccione un usuario para continuar'"
+            class="text-right"
+        />
+        </v-col>
         <v-container>
           <v-row
               class="ma-2 mx-3 pa-0 justify-space-around"
@@ -107,12 +114,13 @@
 </template>
 
 <script>
-import FooterV from "@/components/Footer";
-import HeaderV from "@/components/Header";
+import FooterV from "@/components/accesories/Footer";
+import HeaderV from "@/components/accesories/Header";
+import HelpButton from "@/components/accesories/helpButton";
 
 export default {
   name: "AcknowledgementsView",
-  components: {HeaderV, FooterV},
+  components: {HelpButton, HeaderV, FooterV},
 
   data: () => ({
     flaticon: {

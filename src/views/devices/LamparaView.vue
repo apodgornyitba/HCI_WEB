@@ -34,6 +34,11 @@
     </template>
 
       <template v-slot:right-pane>
+        <v-row class="justify-end mr-5">
+          <help-d
+              :message="'Eliga la intensidad y el color de la luz'"
+          />
+        </v-row>
         <v-row
             no-gutters
             class="align-center justify-center"
@@ -43,16 +48,18 @@
               <v-col
                   v-for="(color, index) in Color"
                   :key="index"
-                  cols="4"
+                  cols="3"
               >
+                <v-card outlined tile max-width="58px">
                 <v-btn
                     elevation="0"
                     fab
                     tile
-                    small
+                    medium
                     @click="setColor( color.desc )"
                     :color = " color.desc "
                 />
+                </v-card>
               </v-col>
             </v-row>
           </v-container>
@@ -66,18 +73,21 @@
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "LamparaView",
-  components: {SliderMM, DeviceGeneric, DeviceComponent},
+  components: {HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
         Color: [
-    { desc: 'red' },
-    { desc: 'yellow' },
-    { desc: 'pink' },
-    { desc: 'blue'},
-    { desc: 'orange'},
-    { desc: 'purple'}
+    { desc: 'blue-grey lighten-5' },
+    { desc: 'grey lighten-5' },
+    { desc: 'yellow lighten-4' },
+    { desc: 'cyan lighten-5'},
+    { desc: 'yellow lighten-2'},
+    { desc: 'amber lighten-3'},
+          { desc: 'white' },
+          { desc: 'red lighten-5' }
     ],
     color: ''
   }),
@@ -86,7 +96,7 @@ export default {
       this.color = color;
     },
     getColor() {
-      return this.color;
+      return (this.color) ? this.color : 'black' ;
     }
   },
 

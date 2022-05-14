@@ -2,53 +2,53 @@
   <v-app>
     <header-true-view>
       <v-main>
-        <v-row class="mt-15 ml-5 align-center justify-center">
-          <h1>Agregar un dispositivo</h1>
+        <v-row no-gutters
+               class="align-center justify-end">
+          <help-button
+              :message="'Seleccione el tipo de dispositivo que quiere agregar, ingrese el nombre y presione confirmar.'"
+              class="text-right"
+          />
         </v-row>
-        <v-row class="mt-15 ml-5 align-center justify-center">
+        <v-row class="ma-auto align-center text-center justify-center">
           <v-col cols="4">
-
-            <v-text-field
+            <h1>Agregar un dispositivo</h1>
+            <txt-field
                 label="Nombre del dispositivo"
-                outlined
-                class="rounded-lg"
-                required
+                class="mx-1"
             />
-
           </v-col>
-
-          <v-row class="ma-auto align-center justify-center">
-            <template
-                v-for="(dev, idx) in devices"
-
-            >
-              <card-add-device
-                  :key="idx"
-                  :name="dev.name"
-                  :image="dev.image"
+        </v-row>
+        <v-row class="ma-auto align-center justify-center">
+          <template
+              v-for="(dev, idx) in devices"
+          >
+            <card-add-device
+                :key="idx"
+                :name="dev.name"
+                :image="dev.image"
+            />
+            <v-radio-group v-model="radioGroup"
+                           :key="idx">
+              <v-radio
+                  color="primary"
+                  :value="idx"
               />
-              <v-radio-group v-model="radioGroup"
-                             :key="idx">
-                <v-radio
-                    color="primary"
-                    :value="idx"
-                />
-              </v-radio-group>
-            </template>
+            </v-radio-group>
+          </template>
+        </v-row>
+        <v-row class="ma-auto align-center text-center justify-center">
+          <btn-primary
+              to="/roomScreen">
+            Confirmar
+          </btn-primary>
           </v-row>
-
-
-        </v-row>
-        <v-row class="align-center justify-center">
-          <v-col>
-            <btn-primary>
-              Confirmar
-            </btn-primary>
-            <btn-tertiary>
-              Cancelar
-            </btn-tertiary>
-          </v-col>
-        </v-row>
+            <v-row class="ma-auto align-center text-center justify-center">
+              <btn-tertiary
+              to="/modifyDevices"
+              >
+                Cancelar
+              </btn-tertiary>
+            </v-row>
       </v-main>
     </header-true-view>
   </v-app>
@@ -60,10 +60,12 @@ import HeaderTrueView from "@/views/headerTrueView";
 import CardAddDevice from "@/components/cardAddDevice";
 import BtnTertiary from "@/components/buttons/Tertiary";
 import BtnPrimary from "@/components/buttons/Primary";
+import HelpButton from "@/components/accesories/helpButton";
+import TxtField from "@/components/accesories/txt-field";
 
 export default {
   name: "addDevice",
-  components: {BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
+  components: {TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
   data: () => ({
     devices: [
       {name: 'Parlante', image: 'speaker'},

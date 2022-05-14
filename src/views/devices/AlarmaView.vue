@@ -16,11 +16,13 @@
 
     <template v-slot:middle-pane>
       <v-row no-gutters
-             class="align-center justify-center">
+             class="align-center text-center justify-center">
         <div style="max-width: 300px">
+          INGRESE EL PIN DE SEGURIDAD
         <v-otp-input
             length="4"
             type="number"
+            class="align-center text-center justify-center"
         ></v-otp-input>
         </div>
         </v-row>
@@ -43,8 +45,22 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Ingrese el PIN para activar y desactivar la alarma. Para activar la alarma, debe elegur un modo'"
+        />
+      </v-row>
       <v-row no-gutters
              class="align-center justify-center">
+        <btn-device
+            image-off="icons/64/dial-bw.png"
+            image-on="icons/64/dial-color.png"
+        >
+          EDITAR PIN
+        </btn-device>
+      </v-row>
+        <v-row no-gutters
+               class="align-center justify-center">
         <div style="max-width: 300px">
           <v-otp-input
               length="4"
@@ -72,10 +88,11 @@
 import DeviceComponent from "@/components/deviceComponent";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "AlarmaView",
-  components: {DeviceGeneric, BtnDevice ,DeviceComponent},
+  components: {HelpD, DeviceGeneric, BtnDevice ,DeviceComponent},
 }
 </script>
 

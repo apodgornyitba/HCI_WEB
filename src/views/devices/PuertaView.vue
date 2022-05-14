@@ -32,7 +32,13 @@
       </v-row>
     </template>
 
-    <template v-slot:right-pane/>
+    <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Para mayor seguridad bloquear la puerta después de cerrala'"
+        />
+      </v-row>
+    </template>
 
   </device-generic>
 </template>
@@ -41,12 +47,14 @@
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "PuertaView",
-  components: {BtnDevice, DeviceGeneric, DeviceComponent}
+  components: {HelpD, BtnDevice, DeviceGeneric, DeviceComponent}
 
 }
+
 </script>
 
 <style scoped>

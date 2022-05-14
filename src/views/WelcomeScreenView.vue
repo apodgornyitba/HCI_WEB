@@ -1,7 +1,13 @@
 <template>
   <v-container>
-<!--    Espaciadores-->
-
+    <v-row>
+    <v-col>
+      <help-button
+          :message="'Seleccione un usuario para continuar'"
+          class="text-right"
+      />
+    </v-col>
+    </v-row>
     <v-row class="align-center text-center">
       <v-col>
         <v-img
@@ -22,19 +28,13 @@
         </p>
         <UserTemplate/>
       </v-col>
-      <v-col>
-        <help-button
-          :message="'Seleccione un usuario para continuar'"
-          class="text-center justify-end"
-        />
-      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
   import UserTemplate from "@/components/UserTemplate";
-  import HelpButton from "@/components/helpButton";
+  import HelpButton from "@/components/accesories/helpButton";
   export default {
     name: 'WelcomeScreen',
     components: {HelpButton, UserTemplate},
