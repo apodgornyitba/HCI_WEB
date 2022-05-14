@@ -6,6 +6,7 @@
       :height="this.height"
       :width="this.width"
       color="quaternary base"
+      v-bind="$attrs"
   >
     <slot></slot>
   </btn-generic>
