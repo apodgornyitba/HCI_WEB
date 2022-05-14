@@ -62,6 +62,8 @@ import CardAddDevice from "@/components/cardAddDevice";
 import BtnTertiary from "@/components/buttons/Tertiary";
 import BtnPrimary from "@/components/buttons/Primary";
 import HelpButton from "@/components/accesories/helpButton";
+import TxtField from "@/components/accesories/txt-field";
+
 export default {
   name: "addRoom",
   components: {TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},

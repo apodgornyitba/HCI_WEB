@@ -15,6 +15,7 @@
             <txt-field
                 label="Nombre del dispositivo"
                 class="mx-1"
+                hint=""
             />
           </v-col>
         </v-row>
@@ -23,7 +24,7 @@
               v-for="(dev, idx) in devices"
           >
             <card-add-device
-                :key="idx"
+                :key="dev.name"
                 :name="dev.name"
                 :image="dev.image"
             />

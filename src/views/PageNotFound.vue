@@ -1,25 +1,27 @@
 <template>
   <v-app>
-
-    <header-true-view>
-      <v-main>
-
-        <v-row class="align-center justify-center ma-auto">
-          <h1>Error 404 Page not found</h1>
-        </v-row>
-
-      </v-main>
-
-    </header-true-view>
-
+    <HeaderV/>
+    <v-main>
+      <v-row class="align-center justify-center mt-15">
+        <h1>Error 404</h1>
+      </v-row>
+      <v-row class="align-center justify-center mt-5">
+        <h1>Page not found</h1>
+      </v-row>
+      <v-row class="align-center justify-center mt-5">
+        <h2>Para volver a la página principal, haga click sobre el logo "SMARTHOUSE" </h2>
+      </v-row>
+    </v-main>
+    <FooterV/>
   </v-app>
 </template>
 
 <script>
-import HeaderTrueView from "@/views/headerTrueView";
+import HeaderV from "@/components/accesories/Header";
+import FooterV from "@/components/accesories/Footer";
 export default {
   name: "PageNotFound",
-  components: {HeaderTrueView}
+  components: {FooterV, HeaderV}
 }
 </script>
 
