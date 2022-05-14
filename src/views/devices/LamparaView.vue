@@ -5,10 +5,14 @@
       <device-component
           name="Lampara"
           image="lamp"
+          class="ma-auto align-center justify-center"
       />
     </template>
 
     <template v-slot:middle-pane>
+      <v-container
+          class="align-center justify-space-around"
+      >
       <v-row no-gutters
              class="align-center justify-center">
         <v-sheet
@@ -26,6 +30,7 @@
          <SliderMM
          title="Intensidad"/>
       </v-row>
+      </v-container>
     </template>
 
       <template v-slot:right-pane>

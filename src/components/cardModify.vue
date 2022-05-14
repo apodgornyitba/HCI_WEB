@@ -16,7 +16,6 @@
         <v-checkbox
             v-model="selectDevice"
             color="primary"
-            indeterminate
             :colorCB="this.colorCB"
         >
         </v-checkbox>

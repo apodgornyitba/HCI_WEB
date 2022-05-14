@@ -5,34 +5,34 @@
       <device-component
           name="Puerta"
           image="door"
-          on= "Abierto"
+          on = "Abierto"
           off = "Cerrado"
           class="ma-auto align-center justify-center"
       />
     </template>
 
-    <template v-slot:middle-pane/>
-
-    <template v-slot:right-pane>
-      <v-row
-          no-gutters
-          class="align-center justify-center"
+    <template v-slot:middle-pane>
+    <v-row
+        no-gutters
+        class="align-center justify-center"
+    >
+      <btn-device
+          image-off="icons/64/lock_closed-bw.png"
+          image-on="icons/64/lock_closed-color.png"
       >
-        <btn-device
-            image-off="icons/64/lock_closed-bw.png"
-            image-on="icons/64/lock_closed-color.png"
-        >
-          Bloquear
-        </btn-device>
+        Bloquear
+      </btn-device>
 
-        <btn-device
-            image-off="icons/64/lock_open-bw.png"
-            image-on="icons/64/lock_open-color.png"
-        >
-          Desbloquear
-        </btn-device>
+      <btn-device
+          image-off="icons/64/lock_open-bw.png"
+          image-on="icons/64/lock_open-color.png"
+      >
+        Desbloquear
+      </btn-device>
       </v-row>
     </template>
+
+    <template v-slot:right-pane/>
 
   </device-generic>
 </template>

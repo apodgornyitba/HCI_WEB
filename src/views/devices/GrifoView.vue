@@ -13,12 +13,18 @@
     </template>
 
     <template v-slot:middle-pane>
+      <v-container
+          class="align-center justify-space-around"
+      >
       <v-row no-gutters
-             class="justify-center ma-10 pa-0">
+             class="align-center justify-center">
+        <v-card
+            min-width="200"
+        >
           <v-list >
             <v-list-group>
               <template v-slot:activator>
-                <v-list-item-title> Unidad </v-list-item-title>
+                <v-list-item-title> UNIDAD </v-list-item-title>
               </template>
               <v-list-item
                   v-for="(unid, index) in Unidades"
@@ -34,15 +40,21 @@
               </v-list-item>
             </v-list-group>
           </v-list>
+        </v-card>
+      </v-row>
+      <v-row
+          class="my-10  align-center justify-center"
+      >
         <SliderMM
             title="Cantidad"
         />
         </v-row>
+      </v-container>
     </template>
 
     <template v-slot:right-pane>
       <v-row no-gutters
-             class="justify-center ma-10 pa-0">
+             class="align-center justify-center">
       <btn-device
           image-off="icons/64/tap_drop-bw.png"
           image-on="icons/64/tap_drop-color.png"
@@ -72,6 +84,9 @@ export default {
       {title: 'Mililitro'},
     ],
   }),
+  methods: {
+
+  }
 }
 </script>
 

@@ -7,13 +7,16 @@
     >
 
       <device-component
-          name="Persiana"
+          name="Parlante"
           image="speaker"
           class="ma-auto align-center justify-center"
       />
     </template>
 
     <template v-slot:middle-pane>
+      <v-container
+          class="align-center justify-space-around"
+      >
       <v-row no-gutters
              class="align-center justify-center">
          <v-btn-toggle
@@ -35,11 +38,16 @@
              <v-icon>mdi-step-forward</v-icon>
            </v-btn>
          </v-btn-toggle>
+      </v-row>
+        <v-row
+            class="my-10  align-center justify-center"
+        >
         <SliderMM
           title="Volumen"
           :max="10"
         />
       </v-row>
+      </v-container>
     </template>
 
     <template v-slot:right-pane>
@@ -124,7 +132,7 @@ export default {
       {title: 'Rap'},
       {title: 'Clasica'},
       {title: 'Reggaeton'},
-
+      //REVISAR SI LA LISTA ESTA EN L API
     ],
   }),
   computed: {
