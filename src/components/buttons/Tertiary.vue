@@ -1,10 +1,10 @@
 <template>
   <btn-generic
-      height="55"
-      width="165"
-      color="quaternary darken-1"
-      extra-classes="btn-tertiary text--lighten-1"
       v-bind="$attrs"
+      :class="classes"
+      width="165"
+      height="55"
+      color="quaternary darken-1"
       @click="click"
   >
     <slot></slot>
@@ -19,6 +19,14 @@ export default {
   name: "btn-tertiary",
   props: {
     'title': String,
+  },
+  computed: {
+    classes() {
+      return {
+        'btn-tertiary': true,
+        'text--lighten-1': true,
+      }
+    }
   },
   methods: {
     click(e) {

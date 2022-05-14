@@ -1,12 +1,14 @@
 <template>
   <btn-generic
-      :image="getImage()"
-      :extra-classes="this.componentClass.join(' ')"
-      @click="click"
-      :height="this.height"
-      :width="this.width"
-      color="quaternary base"
+      ref="btn"
       v-bind="$attrs"
+      :class="classes"
+      :width="this.width"
+      :height="this.height"
+      :image="getImage()"
+      color="quaternary base"
+      toggle
+      @click="click"
   >
     <slot></slot>
   </btn-generic>
@@ -18,31 +20,42 @@ import btnGeneric from "@/components/buttons/Generic";
 export default {
   name: "btn-device",
   props: {
-    'imageOff': String,
-    'imageOn': String,
     disableBorder: Boolean,
-    forceBorder: Boolean,
+    imageOn: String,
+    imageOff: String,
     small: Boolean,
   },
   data() {
     return {
-      componentClass: ['btn-device', 'text--base'],
-      isActivated: false,
       width: 110,
       height: 110,
+      isActive: false,
+    }
+  },
+  computed: {
+    classes() {
+      return {
+        'btn-device': true,
+        'text--base': true,
+        'btn--active': this.isActive,
+      }
     }
   },
   created() {
     if (this.small) {
-      this.height *= 0.75;
       this.width *= 0.75;
+      this.height *= 0.75;
     }
   },
   methods: {
-    click(e) {
-      this.$emit('click', e);
-      return this.toggleStatus()
+    click(isActive, e) {
+      this.clickActions(isActive);
+      this.$emit('click', isActive, e);
     },
+    clickActions(isActive) {
+      this.isActive = isActive;
+    },
+
     getImage() {
       /* Try to get an existing image; fallback to an empty path */
       function validImage(primary, backup) {
@@ -57,16 +70,17 @@ export default {
       const on = validImage(this.imageOn, this.imageOff);
       const off = validImage(this.imageOff, this.imageOn);
 
-      return (this.isActivated) ? on : off;
+      return (this.isActive) ? on : off;
     },
-    toggleStatus() {
-      this.isActivated = !this.isActivated;
 
-      if (!this.disableBorder && (this.forceBorder || this.isActivated)) {
-        this.componentClass.push('btn--active');
-      } else {
-        this.componentClass = this.componentClass.filter(e => e !== 'btn--active');
+    setActive(value, e) {
+      if (typeof (value) !== "boolean") {
+        console.error("Invalid type.")
+        return;
       }
+
+      this.clickActions(value);
+      this.$refs.btn.setActive(value, e);
     }
   },
   components: {btnGeneric}

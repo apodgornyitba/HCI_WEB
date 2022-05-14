@@ -1,45 +1,46 @@
 <template>
-  <v-card-actions>
-    <v-btn
-        :class="extraClassesHandler()"
-        :color="bindProperty('color','primary base')"
-        :height="this.height"
-        :width="this.width"
-        v-bind="$attrs"
-        elevation="3"
-        raised
-        @click="click"
-    >
-      <v-img
-          v-if="this.image"
-          :src="getImage()"
-          :max-height="getImageSize()['height']"
-          :max-width="getImageSize()['width']"
-          class="mt-3 mb-0 pa-0"
-      />
 
-      <v-card-text
-          class="ma-1 pa-1"
-      >
-        <slot></slot>
-      </v-card-text>
-    </v-btn>
-  </v-card-actions>
+  <v-btn
+      v-bind="$attrs"
+      :class="classes"
+      :width="this.width"
+      :height="this.height"
+      :color="bindProperty('color','primary base')"
+      raised
+      elevation="3"
+      @click="click"
+  >
+    <v-img
+        v-if="this.image"
+        :src="getImage()"
+        :max-height="getImageSize()['height']"
+        :max-width="getImageSize()['width']"
+        class="mt-3 mb-0 pa-0"
+    />
+
+    <v-card-text
+        class="ma-1 pa-1"
+    >
+      <slot></slot>
+    </v-card-text>
+  </v-btn>
 </template>
 
 <script>
 export default {
   name: "btn-generic",
   props: {
-    'image': String,
-    'extraClasses': String,
+    image: String,
+    toggle: Boolean,
   },
   data: () => ({
+    isActive: false,
     width: 64,
-    height: 64
+    height: 64,
   }),
   computed: {
     classes: () => ({
+      'ma-2': true,
       'd-flex': true,
       'flex-column': true,
       'btn-generic': true,
@@ -48,23 +49,19 @@ export default {
   },
   methods: {
     click(e) {
-      this.$emit('click', e);
-      return;
-    },
-    extraClassesHandler() {
-      let c;
-
-      for (const cl in this.classes) {
-        if (this.classes[cl] === true) {
-          c += ' ' + cl;
-        }
+      this.clickActions()
+      if (this.toggle) {
+        this.$emit('click', this.isActive, e);
+      } else {
+        this.$emit('click', e);
       }
-
-      if (this.extraClasses) {
-        c += ' ' + this.extraClasses;
-      }
-      return c;
     },
+    clickActions() {
+      if (this.toggle) {
+        this.isActive = !this.isActive;
+      }
+    },
+
     getImage() {
       if (!this.image) {
         return '';
@@ -84,6 +81,20 @@ export default {
           ? this.$attrs[prop]
           : defaultValue;
     },
+
+    setActive(value) {
+      if (!this.toggle) {
+        return;
+      }
+      if (typeof (value) !== "boolean") {
+        console.error("Invalid type.")
+        return;
+      }
+
+      if (value !== this.isActive) {
+        this.clickActions();
+      }
+    }
   },
   created() {
     if (this.$attrs['width']) {

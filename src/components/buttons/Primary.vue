@@ -1,10 +1,10 @@
 <template>
   <btn-generic
-      :image="(this.image) ? this.image : ''"
-      :height="this.height ? this.height : 64"
-      :width="this.width ? this.width : 220"
-      extra-classes="btn-primary text--lighten-1"
       v-bind="$attrs"
+      :class="classes"
+      :width="this.width ? this.width : 220"
+      :height="this.height ? this.height : 64"
+      :image="(this.image) ? this.image : ''"
       @click="click"
   >
     <slot></slot>
@@ -21,6 +21,14 @@ export default {
     'image': String,
     width: Number,
     height: Number,
+  },
+  computed: {
+    classes() {
+      return {
+        'btn-primary': true,
+        'text--lighten-1': true,
+      }
+    }
   },
   methods: {
     click(e) {

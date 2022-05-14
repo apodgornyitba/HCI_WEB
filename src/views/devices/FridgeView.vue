@@ -14,17 +14,17 @@
       >
         <SliderMM
             title="Temperatura Heladera (°C)"
-            :max= "8"
-            :min= "2"
+            :max="8"
+            :min="2"
         />
       </v-row>
-        <v-row
-            class="my-10 align-center justify-center"
-        >
+      <v-row
+          class="my-10 align-center justify-center"
+      >
         <SliderMM
             title="Temperatura Freezer (°C)"
-            :max= "-8"
-            :min= "-20"
+            :max="-8"
+            :min="-20"
         />
       </v-row>
     </template>
@@ -35,22 +35,28 @@
           class="align-center justify-center"
       >
         <btn-device
+            ref="btnPartyMode"
             image-off="icons/64/champagneglass-bw.png"
             image-on="icons/64/champagneglass-color.png"
+            @click="clickPartyMode"
         >
           Fiesta
         </btn-device>
 
         <btn-device
+            ref="btnNormalMode"
             image-off="icons/64/refrigerator_small-bw.png"
             image-on="icons/64/refrigerator_small-color.png"
+            @click="clickNormalMode"
         >
           Normal
         </btn-device>
 
         <btn-device
+            ref="btnVacationMode"
             image-off="icons/64/beach-bw.png"
             image-on="icons/64/beach-color.png"
+            @click="clickVacationMode"
         >
           Vacaciones
         </btn-device>
@@ -69,6 +75,20 @@ import BtnDevice from "@/components/buttons/Device";
 export default {
   name: "FridgeView",
   components: {BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
+  methods: {
+    clickPartyMode(isActive, e) {
+      this.$refs.btnNormalMode.setActive(false, e);
+      this.$refs.btnVacationMode.setActive(false, e);
+    },
+    clickNormalMode(isActive, e) {
+      this.$refs.btnPartyMode.setActive(false, e);
+      this.$refs.btnVacationMode.setActive(false, e);
+    },
+    clickVacationMode(isActive, e) {
+      this.$refs.btnPartyMode.setActive(false, e);
+      this.$refs.btnNormalMode.setActive(false, e);
+    }
+  }
 }
 </script>
 
