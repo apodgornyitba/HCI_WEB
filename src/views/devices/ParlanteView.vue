@@ -43,55 +43,63 @@
     </template>
 
     <template v-slot:right-pane>
-      <v-row
-          no-gutters
-          class="ma-10 pa-10"
+      <v-container
+          class="align-center justify-space-around"
       >
-        <v-card>
-         <v-list>
-          <!-- LISTA DE REPRODUCCION IMPLEMENTADA A MEDIAS -->
-           <v-list-item
-               v-for="(song, index) in Songs "
-               :key="index"
-           >
-            <v-list-item-action>
-              <v-btn
-                text
+        <v-row class="my-10 align-center justify-center">
+          <v-card
+              min-width="250"
+          >
+            <v-list >
+              <v-list-group
+                  :value="false"
               >
-                {{ song.title }} - {{ song.author }}
-              </v-btn>
-
-            </v-list-item-action>
-           </v-list-item>
-         </v-list>
-        </v-card>
-
-        <v-card
-          min-width="180"
+                <template v-slot:activator>
+                  <v-list-item-title> GÉNERO MUSICAL </v-list-item-title>
+                </template>
+                <v-list-item
+                    v-for="(genre, index) in Genres"
+                    :key="index"
+                >
+                  <v-list-item-action>
+                    <v-btn
+                        text
+                    >
+                      {{ genre.title }}
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list-group>
+            </v-list>
+          </v-card>
+        </v-row>
+        <v-row
+            class="my-10 align-center justify-center"
         >
-          <v-list >
-            <v-list-group
-              :value="false"
-            >
-              <template v-slot:activator>
-                <v-list-item-title> Géneros</v-list-item-title>
-              </template>
-              <v-list-item
-                  v-for="(genre, index) in Genres"
-                  :key="index"
-              >
+          <v-card
+              min-width="250"
+              outlined
+          >
+          <v-virtual-scroll
+              :items="items"
+              :item-height="50"
+              height="240"
+          >
+            <template v-slot:default="{ item }">
+              <v-list-item>
                 <v-list-item-action>
                   <v-btn
-                    text
+                      text
                   >
-                    {{ genre.title }}
+                    {{ item.song }}
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>
-            </v-list-group>
-          </v-list>
-        </v-card>
-      </v-row>
+            </template>
+          </v-virtual-scroll>
+          </v-card>
+        </v-row>
+      </v-container>
     </template>
   </device-generic>
 </template>

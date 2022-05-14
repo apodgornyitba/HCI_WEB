@@ -19,7 +19,7 @@
 <script>
 
 import CardRutinas from "@/components/cardRutinas";
-import CardHomes from "@/components/cardHomes";
+import CardRooms from "@/components/cardRooms";
 import CardDispFav from "@/components/cardDispFav";
 import HeaderTrueView from "@/views/headerTrueView";
 

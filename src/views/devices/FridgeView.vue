@@ -21,8 +21,8 @@
 
         <SliderMM
             title="Temperatura Freezer (°C)"
-            :max="-8"
-            :min="-20"
+            :max= "-8"
+            :min= "-20"
         />
       </v-row>
     </template>

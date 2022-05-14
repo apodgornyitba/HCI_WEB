@@ -31,9 +31,9 @@ const routes = [
     component: () => import('../views/mainScreenView.vue')
   },
   {
-    path: '/houseScreen',
-    name: 'houseScreen',
-    component: () => import('../views/houseScreenView.vue')
+    path: '/roomScreen',
+    name: 'roomScreen',
+    component: () => import('../views/roomScreenView.vue')
   },
   {
     path: '/acknowledgment',

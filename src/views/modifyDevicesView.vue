@@ -1,25 +1,40 @@
 <template>
- <v-app>
-   <header-true-view>
-    <v-main>
-
-      <v-col>
-      <card-modify-house/>
-      </v-col>
-      <v-col>
-      <v-btn
-          to="/addDevice"
-          icon
-          outlined
-          width="60"
-          height="60"
-      >
-        <v-icon large>mdi-plus</v-icon>
-      </v-btn>
-      </v-col>
-    </v-main>
-   </header-true-view>
- </v-app>
+  <v-app>
+    <header-true-view>
+      <v-main>
+          <v-row class="align-center justify-center">
+            <v-col cols="8">
+              <card-modify-house/>
+            </v-col>
+            <v-col>
+              <v-row
+                  v-for="(button, index) in buttons"
+                  :key="index"
+                  class="ma-14 "
+              >
+                <v-tooltip bottom>
+                  <template v-slot:activator="{on, attrs}">
+                    <v-btn
+                        :to="`${ button.path }`"
+                        icon
+                        outlined
+                        v-bind="attrs"
+                        v-on="on"
+                        width="50"
+                        height="50"
+                        :color="`${ button.color }`"
+                    >
+                      <v-icon large>{{ button.icon }}</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ button.text }}</span>
+                </v-tooltip>
+              </v-row>
+            </v-col>
+          </v-row>
+      </v-main>
+    </header-true-view>
+  </v-app>
 </template>
 
 <script>

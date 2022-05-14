@@ -10,14 +10,19 @@
 
     <template v-slot:middle-pane>
       <v-row no-gutters
-             class="justify-center ma-10 pa-0">
-          <v-btn
-              elevation="0"
-              fab
-              tile
-              x-large
-              :color="getColor()"
-          />
+             class="align-center justify-center">
+        <v-sheet
+            :color="getColor()"
+            elevation="2"
+            height="150"
+            outlined
+            shaped
+            width="110"
+        ></v-sheet>
+      </v-row>
+        <v-row
+            class="my-10  align-center justify-center"
+        >
          <SliderMM
          title="Intensidad"/>
       </v-row>
