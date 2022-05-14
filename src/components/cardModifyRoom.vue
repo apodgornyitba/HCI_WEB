@@ -35,6 +35,7 @@ export default {
   name: "cardModifyHouse",
   components: {TxtField, CardModify, ContainerNoutline},
   data: () => ({
+    ambienceName: '', /* TODO: Al cambiar de pantalla agregar nombre del ambiente */
     devices: [
       {name: 'Parlante', image: 'speaker'},
       {name: 'Lampara', image: 'lamp'},
