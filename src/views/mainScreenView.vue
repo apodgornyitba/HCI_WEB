@@ -2,16 +2,21 @@
   <v-app>
     <header-true-view>
       <v-main>
-        <v-row>
+        <v-row
+          no-gutters
+        >
           <v-col cols="4">
             <cardRutinas/>
           </v-col>
           <v-col>
-            <v-spacer/>
-            <help-button
-                :message="'Hola:D'"
-                class="ma-auto"
-            />
+            <v-row
+                no-gutters
+                class="align-center justify-end mt-2 mr-2"
+            >
+              <help-button
+                  :message="'Hola:D'"
+              />
+            </v-row>
             <cardRooms/>
             <cardDispFav/>
           </v-col>
