@@ -37,7 +37,7 @@
          </v-btn-toggle>
         <SliderMM
           title="Volumen"
-          max="10"
+          :max="10"
         />
       </v-row>
     </template>
