@@ -136,22 +136,8 @@ export default {
   name: "ACView",
   components: {BtnDevice, SliderMM, DeviceComponent, DeviceGeneric},
   data: () => ({
-    Ver:[
-      {title: 'Automatico'},
-      {title: '22º'},
-      {title: '45º'},
-      {title: '67º'},
-      {title: '90º'},
-],
-Hor:[
-      {title: 'Automatico'},
-      {title: ,'-90º'},
-      {title: '-45º'},
-      {title: '0'},
-      {title: '45º'},
-      {title: '90º'},
-    ],
-    items: ['auto', '90'],
+    ver:['Automatico', '22º', '45º', '67º', '90º'   ],
+    hor:['Automatico', '-90º', '-45º', '0', '45º', '90º'   ],
     state: "auto"
   }),
   methods:{
