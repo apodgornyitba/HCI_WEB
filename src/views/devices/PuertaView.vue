@@ -47,6 +47,7 @@ export default {
   components: {BtnDevice, DeviceGeneric, DeviceComponent}
 
 }
+
 </script>
 
 <style scoped>

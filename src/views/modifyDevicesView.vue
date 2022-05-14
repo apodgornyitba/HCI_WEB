@@ -48,9 +48,9 @@ export default {
   data: () => ({
     buttons: [
       {text: 'Añadir dispositivos', icon: 'mdi-plus', color: 'black', path: '/addDevice'},
-      {text: 'Añadir ambiente', icon: 'mdi-plus', color: 'black', path: '/addRoom'},
-      {text: 'Eliminar', icon: 'mdi-trash-can-outline', color: 'black', path: ''},
-      {text: 'Guardar cambios', icon: 'mdi-check', color: 'green', path: ''},
+      {text: 'Eliminar dispositivos seleccionados', icon: 'mdi-trash-can-outline', color: 'black', path: ''},
+      {text: 'Desvincular dispositivos seleccionados', icon: 'mdi-cellphone-link-off', color: 'black', path: ''},
+      {text: 'Guardar cambios', icon: 'mdi-check', color: 'green', path: '/roomScreen'},
 
     ],
     heigth: 50,

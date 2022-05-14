@@ -74,8 +74,9 @@
 </template>
 
 <script>
-import HeaderV from "@/components/Header";
-import FooterV from "@/components/Footer";
+import HeaderV from "@/components/accesories/Header";
+import FooterV from "@/components/accesories/Footer";
+import HelpButton from "@/components/accesories/helpButton";
 export default {
   name: "aboutView",
   components: {FooterV, HeaderV}

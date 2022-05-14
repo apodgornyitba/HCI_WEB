@@ -26,7 +26,7 @@
           <v-card
               max-width="300"
           >
-            <v-select label = "Dir. Horizontal Aspas"
+            <v-select label = "Direccion horizontal de las aspas"
                       :items = "hor" >
             </v-select>
           </v-card>
@@ -38,7 +38,7 @@
             <v-card
                 max-width="300"
             >
-          <v-select label = "Dir. Vertical Aspas"
+          <v-select label = "Dirección vertical de las aspas"
                     :items = "ver" >
           </v-select>
           </v-card>

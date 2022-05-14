@@ -43,16 +43,18 @@
               <v-col
                   v-for="(color, index) in Color"
                   :key="index"
-                  cols="4"
+                  cols="3"
               >
+                <v-card outlined tile max-width="58px">
                 <v-btn
                     elevation="0"
                     fab
                     tile
-                    small
+                    medium
                     @click="setColor( color.desc )"
                     :color = " color.desc "
                 />
+                </v-card>
               </v-col>
             </v-row>
           </v-container>
@@ -72,12 +74,14 @@ export default {
   components: {SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
         Color: [
-    { desc: 'red' },
-    { desc: 'yellow' },
-    { desc: 'pink' },
-    { desc: 'blue'},
-    { desc: 'orange'},
-    { desc: 'purple'}
+    { desc: 'blue-grey lighten-5' },
+    { desc: 'grey lighten-5' },
+    { desc: 'yellow lighten-4' },
+    { desc: 'cyan lighten-5'},
+    { desc: 'yellow lighten-2'},
+    { desc: 'amber lighten-3'},
+          { desc: 'white' },
+          { desc: 'red lighten-5' }
     ],
     color: ''
   }),
@@ -86,7 +90,7 @@ export default {
       this.color = color;
     },
     getColor() {
-      return this.color;
+      return (this.color) ? this.color : 'black' ;
     }
   },
 

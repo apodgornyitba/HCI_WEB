@@ -5,11 +5,18 @@
         fluid
     >
       <v-row no-gutters>
+        <v-col cols="11">
         <v-card-text
             class="text-h1 text-center"
         >
           Crear una rutina
         </v-card-text>
+        </v-col>
+        <v-col class="text-right mr-10">
+          <help-button
+            :message="'Se debe elegir el nombre de la rutina, el dispositivo a accionar y su accion.'"
+          />
+        </v-col>
       </v-row>
 
       <v-row
@@ -275,7 +282,7 @@ import HelpButton from "@/components/accesories/helpButton";
 
 export default {
   name: "RoutineCreationView",
-  components: {TxtField, BtnDevice, BtnSecondary, BtnPrimary, HeaderTrueView, containerVertical},
+  components: {HelpButton, TxtField, BtnDevice, BtnSecondary, BtnPrimary, HeaderTrueView, containerVertical},
   data: () => ({
     rules: {
       required: value => !!value || 'Este campo es obligatorio'

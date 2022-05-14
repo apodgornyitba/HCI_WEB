@@ -5,50 +5,37 @@
         <v-row class="mt-15 ml-5 align-center justify-center">
           <h1>Agregar un dispositivo</h1>
         </v-row>
-        <v-row class="mt-15 ml-5 align-center justify-center">
-          <v-col cols="4">
-
-            <v-text-field
-                label="Nombre del dispositivo"
-                outlined
-                class="rounded-lg"
-                required
+        <v-row class="ma-auto align-center justify-center">
+          <template
+              v-for="(dev, idx) in devices"
+          >
+            <card-add-device
+                :key="idx"
+                :name="dev.name"
+                :image="dev.image"
             />
-
-          </v-col>
-
-          <v-row class="ma-auto align-center justify-center">
-            <template
-                v-for="(dev, idx) in devices"
-
-            >
-              <card-add-device
-                  :key="idx"
-                  :name="dev.name"
-                  :image="dev.image"
+            <v-radio-group v-model="radioGroup"
+                           :key="idx">
+              <v-radio
+                  color="primary"
+                  :value="idx"
               />
-              <v-radio-group v-model="radioGroup"
-                             :key="idx">
-                <v-radio
-                    color="primary"
-                    :value="idx"
-                />
-              </v-radio-group>
-            </template>
+            </v-radio-group>
+          </template>
+        </v-row>
+        <v-row class="ma-auto align-center text-center justify-center">
+          <btn-primary
+              to="/roomScreen">
+            Confirmar
+          </btn-primary>
           </v-row>
-
-
-        </v-row>
-        <v-row class="align-center justify-center">
-          <v-col>
-            <btn-primary>
-              Confirmar
-            </btn-primary>
-            <btn-tertiary>
-              Cancelar
-            </btn-tertiary>
-          </v-col>
-        </v-row>
+            <v-row class="ma-auto align-center text-center justify-center">
+              <btn-tertiary
+              to="/modifyDevices"
+              >
+                Cancelar
+              </btn-tertiary>
+            </v-row>
       </v-main>
     </header-true-view>
   </v-app>

@@ -28,7 +28,13 @@
 
 
     <template v-slot:tab-2>
-      <p>abc def</p>
+      <!-- LISTA DE TODOS LOS DISPOSITIVOS ARGREGADOS -->
+    </template>
+
+    <template v-slot:tab-3>
+      <v-img
+        :src="require(`@/assets/Codigo_QR.png`)"
+      />
     </template>
 
   </container-vertical>
@@ -47,8 +53,7 @@ export default {
       tabs: [
         {id: 1, title: 'Rutinas', icon: 'mdi-phone', image: 'spinclock'},
         {id: 2, title: 'Dispositivos', icon: 'mdi-heart', image: 'bulb_smart'},
-        {id: 3, title: '', icon: 'mdi-qrcode-remove'},
-        {id: 4, title: '', icon: 'mdi-qrcode-scan'},
+        {id: 3, title: 'QR mi hogar', icon: 'mdi-qrcode'},
       ]
     }
   },

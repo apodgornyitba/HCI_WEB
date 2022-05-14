@@ -60,6 +60,7 @@ import HeaderTrueView from "@/views/headerTrueView";
 import CardAddDevice from "@/components/cardAddDevice";
 import BtnTertiary from "@/components/buttons/Tertiary";
 import BtnPrimary from "@/components/buttons/Primary";
+import HelpButton from "@/components/accesories/helpButton";
 export default {
   name: "addRoom",
   components: {BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},

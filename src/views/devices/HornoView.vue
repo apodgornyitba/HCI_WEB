@@ -132,14 +132,14 @@ export default {
       if (this.switchState1) {
         return "Completo";
       }
-      return "Economico";
+      return "Económico";
     },
     getState2() {
       if (this.switchState2) {
         return "Convencional";
       }
 
-      return "Economico";
+      return "Económico";
     }
   }
 }

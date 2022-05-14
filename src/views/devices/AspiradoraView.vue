@@ -1,11 +1,9 @@
 <template>
 
   <device-generic>
-
     <template
         v-slot:left-pane
     >
-
       <device-component
           name="Aspiradora"
           image="vacuumcleaner_robot"
@@ -96,10 +94,11 @@
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "AspiradoraView",
-  components: {DeviceGeneric, BtnDevice, DeviceComponent},
+  components: {HelpD, DeviceGeneric, BtnDevice, DeviceComponent},
   data: () => ({
     rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/    ],
   })

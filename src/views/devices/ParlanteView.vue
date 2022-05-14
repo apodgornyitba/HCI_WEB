@@ -58,7 +58,7 @@
           <v-card
               min-width="300"
           >
-            <v-select label = "GENERO MUSICAL"
+            <v-select label = "GÉNERO MUSICAL"
                       :items = "genres" >
             </v-select>
           </v-card>
@@ -67,7 +67,7 @@
             class="my-10 align-center justify-center"
         >
           <v-card
-              min-width="250"
+              min-width="300"
               outlined
           >
           <v-virtual-scroll
