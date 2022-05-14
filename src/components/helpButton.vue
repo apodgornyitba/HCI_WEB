@@ -9,6 +9,7 @@
         <v-btn
             outlined
             icon
+            x-large
             color="black"
             v-bind="attrs"
             v-on="on"
@@ -22,8 +23,10 @@
           Ayuda
         </v-card-title>
 
-        <v-card-text>
-          <h1>{{ this.message }}</h1>
+        <v-card-text
+          class="mt-4"
+        >
+          <h2>{{ this.message }}</h2>
         </v-card-text>
 
         <v-divider></v-divider>
