@@ -9,6 +9,7 @@
           on = "Abierto"
           off = "Cerrado"
           class = "ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -18,6 +19,7 @@
              class="align-center justify-center">
         <SliderMM
           title="Posicion"
+          :disabled="!deviceOn"
         />
       </v-row>
     </template>
@@ -41,6 +43,14 @@ import HelpD from "@/components/accesories/helpD";
 export default {
   name: "PersianaView",
   components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
+  data: () => ({
+    deviceOn: false,
+  }),
+  methods: {
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+  },
 
 }
 </script>

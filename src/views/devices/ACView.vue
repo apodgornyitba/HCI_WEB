@@ -7,6 +7,7 @@
         name="AC"
         image="ac"
         class="ma-auto align-center justify-center"
+        @change="stateChange"
       />
 
     </template>
@@ -27,7 +28,8 @@
               max-width="300"
           >
             <v-select label = "Direccion horizontal de las aspas"
-                      :items = "hor" >
+                      :items = "hor"
+                      :disabled="!deviceOn">
             </v-select>
           </v-card>
           </v-col>
@@ -39,7 +41,8 @@
                 max-width="300"
             >
           <v-select label = "Dirección vertical de las aspas"
-                    :items = "ver" >
+                    :items = "ver"
+                    :disabled="!deviceOn">
           </v-select>
           </v-card>
           </v-col>
@@ -51,6 +54,7 @@
             title="Temperatura (°C)"
             :max = "38"
             :min = "18"
+            :disabled="!deviceOn"
         />
         </v-row>
       </v-container>
@@ -69,22 +73,31 @@
           class="align-center justify-center"
       >
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnVentiladorMode"
             image-off="icons/64/fan-bw.png"
             image-on="icons/64/fan-color.png"
+            @click="clickVentiladorMode"
         >
           Ventilador
         </btn-device>
 
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnFrioMode"
             image-off="icons/64/snowflake-bw.png"
             image-on="icons/64/snowflake-color.png"
+            @click="clickFrioMode"
         >
           Frio
         </btn-device>
 
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnCalorMode"
             image-off="icons/64/fire-bw.png"
             image-on="icons/64/fire-color.png"
+            @click="clickCalorMode"
         >
           Calor
         </btn-device>
@@ -93,6 +106,7 @@
             class="my-10 align-center justify-center"
         >
         <btn-device
+            :disabled="!deviceOn"
             @click="toggleStatus"
             :image-on="getState()"
         >
@@ -119,7 +133,8 @@ export default {
   data: () => ({
     ver:['Automatico', '22º', '45º', '67º', '90º'   ],
     hor:['Automatico', '-90º', '-45º', '0', '45º', '90º'   ],
-    state: "auto"
+    state: "auto",
+    deviceOn: false,
   }),
   methods:{
     toggleStatus(){
@@ -144,7 +159,22 @@ export default {
     },
     getState(){
       return `icons/64/fan_level_${ this.state }-color.png`
-    }
+    },
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+    clickFrioMode(isActive, e) {
+      this.$refs.btnCalorMode.setActive(false, e);
+      this.$refs.btnVentiladorMode.setActive(false, e);
+    },
+    clickCalorMode(isActive, e) {
+      this.$refs.btnFrioMode.setActive(false, e);
+      this.$refs.btnVentiladorMode.setActive(false, e);
+    },
+    clickVentiladorMode(isActive, e) {
+      this.$refs.btnFrioMode.setActive(false, e);
+      this.$refs.btnCalorMode.setActive(false, e);
+    },
   }
 }
 </script>

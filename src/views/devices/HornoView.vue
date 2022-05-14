@@ -6,6 +6,7 @@
           name="Horno"
           image="oven"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -17,20 +18,29 @@
                class="align-center justify-center">
         <v-col no-gutters>
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnAbajoMode"
             image-off="icons/64/oven_mode_down-bw.png"
             image-on="icons/64/oven_mode_down-color.png"
+            @click="clickAbajoMode"
         >
           Abajo
         </btn-device>
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnConvencionalMode"
             image-off="icons/64/oven_mode_common-bw.png"
             image-on="icons/64/oven_mode_common-color.png"
+            @click="clickConvencionalMode"
         >
           Convencional
         </btn-device>
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnArribaMode"
             image-off="icons/64/oven_mode_up-bw.png"
             image-on="icons/64/oven_mode_up-color.png"
+            @click="clickArribaMode"
         >
           Arriba
         </btn-device>
@@ -44,8 +54,11 @@
           <v-card-actions>
             <v-col>
               <btn-device
+                  :disabled="!deviceOn"
+                  ref="btnGrillMode"
                   image-off="icons/64/grill-bw.png"
                   image-on="icons/64/grill-color.png"
+                  @click="clickGrillMode"
               >
                 Grill
               </btn-device>
@@ -58,6 +71,7 @@
                   v-model="switchState1"
                   color="primary"
                   inset
+                  :disabled="!modeOn1"
               >
               </v-switch>
             </v-col>
@@ -67,11 +81,14 @@
             outlined
             max-width="250"
         >
-          <v-card-actions>
+          <v-card-actions >
             <v-col >
               <btn-device
+                  :disabled="!deviceOn"
+                  ref="btnConvectorMode"
                   image-off="icons/64/convector-bw.png"
                   image-on="icons/64/convector-color.png"
+                  @click="clickConvectorMode"
               >
                 Convector
               </btn-device>
@@ -84,6 +101,7 @@
                   v-model="switchState2"
                   color="primary"
                   inset
+                  :disabled="!modeOn2"
               >
               </v-switch>
             </v-col>
@@ -108,6 +126,7 @@
             title="Temperatura (°C)"
             min = "90"
             max = "230"
+            :disabled="!deviceOn"
         />
       </v-row>
     </template>
@@ -127,12 +146,13 @@ import HelpD from "@/components/accesories/helpD";
 export default {
   name: "HornoView",
   components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
-  data: function () {
-    return {
-      switchState1: false,
-      switchState2: false
-    }
-  },
+  data: () => ({
+    deviceOn: false,
+    modeOn1: false,
+    modeOn2: false,
+    switchState1: false,
+    switchState2: false,
+  }),
   methods: {
     getState1() {
       if (this.switchState1) {
@@ -146,8 +166,33 @@ export default {
       }
 
       return "Económico";
-    }
-  }
+    },
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+    clickArribaMode(isActive, e) {
+      this.$refs.btnAbajoMode.setActive(false, e);
+      this.$refs.btnConvencionalMode.setActive(false, e);
+    },
+    clickAbajoMode(isActive, e) {
+      this.$refs.btnArribaMode.setActive(false, e);
+      this.$refs.btnConvencionalMode.setActive(false, e);
+    },
+    clickConvencionalMode(isActive, e) {
+      this.$refs.btnArribaMode.setActive(false, e);
+      this.$refs.btnAbajoMode.setActive(false, e);
+    },
+    clickGrillMode(isActive, e) {
+      this.$refs.btnConvectorMode.setActive(false, e);
+      this.modeOn1 = true;
+      this.modeOn2 = false;
+    },
+    clickConvectorMode(isActive, e) {
+      this.$refs.btnGrillMode.setActive(false, e);
+      this.modeOn2 = true;
+      this.modeOn1 = false;
+    },
+  },
 }
 </script>
 

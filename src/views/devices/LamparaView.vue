@@ -6,6 +6,7 @@
           name="Lampara"
           image="lamp"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -28,7 +29,8 @@
             class="my-10  align-center justify-center"
         >
          <SliderMM
-         title="Intensidad"/>
+         title="Intensidad"
+         :disabled="!deviceOn"/>
       </v-row>
       </v-container>
     </template>
@@ -53,6 +55,7 @@
                 <v-card outlined tile max-width="58px">
                 <v-btn
                     elevation="0"
+                    :disabled="!deviceOn"
                     fab
                     tile
                     medium
@@ -79,6 +82,7 @@ export default {
   name: "LamparaView",
   components: {HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
+    deviceOn: false,
         Color: [
     { desc: 'blue-grey lighten-5' },
     { desc: 'grey lighten-5' },
@@ -89,15 +93,21 @@ export default {
           { desc: 'white' },
           { desc: 'red lighten-5' }
     ],
-    color: ''
+    color: 'black'
   }),
   methods: {
     setColor(color) {
       this.color = color;
     },
     getColor() {
-      return (this.color) ? this.color : 'black' ;
-    }
+      if (!this.deviceOn)  {
+        return 'black'
+      }
+      return this.color;
+    },
+    stateChange(active) {
+      this.deviceOn = active;
+    },
   },
 
 }

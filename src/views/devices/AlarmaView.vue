@@ -11,6 +11,7 @@
           on = "Activado"
           off = "Desactivado"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -30,14 +31,20 @@
             class="my-10 align-center justify-center"
         >
         <btn-device
+            :disabled="!deviceOn"
+            ref="btnCasaMode"
             image-off="icons/64/house_family-bw.png"
             image-on="icons/64/house_family-color.png"
+            @click="clickCasaMode"
         >
           Modo Casa
         </btn-device>
           <btn-device
+              :disabled="!deviceOn"
+              ref="btnRegularMode"
               image-off="icons/64/house_heart-bw.png"
               image-on="icons/64/house_heart-color.png"
+              @click="clickRegularMode"
           >
             Modo Regular
           </btn-device>
@@ -53,15 +60,23 @@
       <v-row no-gutters
              class="align-center justify-center">
         <btn-device
+            :disabled="deviceOn"
             image-off="icons/64/dial-bw.png"
             image-on="icons/64/dial-color.png"
+            @click="clickEditMode"
+            click-off="clickEditMode"
         >
           EDITAR PIN
         </btn-device>
       </v-row>
         <v-row no-gutters
                class="align-center justify-center">
+          <v-card class="align-center text-center justify-center" min-width="400px"
+          :disabled = "!edit">
+            <v-row no-gutters
+                   class="align-center justify-center">
         <div style="max-width: 300px">
+          INGRESE EL PIN ACTUAL
           <v-otp-input
               length="4"
               type="number"
@@ -73,6 +88,7 @@
             class="my-10 align-center justify-center"
         >
         <div style="max-width: 300px">
+          INGRESE EL PIN NUEVO
           <v-otp-input
               length="4"
               type="number"
@@ -80,6 +96,8 @@
           ></v-otp-input>
         </div>
       </v-row>
+            </v-card>
+        </v-row>
     </template>
   </device-generic>
 </template>
@@ -93,6 +111,24 @@ import HelpD from "@/components/accesories/helpD";
 export default {
   name: "AlarmaView",
   components: {HelpD, DeviceGeneric, BtnDevice ,DeviceComponent},
+  data: () => ({
+    deviceOn: false,
+    edit: false,
+  }),
+  methods: {
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+    clickCasaMode(isActive, e) {
+      this.$refs.btnRegularMode.setActive(false, e);
+    },
+    clickRegularMode(isActive, e) {
+      this.$refs.btnCasaMode.setActive(false, e);
+    },
+    clickEditMode() {
+      this.edit = true;
+    },
+  },
 }
 </script>
 

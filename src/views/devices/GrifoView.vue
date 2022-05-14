@@ -9,6 +9,7 @@
           on = "Abierto"
           off = "Cerrado"
           class = "ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -22,7 +23,8 @@
             min-width="300"
         >
           <v-select label = "Unidad"
-                    :items = "unidades" >
+                    :items = "unidades"
+                    :disabled="!deviceOn" >
           </v-select>
         </v-card>
       </v-row>
@@ -31,6 +33,7 @@
       >
         <SliderMM
             title="Cantidad"
+            :disabled="!deviceOn"
         />
         </v-row>
       </v-container>
@@ -42,15 +45,6 @@
             :message="'Eliga la intensidad con la que desa dispensar el agua'"
         />
       </v-row>
-      <v-row no-gutters
-             class="align-center justify-center">
-      <btn-device
-          image-off="icons/64/tap_drop-bw.png"
-          image-on="icons/64/tap_drop-color.png"
-      >
-        Dispensar
-      </btn-device>
-      </v-row>
     </template>
   </device-generic>
 
@@ -60,18 +54,20 @@
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceComponent from "@/components/deviceComponent";
-import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "GrifoView",
-  components: {HelpD, BtnDevice, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
     unidades:[ 'Litro', 'Decilitro', 'Centilitro', 'Mililitro' ],
+    deviceOn: false,
   }),
   methods: {
-
-  }
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+  },
 }
 </script>
 

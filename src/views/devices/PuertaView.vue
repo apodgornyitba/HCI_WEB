@@ -8,6 +8,7 @@
           on = "Abierto"
           off = "Cerrado"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -17,15 +18,21 @@
         class="align-center justify-center"
     >
       <btn-device
+          :disabled="deviceOn"
+          ref="btnLockMode"
           image-off="icons/64/lock_closed-bw.png"
           image-on="icons/64/lock_closed-color.png"
+          @click="clickLockMode"
       >
         Bloquear
       </btn-device>
 
       <btn-device
+          :disabled="deviceOn"
+          ref="btnUnlockMode"
           image-off="icons/64/lock_open-bw.png"
           image-on="icons/64/lock_open-color.png"
+          @click="clickUnlockMode"
       >
         Desbloquear
       </btn-device>
@@ -51,8 +58,21 @@ import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "PuertaView",
-  components: {HelpD, BtnDevice, DeviceGeneric, DeviceComponent}
-
+  components: {HelpD, BtnDevice, DeviceGeneric, DeviceComponent},
+  data: () => ({
+    deviceOn: false,
+  }),
+  methods: {
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+    clickLockMode(isActive, e) {
+      this.$refs.btnUnlockMode.setActive(false, e);
+    },
+    clickUnlockMode(isActive, e) {
+      this.$refs.btnLockMode.setActive(false, e);
+    },
+  }
 }
 
 </script>

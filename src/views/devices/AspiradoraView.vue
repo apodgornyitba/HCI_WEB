@@ -8,6 +8,7 @@
           name="Aspiradora"
           image="vacuumcleaner_robot"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -22,10 +23,10 @@
           <v-btn-toggle
               mandatory
           >
-            <v-btn>
+            <v-btn :disabled="!deviceOn">
               <v-icon>mdi-pause</v-icon>
             </v-btn>
-            <v-btn>
+            <v-btn :disabled="!deviceOn">
               <v-icon>mdi-play</v-icon>
             </v-btn>
           </v-btn-toggle>
@@ -35,20 +36,28 @@
             class="my-10  align-center justify-center"
         >
           <btn-device
+              :disabled="!deviceOn"
+              ref="btnAspirarMode"
               image-off="icons/64/vacuumcleaner-bw.png"
               image-on="icons/64/vacuumcleaner-color.png"
+              @click="clickAspirarMode"
           >
             Aspirar
           </btn-device>
           <btn-device
+              :disabled="!deviceOn"
+              ref="btnTrapearMode"
               image-off="icons/64/broom-bw.png"
               image-on="icons/64/broom-color.png"
+              @click="clickTrapearMode"
           >
             Trapear
           </btn-device>
           <btn-device
+              ref="btnCargarMode"
               image-off="icons/64/chargingstation-bw.png"
               image-on="icons/64/chargingstation-color.png"
+              @click="clickCargarMode"
           >
             Cargar
           </btn-device>
@@ -73,7 +82,8 @@
               min-width="300"
           >
             <v-select label = " Elegir zona de trabajo "
-                      :items = "rooms" >
+                      :items = "rooms"
+                      :disabled="!deviceOn">
             </v-select>
           </v-card>
         </v-row>
@@ -106,7 +116,25 @@ export default {
   components: {HelpD, DeviceGeneric, BtnDevice, DeviceComponent},
   data: () => ({
     rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/    ],
-  })
+    deviceOn: false,
+  }),
+  methods: {
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+    clickTrapearMode(isActive, e) {
+      this.$refs.btnCargarMode.setActive(false, e);
+      this.$refs.btnAspirarMode.setActive(false, e);
+    },
+    clickAspirarMode(isActive, e) {
+      this.$refs.btnTrapearMode.setActive(false, e);
+      this.$refs.btnCargarMode.setActive(false, e);
+    },
+    clickCargarMode(isActive, e) {
+      this.$refs.btnTrapearMode.setActive(false, e);
+      this.$refs.btnAspirarMode.setActive(false, e);
+    },
+  },
 }
 </script>
 

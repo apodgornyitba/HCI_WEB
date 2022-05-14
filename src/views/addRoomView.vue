@@ -2,38 +2,31 @@
   <v-app>
     <header-true-view>
       <v-main>
-        <v-row class="mt-15 ml-5 align-center text-center">
-          <v-col cols="11">
-          <h1>Agregar un ambiente</h1>
-          </v-col>
-          <v-col class="mr-10">
-            <help-button
-                :message="'Seleccione un usuario abienteuar'"
-                class="text-right"
+        <v-row no-gutters
+               class="align-center justify-end">
+          <help-button
+              :message="'Seleccione el tipo de ambiente que quiere agregar, ingrese el nombre y presione confirmar.'"
+              class="text-right"
+          />
+        </v-row>
+        <v-row class="ma-auto align-center text-center justify-center">
+          <v-col cols="4">
+            <h1>Agregar un ambiente</h1>
+            <txt-field
+                label="Nombre del ambiente"
+                class="mx-1"
+                hint=""
             />
           </v-col>
         </v-row>
-        <v-row class="mt-15 ml-5 align-center justify-center">
-          <v-col cols="4">
-
-            <v-text-field
-                label="Nombre del ambiente"
-                outlined
-                class="rounded-lg"
-                required
-            />
-
-          </v-col>
-
-          <v-row class="ma-auto align-center justify-center">
+        <v-row class="ma-auto align-center justify-center">
             <template
-                v-for="(dev, idx) in devices"
-
+                v-for="(r, idx) in rooms"
             >
               <card-add-device
-                  :key="idx"
-                  :name="dev.name"
-                  :image="dev.image"
+                  :key="r.name"
+                  :name="r.name"
+                  :image="r.image"
               />
               <v-radio-group v-model="radioGroup"
                              :key="idx">
@@ -44,18 +37,18 @@
               </v-radio-group>
             </template>
           </v-row>
-
-
+        <v-row class="ma-auto align-center text-center justify-center">
+          <btn-primary
+              to="/mainScreen">
+            Confirmar
+          </btn-primary>
         </v-row>
-        <v-row class="align-center justify-center">
-          <v-col>
-            <btn-primary>
-              Confirmar
-            </btn-primary>
-            <btn-tertiary>
-              Cancelar
-            </btn-tertiary>
-          </v-col>
+        <v-row class="ma-auto align-center text-center justify-center">
+          <btn-tertiary
+              to="/modifyRoom"
+          >
+            Cancelar
+          </btn-tertiary>
         </v-row>
       </v-main>
     </header-true-view>
@@ -71,10 +64,10 @@ import BtnPrimary from "@/components/buttons/Primary";
 import HelpButton from "@/components/accesories/helpButton";
 export default {
   name: "addRoom",
-  components: {HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
+  components: {TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
   data: () => ({
-    devices: [
-      {name: 'Dormitorio principal', image: 'bed_big'},
+    rooms: [
+      {name: 'Dorm. princ.', image: 'bed_big'},
       {name: 'Dormitorio', image: 'bed_small'},
       {name: 'Baño', image: 'bath'},
       {name: 'Jardin', image: 'garden'},

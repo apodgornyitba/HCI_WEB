@@ -97,7 +97,7 @@ export default {
 
   data: () => ({
     buttons: [
-      {text: 'Añadir ambiente', icon: 'mdi-plus', color: 'black', path: '/addDevice'},
+      {text: 'Añadir ambiente', icon: 'mdi-plus', color: 'black', path: '/addRoom'},
       {text: 'Eliminar ambientes seleccionados', icon: 'mdi-trash-can-outline', color: 'black', path: ''},
       {text: 'Guardar cambios', icon: 'mdi-check', color: 'green', path: '/roomScreen'},
 
@@ -113,7 +113,7 @@ export default {
       {id: 1, title: 'Dispositivos', icon: 'mdi-heart', image: 'bulb_smart'},
 
     ],
-    houseName: '[HOGAR]', /* TODO: Al cambiar de pantalla agregar nombre del hogar */
+    houseName: 'MI HOGAR', /* TODO: Al cambiar de pantalla agregar nombre del hogar */
   }),
 }
 </script>

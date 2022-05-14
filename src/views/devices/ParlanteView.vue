@@ -10,6 +10,7 @@
           name="Parlante"
           image="speaker"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -22,19 +23,19 @@
          <v-btn-toggle
              mandatory
          >
-           <v-btn>
+           <v-btn :disabled="!deviceOn">
              <v-icon>mdi-step-backward</v-icon>
-           </v-btn>
-           <v-btn>
+           </v-btn >
+           <v-btn :disabled="!deviceOn">
              <v-icon>mdi-pause</v-icon>
            </v-btn>
-           <v-btn>
+           <v-btn :disabled="!deviceOn">
              <v-icon>mdi-play</v-icon>
-           </v-btn>
-           <v-btn>
+           </v-btn >
+           <v-btn :disabled="!deviceOn">
              <v-icon>mdi-stop</v-icon>
            </v-btn>
-           <v-btn>
+           <v-btn :disabled="!deviceOn">
              <v-icon>mdi-step-forward</v-icon>
            </v-btn>
          </v-btn-toggle>
@@ -45,6 +46,7 @@
         <SliderMM
           title="Volumen"
           :max="10"
+          :disabled="!deviceOn"
         />
       </v-row>
       </v-container>
@@ -64,7 +66,8 @@
               min-width="300"
           >
             <v-select label = "GÉNERO MUSICAL"
-                      :items = "genres" >
+                      :items = "genres"
+                      :disabled="!deviceOn">
             </v-select>
           </v-card>
         </v-row>
@@ -83,7 +86,7 @@
             <template v-slot:default="{ item }">
               <v-list-item>
                 <v-list-item-action>
-                  <v-btn
+                  <v-btn :disabled="!deviceOn"
                       text
                   >
                     {{ item.song }}
@@ -110,6 +113,7 @@ export default {
   components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
 
   data: () => ({
+    deviceOn: false,
     songs: [
       {title: '', author: ''},
         //LISTA DE CANCIONES DE LA API
@@ -117,6 +121,11 @@ export default {
     genres: ['Rock', 'Pop',  'Rap', 'Clasica', 'Reggaeton' ],
       /*REVISAR SI LA LISTA ESTA EN L API*/
   }),
+  methods: {
+    stateChange(active) {
+      this.deviceOn = active;
+    },
+  },
   computed: {
     items () {
       return Array.from({ length: this.songs.length }, (_, i) => {
