@@ -8,7 +8,7 @@
         v-bind="$attrs"
         elevation="3"
         raised
-        @click="clickHandler"
+        @click="click"
     >
       <v-img
           v-if="this.image"
@@ -34,19 +34,32 @@ export default {
     'image': String,
     'extraClasses': String,
   },
-  data: function () {
-    return {
-      componentClass: ['d-flex', 'flex-column', 'btn-generic', 'txt--text'],
-      width: 110,
-      height: 110,
-    }
+  data: () => ({
+    width: 64,
+    height: 64
+  }),
+  computed: {
+    classes: () => ({
+      'd-flex': true,
+      'flex-column': true,
+      'btn-generic': true,
+      'txt--text': true,
+    })
   },
   methods: {
-    clickHandler() {
-      this.$emit('click', this.part);
+    click(e) {
+      this.$emit('click', e);
+      return;
     },
     extraClassesHandler() {
-      let c = this.componentClass.join(' ');
+      let c;
+
+      for (const cl in this.classes) {
+        if (this.classes[cl] === true) {
+          c += ' ' + cl;
+        }
+      }
+
       if (this.extraClasses) {
         c += ' ' + this.extraClasses;
       }

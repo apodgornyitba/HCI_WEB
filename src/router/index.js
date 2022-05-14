@@ -41,6 +41,11 @@ const routes = [
     component: () => import('../views/AcknowledgementsView.vue')
   },
   {
+    path: '/createroutine',
+    name: 'routinecreation',
+    component: () => import('../views/routine/RoutineCreationView.vue')
+  },
+  {
     path: '/modifyDevices',
     name: 'modifyDevices',
     component: () => import('../views/modifyDevicesView.vue')

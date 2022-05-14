@@ -4,6 +4,8 @@
       width="165"
       color="quaternary darken-1"
       extra-classes="btn-tertiary text--lighten-1"
+      v-bind="$attrs"
+      @click="click"
   >
     <slot></slot>
   </btn-generic>
@@ -13,11 +15,16 @@
 import btnGeneric from "@/components/buttons/Generic";
 
 export default {
+  components: {btnGeneric},
   name: "btn-tertiary",
   props: {
     'title': String,
   },
-  components: {btnGeneric}
+  methods: {
+    click(e) {
+      this.$emit('click', e);
+    },
+  }
 }
 </script>
 

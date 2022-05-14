@@ -2,9 +2,9 @@
   <btn-generic
       :image="getImage()"
       :extra-classes="this.componentClass.join(' ')"
-      @click="toggleStatus"
-      height="110"
-      width="110"
+      @click="click"
+      :height="this.height"
+      :width="this.width"
       color="quaternary base"
   >
     <slot></slot>
@@ -21,14 +21,27 @@ export default {
     'imageOn': String,
     disableBorder: Boolean,
     forceBorder: Boolean,
+    small: Boolean,
   },
   data() {
     return {
       componentClass: ['btn-device', 'text--base'],
-      isActivated: false
+      isActivated: false,
+      width: 110,
+      height: 110,
+    }
+  },
+  created() {
+    if (this.small) {
+      this.height *= 0.75;
+      this.width *= 0.75;
     }
   },
   methods: {
+    click(e) {
+      this.$emit('click', e);
+      return this.toggleStatus()
+    },
     getImage() {
       /* Try to get an existing image; fallback to an empty path */
       function validImage(primary, backup) {
