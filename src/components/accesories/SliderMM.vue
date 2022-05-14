@@ -3,6 +3,7 @@
       class="ma-2 pa-0 text-p"
   >
     <v-slider
+        v-bind="$attrs"
         v-model="slider"
         class="align-center"
         :max="(this.max) ? this.max : maxDefault"

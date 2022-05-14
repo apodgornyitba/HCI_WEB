@@ -68,6 +68,7 @@
           v-model="switchState"
           color="primary"
           inset
+          @change="stateChange"
       >
       </v-switch>
 
@@ -133,6 +134,9 @@ export default {
     },
     toggleStatus() {
       this.active = !this.active;
+    },
+    stateChange(status) {
+      this.$emit('change', status);
     }
   },
 }

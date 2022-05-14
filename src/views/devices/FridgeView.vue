@@ -5,6 +5,7 @@
           name="Heladera"
           image="refrigerator"
           class="ma-auto align-center justify-center"
+          @change="stateChange"
       />
     </template>
 
@@ -13,6 +14,7 @@
           class="my-10 align-center justify-center"
       >
         <SliderMM
+            :disabled="!deviceOn"
             title="Temperatura Heladera (°C)"
             :max="8"
             :min="2"
@@ -22,6 +24,7 @@
           class="my-10 align-center justify-center"
       >
         <SliderMM
+            :disabled="!deviceOn"
             title="Temperatura Freezer (°C)"
             :max="-8"
             :min="-20"
@@ -30,7 +33,9 @@
     </template>
 
     <template v-slot:right-pane>
-      <v-row class="justify-end mr-5">
+      <v-row
+          class="justify-end mr-5"
+      >
         <help-d
             :message="'Setear la temperatura ideal para sus alimentos y el modo de la heladera'"
         />
@@ -40,6 +45,7 @@
           class="align-center justify-center"
       >
         <btn-device
+            :disabled="!deviceOn"
             ref="btnPartyMode"
             image-off="icons/64/champagneglass-bw.png"
             image-on="icons/64/champagneglass-color.png"
@@ -49,6 +55,7 @@
         </btn-device>
 
         <btn-device
+            :disabled="!deviceOn"
             ref="btnNormalMode"
             image-off="icons/64/refrigerator_small-bw.png"
             image-on="icons/64/refrigerator_small-color.png"
@@ -58,6 +65,7 @@
         </btn-device>
 
         <btn-device
+            :disabled="!deviceOn"
             ref="btnVacationMode"
             image-off="icons/64/beach-bw.png"
             image-on="icons/64/beach-color.png"
@@ -81,7 +89,13 @@ import HelpD from "@/components/accesories/helpD";
 export default {
   name: "FridgeView",
   components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
+  data: () => ({
+    deviceOn: false,
+  }),
   methods: {
+    stateChange(active) {
+      this.deviceOn = active;
+    },
     clickPartyMode(isActive, e) {
       this.$refs.btnNormalMode.setActive(false, e);
       this.$refs.btnVacationMode.setActive(false, e);
@@ -93,8 +107,8 @@ export default {
     clickVacationMode(isActive, e) {
       this.$refs.btnPartyMode.setActive(false, e);
       this.$refs.btnNormalMode.setActive(false, e);
-    }
-  }
+    },
+  },
 }
 </script>
 
