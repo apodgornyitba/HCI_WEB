@@ -35,10 +35,16 @@ const routes = [
     name: 'routinecreation',
     component: () => import('../views/routine/RoutineCreationView.vue')
   },
+
   {
     path: '/modifyDevices',
     name: 'modifyDevices',
     component: () => import('../views/modifyDevicesView.vue')
+  },
+  {
+    path: '/modifyHome',
+    name: 'modifyHome',
+    component: () => import('../views/modifyHomeView.vue')
   },
   {
     path: '/addDevice',

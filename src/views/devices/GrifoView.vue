@@ -37,6 +37,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Eliga la intensidad con la que desa dispensar el agua'"
+        />
+      </v-row>
       <v-row no-gutters
              class="align-center justify-center">
       <btn-device
@@ -56,10 +61,11 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "GrifoView",
-  components: {BtnDevice, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {HelpD, BtnDevice, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
     unidades:[ 'Litro', 'Decilitro', 'Centilitro', 'Mililitro' ],
   }),

@@ -2,8 +2,16 @@
   <v-app>
     <header-true-view>
       <v-main>
-        <v-row class="mt-15 ml-5 align-center justify-center">
+        <v-row class="mt-15 ml-5 align-center text-center">
+          <v-col cols="11">
           <h1>Agregar un ambiente</h1>
+          </v-col>
+          <v-col class="mr-10">
+            <help-button
+                :message="'Seleccione un usuario abienteuar'"
+                class="text-right"
+            />
+          </v-col>
         </v-row>
         <v-row class="mt-15 ml-5 align-center justify-center">
           <v-col cols="4">
@@ -63,7 +71,7 @@ import BtnPrimary from "@/components/buttons/Primary";
 import HelpButton from "@/components/accesories/helpButton";
 export default {
   name: "addRoom",
-  components: {BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
+  components: {HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
   data: () => ({
     devices: [
       {name: 'Dormitorio principal', image: 'bed_big'},

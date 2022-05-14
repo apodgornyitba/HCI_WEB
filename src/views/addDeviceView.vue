@@ -2,8 +2,21 @@
   <v-app>
     <header-true-view>
       <v-main>
-        <v-row class="mt-15 ml-5 align-center justify-center">
-          <h1>Agregar un dispositivo</h1>
+        <v-row no-gutters
+               class="align-center justify-end">
+          <help-button
+              :message="'Seleccione el tipo de dispositivo que quiere agregar, ingrese el nombre y presione confirmar.'"
+              class="text-right"
+          />
+        </v-row>
+        <v-row class="ma-auto align-center text-center justify-center">
+          <v-col cols="4">
+            <h1>Agregar un dispositivo</h1>
+            <txt-field
+                label="Nombre del dispositivo"
+                class="mx-1"
+            />
+          </v-col>
         </v-row>
         <v-row class="ma-auto align-center justify-center">
           <template
@@ -47,10 +60,12 @@ import HeaderTrueView from "@/views/headerTrueView";
 import CardAddDevice from "@/components/cardAddDevice";
 import BtnTertiary from "@/components/buttons/Tertiary";
 import BtnPrimary from "@/components/buttons/Primary";
+import HelpButton from "@/components/accesories/helpButton";
+import TxtField from "@/components/accesories/txt-field";
 
 export default {
   name: "addDevice",
-  components: {BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
+  components: {TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
   data: () => ({
     devices: [
       {name: 'Parlante', image: 'speaker'},

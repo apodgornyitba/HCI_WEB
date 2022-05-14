@@ -13,6 +13,7 @@
     </template>
 
     <template v-slot:middle-pane>
+
       <v-row no-gutters
              class="align-center justify-center">
         <SliderMM
@@ -21,7 +22,13 @@
       </v-row>
     </template>
 
-    <template v-slot:right-pane/>
+    <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Eliga en que posición abrir la persiana'"
+        />
+      </v-row>
+    </template>
   </device-generic>
 </template>
 
@@ -30,9 +37,10 @@
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
+import HelpD from "@/components/accesories/helpD";
 export default {
   name: "PersianaView",
-  components: {DeviceGeneric, SliderMM, DeviceComponent},
+  components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
 
 }
 </script>

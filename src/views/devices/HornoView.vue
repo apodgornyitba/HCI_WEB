@@ -95,6 +95,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5 mb-10">
+        <help-d
+            :message="'Utilize los botones para cambiar los distintos modos del horno y los switchs para utilizarlo con función económica o convencional'"
+        />
+      </v-row>
       <v-row
           no-gutters
           class="align-center justify-center"
@@ -117,10 +122,11 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "HornoView",
-  components: {BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
+  components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: function () {
     return {
       switchState1: false,

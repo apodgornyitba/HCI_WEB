@@ -58,6 +58,12 @@
 
     <template v-slot:right-pane>
 
+      <v-row class="justify-end mr-5">
+        <help-d
+          :message="'Eliga la configuración ideal para su aire acondicionado'"
+        />
+      </v-row>
+
       <v-row
           no-gutters
           class="align-center justify-center"
@@ -93,6 +99,8 @@
           Intensidad
         </btn-device>
       </v-row>
+
+
     </template>
 
   </device-generic>
@@ -103,10 +111,11 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "ACView",
-  components: {BtnDevice, SliderMM, DeviceComponent, DeviceGeneric},
+  components: {HelpD, BtnDevice, SliderMM, DeviceComponent, DeviceGeneric},
   data: () => ({
     ver:['Automatico', '22º', '45º', '67º', '90º'   ],
     hor:['Automatico', '-90º', '-45º', '0', '45º', '90º'   ],
@@ -114,18 +123,14 @@ export default {
   }),
   methods:{
     toggleStatus(){
-      console.log("toggle");
       switch (this.state) {
         case "auto":
-          console.log("case auto");
           this.state = "25"
           break
         case "25":
-          console.log("case 25");
           this.state = "50"
           break
         case "50":
-          console.log("case 50");
           this.state = "75"
           break
         case "75":

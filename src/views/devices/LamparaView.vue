@@ -34,6 +34,11 @@
     </template>
 
       <template v-slot:right-pane>
+        <v-row class="justify-end mr-5">
+          <help-d
+              :message="'Eliga la intensidad y el color de la luz'"
+          />
+        </v-row>
         <v-row
             no-gutters
             class="align-center justify-center"
@@ -68,10 +73,11 @@
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "LamparaView",
-  components: {SliderMM, DeviceGeneric, DeviceComponent},
+  components: {HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
         Color: [
     { desc: 'blue-grey lighten-5' },

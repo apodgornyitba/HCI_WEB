@@ -45,6 +45,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Ingrese el PIN para activar y desactivar la alarma. Para activar la alarma, debe elegur un modo'"
+        />
+      </v-row>
       <v-row no-gutters
              class="align-center justify-center">
         <btn-device
@@ -87,7 +92,7 @@ import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "AlarmaView",
-  components: {DeviceGeneric, BtnDevice ,DeviceComponent},
+  components: {HelpD, DeviceGeneric, BtnDevice ,DeviceComponent},
 }
 </script>
 

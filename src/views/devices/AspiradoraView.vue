@@ -58,6 +58,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Eliga el modo y el ambiente de trabajo, o decida donde poner a cargarla'"
+        />
+      </v-row>
       <v-container
           class="align-center justify-space-around"
       >

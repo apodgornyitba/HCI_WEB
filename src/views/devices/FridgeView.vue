@@ -30,6 +30,11 @@
     </template>
 
     <template v-slot:right-pane>
+      <v-row class="justify-end mr-5">
+        <help-d
+            :message="'Setear la temperatura ideal para sus alimentos y el modo de la heladera'"
+        />
+      </v-row>
       <v-row
           no-gutters
           class="align-center justify-center"
@@ -65,10 +70,11 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
+import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "FridgeView",
-  components: {BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
+  components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
 }
 </script>
 
