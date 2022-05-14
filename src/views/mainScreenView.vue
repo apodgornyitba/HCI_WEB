@@ -2,12 +2,22 @@
   <v-app>
     <header-true-view>
       <v-main>
-        <v-row>
+        <v-row
+          no-gutters
+        >
           <v-col cols="4">
             <cardRutinas/>
           </v-col>
           <v-col>
-            <cardHomes/>
+            <v-row
+                no-gutters
+                class="align-center justify-end mt-2 mr-2"
+            >
+              <help-button
+                  :message="'Hola:D'"
+              />
+            </v-row>
+            <cardRooms/>
             <cardDispFav/>
           </v-col>
         </v-row>
@@ -19,12 +29,13 @@
 <script>
 
 import CardRutinas from "@/components/cardRutinas";
-import CardHomes from "@/components/cardHomes";
+import CardRooms from "@/components/cardRooms";
 import CardDispFav from "@/components/cardDispFav";
 import HeaderTrueView from "@/views/headerTrueView";
+import HelpButton from "@/components/helpButton";
 
 export default {
   name: "mainScreenView.vue",
-  components: {HeaderTrueView, CardDispFav, CardHomes, CardRutinas}
+  components: {HelpButton, HeaderTrueView, CardDispFav, CardRooms, CardRutinas}
 }
 </script>

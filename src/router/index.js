@@ -21,19 +21,14 @@ const routes = [
     component: () => import('../views/aboutView.vue')
   },
   {
-    path: '/addUser',
-    name: 'addUser',
-    component: () => import('../views/AddUserScreenView.vue')
-  },
-  {
     path: '/mainScreen',
     name: 'mainScreen',
     component: () => import('../views/mainScreenView.vue')
   },
   {
-    path: '/houseScreen',
-    name: 'houseScreen',
-    component: () => import('../views/houseScreenView.vue')
+    path: '/roomScreen',
+    name: 'roomScreen',
+    component: () => import('../views/roomScreenView.vue')
   },
   {
     path: '/acknowledgment',
@@ -51,41 +46,67 @@ const routes = [
     component: () => import('../views/modifyDevicesView.vue')
   },
   {
+    path: '/addDevice',
+    name: 'addDevice',
+    component: () => import('../views/addDeviceView.vue')
+  },
+  {
+    path: '/addRoom',
+    name: 'addRoom',
+    component: () => import('../views/addRoomView.vue')
+  },
+  {
     path: '/parlante',
-    name: 'Parlante',
+    name: 'parlante',
     component: () => import('../views/devices/ParlanteView.vue')
   },
   {
     path: '/lampara',
-    name: 'Lampara',
+    name: 'lampara',
     component: () => import('../views/devices/LamparaView.vue')
   },
   {
     path: '/heladera',
-    name: 'Heladera',
+    name: 'heladera',
     component: () => import('../views/devices/FridgeView')
   },
   {
     path: '/puerta',
-    name: 'Puerta',
+    name: 'puerta',
     component: () => import('../views/devices/PuertaView')
+  },
+  {
+    path: '/persiana',
+    name: 'persiana',
+    component: () => import('../views/devices/PersianaView')
   },
 
   {
     path: '/grifo',
-    name: 'Grifo',
+    name: 'grifo',
     component: () => import('../views/devices/GrifoView')
   },
   {
     path: '/ac',
-    name: 'AC',
+    name: 'ac',
     component: () => import('../views/devices/ACView')
   },
   {
     path: '/horno',
-    name: 'Horno',
+    name: 'horno',
     component: () => import('../views/devices/HornoView')
   },
+  {
+    path: '/aspiradora',
+    name: 'aspiradora',
+    component: () => import('../views/devices/AspiradoraView')
+  },
+  {
+    path: '/alarma',
+    name: 'alarma',
+    component: () => import('../views/devices/AlarmaView')
+  },
+
 ]
 
 const router = new VueRouter({

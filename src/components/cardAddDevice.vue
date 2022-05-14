@@ -12,35 +12,22 @@
           {{ this.name }}
         </btn-device>
       </v-col>
-      <v-col>
-        <v-checkbox
-            v-model="selectDevice"
-            color="primary"
-            :colorCB="this.colorCB"
-        >
-        </v-checkbox>
-      </v-col>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+
 import BtnDevice from "@/components/buttons/Device";
 
 export default {
-  name: "cardModify",
+  name: "cardAddDevice",
   components: {BtnDevice},
-
-  data() {
-    return {
-      switchState: false
-    }
-  },
   props: {
     'name': String,
     'image': String,
-    'colorCB': String,
-  }
+  } 
+
 }
 </script>
 

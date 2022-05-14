@@ -14,7 +14,7 @@
 
     <template v-slot:middle-pane>
       <v-row no-gutters
-             class="justify-center ma-10 pa-0">
+             class="align-center justify-center">
         <SliderMM
           title="Posicion"
         />

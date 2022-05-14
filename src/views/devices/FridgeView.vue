@@ -10,19 +10,21 @@
 
     <template v-slot:middle-pane>
       <v-row
-          no-gutters
-          class="align-center justify-center"
+          class="my-10 align-center justify-center"
       >
         <SliderMM
             title="Temperatura Heladera (°C)"
-            :max="8"
-            :min="2"
+            :max= "8"
+            :min= "2"
         />
-
+      </v-row>
+        <v-row
+            class="my-10 align-center justify-center"
+        >
         <SliderMM
             title="Temperatura Freezer (°C)"
-            :max="-8"
-            :min="-20"
+            :max= "-8"
+            :min= "-20"
         />
       </v-row>
     </template>

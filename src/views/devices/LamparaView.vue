@@ -5,28 +5,38 @@
       <device-component
           name="Lampara"
           image="lamp"
+          class="ma-auto align-center justify-center"
       />
     </template>
 
     <template v-slot:middle-pane>
+      <v-container
+          class="align-center justify-space-around"
+      >
       <v-row no-gutters
-             class="justify-center ma-10 pa-0">
-          <v-btn
-              elevation="0"
-              fab
-              tile
-              x-large
-              :color="getColor()"
-          />
+             class="align-center justify-center">
+        <v-sheet
+            :color="getColor()"
+            elevation="2"
+            height="150"
+            outlined
+            shaped
+            width="110"
+        ></v-sheet>
+      </v-row>
+        <v-row
+            class="my-10  align-center justify-center"
+        >
          <SliderMM
          title="Intensidad"/>
       </v-row>
+      </v-container>
     </template>
 
       <template v-slot:right-pane>
         <v-row
             no-gutters
-            class="justify-center ma-10 pa-10"
+            class="align-center justify-center"
         >
           <v-container fluid>
             <v-row>

@@ -3,7 +3,7 @@
       class="ma-0 pa-0"
   >
     <v-row
-        class="my-6 mx-4 pa-1"
+        class="my-0 mb-1 mx-4 pa-1"
         no-gutters
     >
       <v-card-text
