@@ -31,7 +31,7 @@
       <template v-slot:right-pane>
         <v-row
             no-gutters
-            class="justify-center ma-10 pa-10"
+            class="align-center justify-center"
         >
           <v-container fluid>
             <v-row>

@@ -21,11 +21,6 @@ const routes = [
     component: () => import('../views/aboutView.vue')
   },
   {
-    path: '/addUser',
-    name: 'addUser',
-    component: () => import('../views/AddUserScreenView.vue')
-  },
-  {
     path: '/mainScreen',
     name: 'mainScreen',
     component: () => import('../views/mainScreenView.vue')
@@ -44,6 +39,16 @@ const routes = [
     path: '/modifyDevices',
     name: 'modifyDevices',
     component: () => import('../views/modifyDevicesView.vue')
+  },
+  {
+    path: '/addDevice',
+    name: 'addDevice',
+    component: () => import('../views/addDeviceView.vue')
+  },
+  {
+    path: '/addRoom',
+    name: 'addRoom',
+    component: () => import('../views/addRoomView.vue')
   },
   {
     path: '/parlante',

@@ -114,11 +114,9 @@ export default {
   components: {DeviceGeneric, SliderMM, DeviceComponent},
 
   data: () => ({
-    Songs: [
-      { title: 'Cancion1', author: 'A' },
-      { title: 'Cancion2', author: 'B' },
-      { title: 'Cancion3', author: 'C' },
-      { title: 'Cancion4', author: 'D' },
+    songs: [
+      {title: '', author: ''},
+        //LISTA DE CANCIONES DE LA API
     ],
     Genres:[
       {title: 'Rock'},
@@ -129,6 +127,18 @@ export default {
 
     ],
   }),
+  computed: {
+    items () {
+      return Array.from({ length: this.songs.length }, (_, i) => {
+        const title = this.songs[i].title
+        const author = this.songs[i].author
+
+        return {
+          song: `${title} - ${author}`,
+        }
+      })
+    },
+  }
 }
 </script>
 

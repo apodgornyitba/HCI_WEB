@@ -32,7 +32,6 @@
 <script>
 export default {
   name: "UserTemplate",
-  components: {AddUser},
   data: () => ({
     Names: [
       { title: 'Martin' },
@@ -44,7 +43,7 @@ export default {
     ],
   }),
 }
-import AddUser from "@/components/AddUser";
+
 </script>
 
 <style>

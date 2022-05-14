@@ -4,8 +4,8 @@
 
     <template v-slot:left-pane>
       <device-component
-          name = "Persiana"
-          image = "curtain"
+          name = "Grifo"
+          image = "tap"
           on = "Abierto"
           off = "Cerrado"
           class = "ma-auto align-center justify-center"
@@ -35,7 +35,7 @@
             </v-list-group>
           </v-list>
         <SliderMM
-            title="Posicion"
+            title="Cantidad"
         />
         </v-row>
     </template>

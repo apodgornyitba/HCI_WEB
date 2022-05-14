@@ -7,7 +7,12 @@
             <cardRutinas/>
           </v-col>
           <v-col>
-            <cardHomes/>
+            <v-spacer/>
+            <help-button
+                :message="'Hola:D'"
+                class="ma-auto"
+            />
+            <cardRooms/>
             <cardDispFav/>
           </v-col>
         </v-row>
@@ -22,9 +27,10 @@ import CardRutinas from "@/components/cardRutinas";
 import CardRooms from "@/components/cardRooms";
 import CardDispFav from "@/components/cardDispFav";
 import HeaderTrueView from "@/views/headerTrueView";
+import HelpButton from "@/components/helpButton";
 
 export default {
   name: "mainScreenView.vue",
-  components: {HeaderTrueView, CardDispFav, CardHomes, CardRutinas}
+  components: {HelpButton, HeaderTrueView, CardDispFav, CardRooms, CardRutinas}
 }
 </script>

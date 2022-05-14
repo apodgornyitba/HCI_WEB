@@ -19,8 +19,8 @@
       >
         <SliderMM
             title="Temperatura (°C)"
-            max = "36"
-            min = "16"
+            :max = "38"
+            :min = "18"
         />
       </v-row>
 
@@ -70,8 +70,8 @@
         </btn-device>
 
         <btn-device
-            image-off="icons/64/fan_level_auto-color.png"
-            image-on="icons/64/fan_level_auto-color.png"
+            @click="toggleStatus"
+            :image-on="getState()"
         >
           Intensidad
         </btn-device>

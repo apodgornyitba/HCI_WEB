@@ -19,56 +19,9 @@
             min = "90"
             max = "230"
         />
-          <btn-device
-              image-off="icons/64/champagneglass-bw.png"
-              image-on="icons/64/champagneglass-color.png"
-          >
-            Fiesta
-          </btn-device>
-
-          <btn-device
-              image-off="icons/64/refrigerator_small-bw.png"
-              image-on="icons/64/refrigerator_small-color.png"
-          >
-            Normal
-          </btn-device>
-
-          <btn-device
-              image-off="icons/64/beach-bw.png"
-              image-on="icons/64/beach-color.png"
-          >
-            Vacaciones
-          </btn-device>
       </v-row>
     </template>
 
-    <template v-slot:right-pane>
-      <v-row
-          no-gutters
-          class="align-center justify-center"
-      >
-        <btn-device
-            image-off="icons/64/champagneglass-bw.png"
-            image-on="icons/64/champagneglass-color.png"
-        >
-          Fiesta
-        </btn-device>
-
-        <btn-device
-            image-off="icons/64/refrigerator_small-bw.png"
-            image-on="icons/64/refrigerator_small-color.png"
-        >
-          Normal
-        </btn-device>
-
-        <btn-device
-            image-off="icons/64/beach-bw.png"
-            image-on="icons/64/beach-color.png"
-        >
-          Vacaciones
-        </btn-device>
-      </v-row>
-    </template>
 
   </device-generic>
 </template>

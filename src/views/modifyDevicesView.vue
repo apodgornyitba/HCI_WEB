@@ -40,9 +40,22 @@
 <script>
 import HeaderTrueView from "@/views/headerTrueView";
 import CardModifyHouse from "@/components/cardModifyHouse";
+
 export default {
   name: "modifyDevicesView",
-  components: {CardModifyHouse, HeaderTrueView}
+  components: {CardModifyHouse, HeaderTrueView},
+
+  data: () => ({
+    buttons: [
+      {text: 'Añadir dispositivos', icon: 'mdi-plus', color: 'black', path: '/addDevice'},
+      {text: 'Añadir ambiente', icon: 'mdi-plus', color: 'black', path: '/addRoom'},
+      {text: 'Eliminar', icon: 'mdi-trash-can-outline', color: 'black', path: ''},
+      {text: 'Guardar cambios', icon: 'mdi-check', color: 'green', path: ''},
+
+    ],
+    heigth: 50,
+    width: 50,
+  }),
 }
 </script>
 

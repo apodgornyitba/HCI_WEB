@@ -7,7 +7,7 @@
             <cardRutinas/>
           </v-col>
           <v-col cols="8">
-            <cardDispHouse/>
+            <cardDispRoom/>
           </v-col>
           <v-col>
             <v-row style="margin-top: 50px" class="mt-10 mr-5 ma-auto align-center justify-center">
@@ -44,8 +44,8 @@ import cardDispRoom from "@/components/cardDispRoom";
 import HeaderTrueView from "@/views/headerTrueView";
 
 export default {
-  name: "houseScreenView",
-  components: {HeaderTrueView, CardDispHouse, CardRutinas}
+  name: "roomScreenView",
+  components: {HeaderTrueView, cardDispRoom, CardRutinas}
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <container-noutline
-      title="[HOGAR]"
+      title="[AMBIENTE]"
   >
     <template v-for="dev in this.devices">
       <card-device
@@ -23,7 +23,7 @@ import ContainerNoutline from "@/components/containers/ContainerNoutline";
 import CardDevice from "@/components/cardDevice";
 
 export default {
-  name: "cardDispHouse",
+  name: "cardDispRoom",
   components: {CardDevice, ContainerNoutline},
   data: () => ({
     devices: [
