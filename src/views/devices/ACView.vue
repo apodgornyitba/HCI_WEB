@@ -23,53 +23,25 @@
             no-gutters
             class="align-center justify-center"
         >
-      <v-sele label = "  "
-              :items = "items"
-    </v-select>
-
-        list >
-          <v-list-group>
-            <template v-slot:activator>
-              <v-list-item-title> Dir. Horizontal Aspas </v-list-item-title>
-            </template>
-            <v-list-item
-                v-for="(angulo, index) in Hor"
-                :key="index"
-            >
-              <v-list-item-action>
-                <v-btn
-                    text
-                >
-                  {{ angulo.title }}
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list-group>
-        </list>
-        </v-col>
+          <v-card
+              max-width="300"
+          >
+            <v-select label = "Dir. Horizontal Aspas"
+                      :items = "hor" >
+            </v-select>
+          </v-card>
+          </v-col>
           <v-col
               no-gutters
               class="align-center justify-center"
           >
-        <v-list >
-          <v-list-group>
-            <template v-slot:activator>
-              <v-list-item-title> Dir. Vertical Aspas </v-list-item-title>
-            </template>
-            <v-list-item
-                v-for="(angulo, index) in Ver"
-                :key="index"
+            <v-card
+                max-width="300"
             >
-              <v-list-item-action>
-                <v-btn
-                    text
-                >
-                  {{ angulo.title }}
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list-group>
-        </v-list>
+          <v-select label = "Dir. Vertical Aspas"
+                    :items = "ver" >
+          </v-select>
+          </v-card>
           </v-col>
       </v-row>
         <v-row

@@ -67,59 +67,23 @@
             class="my-10 align-center justify-center"
         >
           <v-card
-              min-width="180"
+              min-width="300"
           >
-            <v-list>
-              <v-list-group
-                  :value="false"
-              >
-                <template v-slot:activator>
-                  <v-list-item-title> Elegir zona de trabajo</v-list-item-title>
-                </template>
-                <v-list-item
-                    v-for="(room, index) in Rooms"
-                    :key="index"
-                >
-                  <v-list-item-action>
-                    <v-btn
-                        text
-                    >
-                      {{ room.title }}
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list-group>
-            </v-list>
+            <v-select label = " Elegir zona de trabajo "
+                      :items = "rooms" >
+            </v-select>
           </v-card>
         </v-row>
 
         <v-row
             class="my-10 align-center justify-center"
         >
-          <v-card
-              min-width="180"
+        <v-card
+              min-width="300"
           >
-            <v-list>
-              <v-list-group
-                  :value="false"
-              >
-                <template v-slot:activator>
-                  <v-list-item-title> Elegir zona de carga </v-list-item-title>
-                </template>
-                <v-list-item
-                    v-for="(room, index) in Rooms"
-                    :key="index"
-                >
-                  <v-list-item-action>
-                    <v-btn
-                        text
-                    >
-                      {{ room.title }}
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list-group>
-            </v-list>
+            <v-select label = "Elegir zona de carga"
+                      :items = "rooms" >
+            </v-select>
           </v-card>
         </v-row>
       </v-container>
@@ -137,10 +101,7 @@ export default {
   name: "AspiradoraView",
   components: {DeviceGeneric, BtnDevice, DeviceComponent},
   data: () => ({
-    Rooms: [
-      {title: ''},
-      //LISTA DE HABITACIONES AGREGADAS
-    ],
+    rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/    ],
   })
 }
 </script>

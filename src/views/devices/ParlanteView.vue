@@ -56,29 +56,11 @@
       >
         <v-row class="my-10 align-center justify-center">
           <v-card
-              min-width="250"
+              min-width="300"
           >
-            <v-list >
-              <v-list-group
-                  :value="false"
-              >
-                <template v-slot:activator>
-                  <v-list-item-title> GÉNERO MUSICAL </v-list-item-title>
-                </template>
-                <v-list-item
-                    v-for="(genre, index) in Genres"
-                    :key="index"
-                >
-                  <v-list-item-action>
-                    <v-btn
-                        text
-                    >
-                      {{ genre.title }}
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list-group>
-            </v-list>
+            <v-select label = "GENERO MUSICAL"
+                      :items = "genres" >
+            </v-select>
           </v-card>
         </v-row>
         <v-row
@@ -126,14 +108,8 @@ export default {
       {title: '', author: ''},
         //LISTA DE CANCIONES DE LA API
     ],
-    Genres:[
-      {title: 'Rock'},
-      {title: 'Pop'},
-      {title: 'Rap'},
-      {title: 'Clasica'},
-      {title: 'Reggaeton'},
-      //REVISAR SI LA LISTA ESTA EN L API
-    ],
+    genres: ['Rock', 'Pop',  'Rap', 'Clasica', 'Reggaeton' ],
+      /*REVISAR SI LA LISTA ESTA EN L API*/
   }),
   computed: {
     items () {

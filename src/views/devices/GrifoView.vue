@@ -19,27 +19,11 @@
       <v-row no-gutters
              class="align-center justify-center">
         <v-card
-            min-width="200"
+            min-width="300"
         >
-          <v-list >
-            <v-list-group>
-              <template v-slot:activator>
-                <v-list-item-title> UNIDAD </v-list-item-title>
-              </template>
-              <v-list-item
-                  v-for="(unid, index) in Unidades"
-                  :key="index"
-              >
-                <v-list-item-action>
-                  <v-btn
-                      text
-                  >
-                    {{ unid.title }}
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list-group>
-          </v-list>
+          <v-select label = "Unidad"
+                    :items = "unidades" >
+          </v-select>
         </v-card>
       </v-row>
       <v-row
@@ -77,12 +61,7 @@ export default {
   name: "GrifoView",
   components: {BtnDevice, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
-    Unidades:[
-      {title: 'Litro'},
-      {title: 'Decilitro'},
-      {title: 'Centilitro'},
-      {title: 'Mililitro'},
-    ],
+    unidades:[ 'Litro', 'Decilitro', 'Centilitro', 'Mililitro' ],
   }),
   methods: {
 
