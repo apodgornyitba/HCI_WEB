@@ -8,8 +8,8 @@
       <device-component
           name="Alarma"
           image="alarm"
-          on = "Activado"
-          off = "Desactivado"
+          on="Activado"
+          off="Desactivado"
           class="ma-auto align-center justify-center"
           @change="stateChange"
       />
@@ -20,16 +20,16 @@
              class="align-center text-center justify-center">
         <div style="max-width: 300px">
           INGRESE EL PIN DE SEGURIDAD
-        <v-otp-input
-            length="4"
-            type="number"
-            class="align-center text-center justify-center"
-        ></v-otp-input>
+          <v-otp-input
+              length="4"
+              type="number"
+              class="align-center text-center justify-center"
+          ></v-otp-input>
         </div>
-        </v-row>
-        <v-row
-            class="my-10 align-center justify-center"
-        >
+      </v-row>
+      <v-row
+          class="my-10 align-center justify-center"
+      >
         <btn-device
             :disabled="!deviceOn"
             ref="btnCasaMode"
@@ -39,15 +39,15 @@
         >
           Modo Casa
         </btn-device>
-          <btn-device
-              :disabled="!deviceOn"
-              ref="btnRegularMode"
-              image-off="icons/64/house_heart-bw.png"
-              image-on="icons/64/house_heart-color.png"
-              @click="clickRegularMode"
-          >
-            Modo Regular
-          </btn-device>
+        <btn-device
+            :disabled="!deviceOn"
+            ref="btnRegularMode"
+            image-off="icons/64/house_heart-bw.png"
+            image-on="icons/64/house_heart-color.png"
+            @click="clickRegularMode"
+        >
+          Modo Regular
+        </btn-device>
       </v-row>
     </template>
 
@@ -63,41 +63,45 @@
             :disabled="deviceOn"
             image-off="icons/64/dial-bw.png"
             image-on="icons/64/dial-color.png"
-            @click="clickEditMode"
+            manually-disabled
             click-off="clickEditMode"
+            @click="clickEditMode"
         >
           EDITAR PIN
         </btn-device>
       </v-row>
-        <v-row no-gutters
-               class="align-center justify-center">
-          <v-card class="align-center text-center justify-center" min-width="400px"
-          :disabled = "!edit">
-            <v-row no-gutters
-                   class="align-center justify-center">
-        <div style="max-width: 300px">
-          INGRESE EL PIN ACTUAL
-          <v-otp-input
-              length="4"
-              type="number"
-              plain
-          ></v-otp-input>
-        </div>
-      </v-row>
-        <v-row
-            class="my-10 align-center justify-center"
+      <v-row no-gutters
+             class="align-center justify-center"
+      >
+        <v-card
+            :disabled="!edit"
+            class="align-center text-center justify-center" min-width="400px"
         >
-        <div style="max-width: 300px">
-          INGRESE EL PIN NUEVO
-          <v-otp-input
-              length="4"
-              type="number"
-              plain
-          ></v-otp-input>
-        </div>
+          <v-row no-gutters
+                 class="align-center justify-center">
+            <div style="max-width: 300px">
+              INGRESE EL PIN ACTUAL
+              <v-otp-input
+                  length="4"
+                  type="number"
+                  plain
+              ></v-otp-input>
+            </div>
+          </v-row>
+          <v-row
+              class="my-10 align-center justify-center"
+          >
+            <div style="max-width: 300px">
+              INGRESE EL PIN NUEVO
+              <v-otp-input
+                  length="4"
+                  type="number"
+                  plain
+              ></v-otp-input>
+            </div>
+          </v-row>
+        </v-card>
       </v-row>
-            </v-card>
-        </v-row>
     </template>
   </device-generic>
 </template>
@@ -110,7 +114,7 @@ import HelpD from "@/components/accesories/helpD";
 
 export default {
   name: "AlarmaView",
-  components: {HelpD, DeviceGeneric, BtnDevice ,DeviceComponent},
+  components: {HelpD, DeviceGeneric, BtnDevice, DeviceComponent},
   data: () => ({
     deviceOn: false,
     edit: false,

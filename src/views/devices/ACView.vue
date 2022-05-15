@@ -74,6 +74,7 @@
       >
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnVentiladorMode"
             image-off="icons/64/fan-bw.png"
             image-on="icons/64/fan-color.png"
@@ -84,6 +85,7 @@
 
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnFrioMode"
             image-off="icons/64/snowflake-bw.png"
             image-on="icons/64/snowflake-color.png"
@@ -94,6 +96,7 @@
 
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnCalorMode"
             image-off="icons/64/fire-bw.png"
             image-on="icons/64/fire-color.png"
@@ -106,9 +109,12 @@
             class="my-10 align-center justify-center"
         >
         <btn-device
-            :disabled="!deviceOn"
-            @click="toggleStatus"
+            ref="btnIntensity"
             :image-on="getState()"
+            :disabled="!deviceOn"
+            :disable-border="!deviceOn || state === 'auto'"
+            manually-disabled
+            @click="toggleStatus"
         >
           Intensidad
         </btn-device>
@@ -138,24 +144,27 @@ export default {
   }),
   methods:{
     toggleStatus(){
+      this.$refs.btnIntensity.setActive(true);
+
       switch (this.state) {
         case "auto":
-          this.state = "25"
-          break
+          this.state = "25";
+          break;
         case "25":
-          this.state = "50"
-          break
+          this.state = "50";
+          break;
         case "50":
-          this.state = "75"
-          break
+          this.state = "75";
+          break;
         case "75":
-          this.state = "100"
-          break
+          this.state = "100";
+          break;
         case "100":
-          this.state = "auto"
-          break
+          this.state = "auto";
+          break;
+        default:
+          this.state = "auto";
       }
-
     },
     getState(){
       return `icons/64/fan_level_${ this.state }-color.png`

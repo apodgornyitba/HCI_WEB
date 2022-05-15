@@ -59,6 +59,7 @@
               ref="btnCargarMode"
               image-off="icons/64/chargingstation-bw.png"
               image-on="icons/64/chargingstation-color.png"
+              manually-disabled
               @click="clickCargarMode"
           >
             Cargar
@@ -83,9 +84,10 @@
           <v-card
               min-width="300"
           >
-            <v-select label = " Elegir zona de trabajo "
-                      :items = "rooms"
-                      :disabled="!deviceOn">
+            <v-select label=" Elegir zona de trabajo "
+                      :items="rooms"
+                      :disabled="!deviceOn"
+            >
             </v-select>
           </v-card>
         </v-row>
@@ -93,11 +95,12 @@
         <v-row
             class="my-10 align-center justify-center"
         >
-        <v-card
+          <v-card
               min-width="300"
           >
-            <v-select label = "Elegir zona de carga"
-                      :items = "rooms" >
+            <v-select label="Elegir zona de carga"
+                      :items="rooms"
+            >
             </v-select>
           </v-card>
         </v-row>
@@ -117,7 +120,7 @@ export default {
   name: "AspiradoraView",
   components: {HelpD, DeviceGeneric, BtnDevice, DeviceComponent},
   data: () => ({
-    rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/    ],
+    rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/],
     deviceOn: false,
     available: false,
   }),

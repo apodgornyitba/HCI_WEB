@@ -1,16 +1,23 @@
 <template>
   <v-row
       no-gutters
-      :class="classes.row"
   >
-    <slot/>
-    <v-card-text
-        v-if="this.hint"
-        :class="classes.text"
-        style="width: fit-content;"
+    <v-col
     >
-      {{ this.hint }}
-    </v-card-text>
+      <v-row
+          no-gutters
+          :class="classes.row"
+      >
+        <slot/>
+      </v-row>
+      <v-card-text
+          v-if="this.hint"
+          :class="classes.text"
+          style="width: fit-content;"
+      >
+        {{ this.hint }}
+      </v-card-text>
+    </v-col>
   </v-row>
 </template>
 
@@ -22,19 +29,23 @@ export default {
   },
   computed: {
     classes: () => ({
-      row: {
-        'justify-center': true,
-        'align-center': true,
-      },
-      text: {
-        'ma-0': true,
-        'pa-0': true,
-        'my-3': true,
-        'text-center': true,
-        'txt--text': true,
-        'text-subtitle-2': true,
-        'text--darken-1': true,
-      }
+      row: [
+        'mx-auto',
+        'justify-center',
+        'align-center',
+      ],
+      text: [
+        'ma-0',
+        'pa-0',
+        'my-3',
+        'mx-auto',
+        'justify-center',
+        'align-center',
+        'text-center',
+        'txt--text',
+        'text-subtitle-2',
+        'text--darken-1',
+      ]
     }),
   }
 }

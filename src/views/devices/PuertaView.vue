@@ -3,39 +3,46 @@
 
     <template v-slot:left-pane>
       <device-component
+          ref="devComponent"
           name="Puerta"
           image="door"
-          on = "Abierto"
-          off = "Cerrado"
+          on="Abierto"
+          off="Cerrado"
           class="ma-auto align-center justify-center"
           @change="stateChange"
       />
     </template>
 
     <template v-slot:middle-pane>
-    <v-row
-        no-gutters
-        class="align-center justify-center"
-    >
-      <btn-device
-          :disabled="deviceOn"
-          ref="btnLockMode"
-          image-off="icons/64/lock_closed-bw.png"
-          image-on="icons/64/lock_closed-color.png"
-          @click="clickLockMode"
+      <v-row
+          no-gutters
+          class="align-center justify-end"
       >
-        Bloquear
-      </btn-device>
+        <v-col>
+          <container-with-hint
+              :hint="lockHint()"
+          >
+            <btn-device
+                :disabled="deviceOn"
+                ref="btnLockMode"
+                image-off="icons/64/lock_closed-bw.png"
+                image-on="icons/64/lock_closed-color.png"
+                @click="clickLockMode"
+            >
+              Bloquear
+            </btn-device>
 
-      <btn-device
-          :disabled="deviceOn"
-          ref="btnUnlockMode"
-          image-off="icons/64/lock_open-bw.png"
-          image-on="icons/64/lock_open-color.png"
-          @click="clickUnlockMode"
-      >
-        Desbloquear
-      </btn-device>
+            <btn-device
+                :disabled="deviceOn"
+                ref="btnUnlockMode"
+                image-off="icons/64/lock_open-bw.png"
+                image-on="icons/64/lock_open-color.png"
+                @click="clickUnlockMode"
+            >
+              Desbloquear
+            </btn-device>
+          </container-with-hint>
+        </v-col>
       </v-row>
     </template>
 
@@ -55,22 +62,46 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
+import ContainerWithHint from "@/components/accesories/ContainerWithHint";
 
 export default {
   name: "PuertaView",
-  components: {HelpD, BtnDevice, DeviceGeneric, DeviceComponent},
+  components: {ContainerWithHint, HelpD, BtnDevice, DeviceGeneric, DeviceComponent},
   data: () => ({
     deviceOn: false,
+    locked: true,
   }),
   methods: {
     stateChange(active) {
-      this.deviceOn = active;
+      if (this.locked) {
+        if (active) {
+          this.$refs.devComponent.setErrorStatus(true);
+        } else {
+          this.$refs.devComponent.setErrorStatus(false);
+        }
+
+        this.$refs.devComponent.setStatus(false);
+      } else {
+        this.$refs.devComponent.setErrorStatus(false);
+        this.deviceOn = active;
+      }
     },
     clickLockMode(isActive, e) {
+      this.locked = true;
+
       this.$refs.btnUnlockMode.setActive(false, e);
     },
     clickUnlockMode(isActive, e) {
+      this.locked = false;
+
       this.$refs.btnLockMode.setActive(false, e);
+    },
+
+    lockHint() {
+      if (this.locked) {
+        return "Desbloqueá la puerta para poder abrirla.";
+      }
+      return "";
     },
   }
 }

@@ -58,6 +58,7 @@
             <v-col>
               <btn-device
                   :disabled="!deviceOn"
+                  :disable-border="!deviceOn"
                   ref="btnGrillMode"
                   image-off="icons/64/grill-bw.png"
                   image-on="icons/64/grill-color.png"
@@ -88,6 +89,7 @@
             <v-col >
               <btn-device
                   :disabled="!deviceOn"
+                  :disable-border="!deviceOn"
                   ref="btnConvectorMode"
                   image-off="icons/64/convector-bw.png"
                   image-on="icons/64/convector-color.png"

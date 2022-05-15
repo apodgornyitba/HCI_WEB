@@ -18,7 +18,7 @@
             single-line
             type="number"
             class="mt-0 pt-0"
-            style="width: 40px"
+            style="width: 45px"
             @change="validateSliderInput"
         ></v-text-field>
       </template>
@@ -42,8 +42,18 @@ export default {
     minDefault: 0,
   }),
   methods: {
+    getValue() {
+      return this.sliderValue;
+    },
+
+    setSliderValue(v) {
+      this.setFieldValue(v);
+      this.validateSliderInput(v);
+    },
     setFieldValue(v) {
       this.sliderValue = v;
+
+      this.$emit('change', this.sliderValue);
     },
     validateSliderInput(val) {
       /* This nasty function makes the slider's value and text field's value be always equal */
@@ -56,6 +66,8 @@ export default {
         this.setFieldValue(min);
       }
       this.slider = this.sliderValue;
+
+      this.$emit('change', this.sliderValue);
     },
   },
   mounted() {

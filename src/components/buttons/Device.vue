@@ -21,6 +21,10 @@ export default {
   name: "btn-device",
   props: {
     disableBorder: Boolean,
+    manuallyDisabled: {
+      type: Boolean,
+      default: false
+    },
     imageOn: String,
     imageOff: String,
     small: Boolean,
@@ -37,7 +41,7 @@ export default {
       return {
         'btn-device': true,
         'text--base': true,
-        'btn--active': this.isActive,
+        'btn--active': this.isActive && !this.disableBorder,
       }
     }
   },
@@ -49,6 +53,10 @@ export default {
   },
   methods: {
     click(isActive, e) {
+      if (!this.manuallyDisabled && !isActive) {
+        return;
+      }
+
       this.clickActions(isActive);
       this.$emit('click', isActive, e);
     },

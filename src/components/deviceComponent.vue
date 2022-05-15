@@ -17,7 +17,7 @@
       <v-tooltip right>
         <template v-slot:activator="{on, attrs}">
           <v-btn
-              @click="toggleStatus"
+              @click="toggleFavorite"
               elevation="0"
               icon
               v-bind="attrs"
@@ -25,7 +25,7 @@
               style="color: black"
           >
             <v-icon
-                v-if="!active"
+                v-if="!favorite"
                 large
             >
               mdi-star-outline
@@ -65,11 +65,15 @@
       <v-spacer/>
 
       <v-switch
-          v-model="switchState"
+          ref="componentSwitch"
+          v-model="active"
           color="primary"
           inset
           @change="stateChange"
       >
+<!-- TODO: Add error handling
+        :error="!hasError"
+-->
       </v-switch>
 
       <v-spacer/>
@@ -90,10 +94,11 @@ export default {
   },
   data: function () {
     return {
-      switchState: false,
-      active: false,
       width: 400,
       height: 400,
+      active: false,
+      favorite: false,
+      hasError: false,
     }
   },
   methods: {
@@ -117,7 +122,7 @@ export default {
         return '';
       }
 
-      if (this.switchState) {
+      if (this.active) {
         return require(`@/assets/icons/256/${this.image}-color.png`);
       }
       return require(`@/assets/icons/256/${this.image}-bw.png`);
@@ -127,16 +132,23 @@ export default {
         return '';
       }
 
-      if (this.switchState) {
+      if (this.active) {
         return (this.on) ? this.on : "Encendido";
       }
       return (this.off) ? this.off : "Apagado";
     },
-    toggleStatus() {
-      this.active = !this.active;
+    toggleFavorite() {
+      this.favorite = !this.favorite;
     },
     stateChange(status) {
       this.$emit('change', status);
+    },
+
+    setStatus(status) {
+      this.active = status;
+    },
+    setErrorStatus(status) {
+      this.hasError = status;
     }
   },
 }
