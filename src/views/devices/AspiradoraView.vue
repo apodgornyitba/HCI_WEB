@@ -23,10 +23,10 @@
           <v-btn-toggle
               mandatory
           >
-            <v-btn :disabled="!deviceOn">
+            <v-btn :disabled="!deviceOn || !available">
               <v-icon>mdi-pause</v-icon>
             </v-btn>
-            <v-btn :disabled="!deviceOn">
+            <v-btn :disabled="!deviceOn || !available">
               <v-icon>mdi-play</v-icon>
             </v-btn>
           </v-btn-toggle>
@@ -37,6 +37,7 @@
         >
           <btn-device
               :disabled="!deviceOn"
+              :disable-border="!deviceOn"
               ref="btnAspirarMode"
               image-off="icons/64/vacuumcleaner-bw.png"
               image-on="icons/64/vacuumcleaner-color.png"
@@ -46,6 +47,7 @@
           </btn-device>
           <btn-device
               :disabled="!deviceOn"
+              :disable-border="!deviceOn"
               ref="btnTrapearMode"
               image-off="icons/64/broom-bw.png"
               image-on="icons/64/broom-color.png"
@@ -117,6 +119,7 @@ export default {
   data: () => ({
     rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/    ],
     deviceOn: false,
+    available: false,
   }),
   methods: {
     stateChange(active) {
@@ -125,14 +128,17 @@ export default {
     clickTrapearMode(isActive, e) {
       this.$refs.btnCargarMode.setActive(false, e);
       this.$refs.btnAspirarMode.setActive(false, e);
+      this.available = true;
     },
     clickAspirarMode(isActive, e) {
       this.$refs.btnTrapearMode.setActive(false, e);
       this.$refs.btnCargarMode.setActive(false, e);
+      this.available = true;
     },
     clickCargarMode(isActive, e) {
       this.$refs.btnTrapearMode.setActive(false, e);
       this.$refs.btnAspirarMode.setActive(false, e);
+      this.available = false;
     },
   },
 }

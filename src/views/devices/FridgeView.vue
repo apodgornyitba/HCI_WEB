@@ -46,6 +46,7 @@
       >
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnPartyMode"
             image-off="icons/64/champagneglass-bw.png"
             image-on="icons/64/champagneglass-color.png"
@@ -56,6 +57,7 @@
 
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnNormalMode"
             image-off="icons/64/refrigerator_small-bw.png"
             image-on="icons/64/refrigerator_small-color.png"
@@ -66,6 +68,7 @@
 
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnVacationMode"
             image-off="icons/64/beach-bw.png"
             image-on="icons/64/beach-color.png"

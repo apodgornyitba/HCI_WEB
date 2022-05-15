@@ -19,6 +19,7 @@
         <v-col no-gutters>
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnAbajoMode"
             image-off="icons/64/oven_mode_down-bw.png"
             image-on="icons/64/oven_mode_down-color.png"
@@ -28,6 +29,7 @@
         </btn-device>
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnConvencionalMode"
             image-off="icons/64/oven_mode_common-bw.png"
             image-on="icons/64/oven_mode_common-color.png"
@@ -37,6 +39,7 @@
         </btn-device>
         <btn-device
             :disabled="!deviceOn"
+            :disable-border="!deviceOn"
             ref="btnArribaMode"
             image-off="icons/64/oven_mode_up-bw.png"
             image-on="icons/64/oven_mode_up-color.png"

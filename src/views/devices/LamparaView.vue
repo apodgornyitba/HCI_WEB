@@ -3,6 +3,7 @@
 
     <template v-slot:left-pane>
       <device-component
+          ref="devComponent"
           name="Lampara"
           image="lamp"
           class="ma-auto align-center justify-center"
@@ -29,8 +30,9 @@
             class="my-10  align-center justify-center"
         >
          <SliderMM
+             ref="sliderPosition"
          title="Intensidad"
-         :disabled="!deviceOn"/>
+         @change="sliderStateChange" />
       </v-row>
       </v-container>
     </template>
@@ -83,6 +85,7 @@ export default {
   components: {HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
     deviceOn: false,
+    position: 0,
         Color: [
     { desc: 'blue-grey lighten-5' },
     { desc: 'grey lighten-5' },
@@ -107,7 +110,23 @@ export default {
     },
     stateChange(active) {
       this.deviceOn = active;
+
+      if (active === false) {
+        this.$refs.sliderPosition.setSliderValue(0);
+      } else {
+        this.$refs.sliderPosition.setSliderValue(this.position);
+      }
     },
+    sliderStateChange(value) {
+      if (value > 0) {
+        this.$refs.devComponent.setStatus(true);
+        this.position = this.$refs.sliderPosition.getValue();
+        this.deviceOn = true;
+      } else {
+        this.$refs.devComponent.setStatus(false);
+        this.deviceOn = false;
+      }
+    }
   },
 
 }
