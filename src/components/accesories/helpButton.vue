@@ -1,21 +1,29 @@
 <template>
-  <div class="ma-2">
+  <div
+      id="help-button"
+      :class="classes"
+  >
     <v-dialog
-      v-model="dialog"
-      width="500"
+        v-model="dialog"
+        width="500"
     >
-
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-            outlined
-            icon
-            large
-            color="black"
-            v-bind="attrs"
-            v-on="on"
-        >
-          <v-icon>mdi-help</v-icon>
-        </v-btn>
+      <template #activator="{ on: onDialog }">
+        <v-tooltip bottom>
+          <template #activator="{on: onTooltip}">
+            <v-btn
+                v-on="{...onDialog, ...onTooltip}"
+                icon
+                outlined
+                style="color:black"
+                large
+            >
+              <v-icon>
+                mdi-help
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Ayuda</span>
+        </v-tooltip>
       </template>
 
       <v-card>
@@ -24,7 +32,7 @@
         </v-card-title>
 
         <v-card-text
-          class="mt-4"
+            class="mt-4"
         >
           <h3>{{ this.message }}</h3>
         </v-card-text>
@@ -53,6 +61,11 @@ export default {
   name: "helpButton",
   props: {
     message: String,
+  },
+  computed: {
+    classes() {
+      return ['ma-1', 'pa-1']
+    }
   },
   data: () => ({
     dialog: false,

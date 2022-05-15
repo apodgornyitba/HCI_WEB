@@ -7,9 +7,9 @@
     />
 
     <v-main>
-      <v-container fluid
-                   fill-height
-                   class="pa-0"
+      <v-container
+          fluid
+          fill-height
       >
         <router-view/>
       </v-container>

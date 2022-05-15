@@ -1,21 +1,18 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <help-button
-            :message="'Seleccione un usuario para continuar'"
-            class="text-right"
-        />
-      </v-col>
-    </v-row>
+    <floating-container>
+      <help-button
+          :message="'Seleccione un usuario para continuar'"
+          class="text-right"
+      />
+    </floating-container>
+
     <v-row class="align-center text-center">
       <v-col>
         <v-img
             :src="require('../assets/logo.png')"
             class="my-3"
             contain
-            height="450"
-            width="450"
         />
       </v-col>
 
@@ -35,9 +32,10 @@
 <script>
 import UserTemplate from "@/components/UserTemplate";
 import HelpButton from "@/components/accesories/helpButton";
+import FloatingContainer from "@/components/accesories/FloatingContainer";
 
 export default {
   name: 'WelcomeScreen',
-  components: {HelpButton, UserTemplate},
+  components: {FloatingContainer, HelpButton, UserTemplate},
 }
 </script>

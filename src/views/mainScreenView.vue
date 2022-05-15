@@ -1,30 +1,33 @@
 <template>
   <div>
-    <v-row no-gutters
-           class="align-center justify-end">
-      <v-tooltip bottom>
-        <template v-slot:activator="{on, attrs}">
-          <v-btn
-              v-bind="attrs"
-              v-on="on"
-              icon
-              outlined
-              style="color:black"
-              large
-              to="/modifyHome"
-          >
-            <v-icon>
-              mdi-pencil
-            </v-icon>
-          </v-btn>
-        </template>
-        <span>Modificar hogar</span>
-      </v-tooltip>
+    <floating-container>
+      <div
+          class="ma-1 pa-1"
+      >
+        <v-tooltip bottom>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+                v-bind="attrs"
+                v-on="on"
+                icon
+                outlined
+                style="color:black"
+                large
+                to="/modifyHome"
+            >
+              <v-icon>
+                mdi-pencil
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Modificar hogar</span>
+        </v-tooltip>
+      </div>
       <help-button
           :message="'Los botones a color están accionados. Hacer click en una rutina para accionarla. Hacer click en un ambiente para accederlo. Hacer click en un dispositivo para utilizarlo'"
           class="text-right"
       />
-    </v-row>
+    </floating-container>
     <v-row
         no-gutters
         class="align-center justify-end"
@@ -46,9 +49,10 @@ import CardRutinas from "@/components/cardRutinas";
 import CardRooms from "@/components/cardRooms";
 import CardDispFav from "@/components/cardDispFav";
 import HelpButton from "@/components/accesories/helpButton";
+import FloatingContainer from "@/components/accesories/FloatingContainer";
 
 export default {
   name: "MainScreenView",
-  components: {HelpButton, CardDispFav, CardRooms, CardRutinas}
+  components: {FloatingContainer, HelpButton, CardDispFav, CardRooms, CardRutinas}
 }
 </script>
