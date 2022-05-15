@@ -1,126 +1,118 @@
 <template>
-  <v-app>
-    <HeaderV/>
-    <v-main>
-      <v-row
-          class="align-center ma-1 mx-4"
-      >
-        <v-col>
+    <v-row
+        class="align-center ma-1 mx-4"
+    >
+      <v-col>
         <v-card-text
             class="text-h1"
         >
           Reconocimientos a terceros y licencias
         </v-card-text>
-        </v-col>
-        <v-col>
+      </v-col>
+      <v-col>
         <help-button
             :message="'Seleccione un usuario para continuar'"
             class="text-right"
         />
-        </v-col>
-        <v-container>
-          <v-row
-              class="ma-2 mx-3 pa-0 justify-space-around"
-          >
-            <v-list>
+      </v-col>
+      <v-container>
+        <v-row
+            class="ma-2 mx-3 pa-0 justify-space-around"
+        >
+          <v-list>
+            <v-list-group
+                :value="false"
+                prepend-icon="mdi-palette"
+            >
+              <template v-slot:activator>
+                <v-list-item-title> Gráficos</v-list-item-title>
+              </template>
               <v-list-group
                   :value="false"
-                  prepend-icon="mdi-palette"
+                  no-action
+                  sub-group
               >
                 <template v-slot:activator>
-                  <v-list-item-title> Gráficos</v-list-item-title>
+                  <v-list-item-title> Autores</v-list-item-title>
+
+                  <v-list-item-icon>
+                    <v-icon>
+                      mdi-account-group
+                    </v-icon>
+                  </v-list-item-icon>
                 </template>
-                <v-list-group
-                    :value="false"
-                    no-action
-                    sub-group
+                <v-list-item
+                    v-for="flatAuthor in flaticonSorted" :key="flatAuthor.author"
+                    link
+                    :href="flatAuthor.url"
+                    target="_blank"
+                    class="px-12"
                 >
-                  <template v-slot:activator>
-                    <v-list-item-title> Autores</v-list-item-title>
-
-                    <v-list-item-icon>
-                      <v-icon>
-                        mdi-account-group
-                      </v-icon>
-                    </v-list-item-icon>
-                  </template>
-                  <v-list-item
-                      v-for="flatAuthor in flaticonSorted" :key="flatAuthor.author"
-                      link
-                      :href="flatAuthor.url"
-                      target="_blank"
-                      class="px-12"
-                  >
-                    <v-list-item-icon>
-                      <v-icon>
-                        mdi-account
-                      </v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title v-text="flatAuthor.author"></v-list-item-title>
-                  </v-list-item>
-                </v-list-group>
-
-                <v-list-group
-                    :value="false"
-                    no-action
-                    sub-group
-                >
-                  <template v-slot:activator>
-                    <v-list-item-title> Licencias</v-list-item-title>
-
-                    <v-list-item-icon>
-                      <v-icon>
-                        mdi-scale-balance
-                      </v-icon>
-                    </v-list-item-icon>
-                  </template>
-                  <v-list-item
-                      link
-                      :to="this.flaticon.license.url"
-                      target="_blank"
-                      class="px-12"
-                  >
-                    <v-list-item-icon>
-                      <v-icon>
-                        mdi-file-pdf-box
-                      </v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title> Flaticon</v-list-item-title>
-                  </v-list-item>
-                </v-list-group>
-
+                  <v-list-item-icon>
+                    <v-icon>
+                      mdi-account
+                    </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title v-text="flatAuthor.author"></v-list-item-title>
+                </v-list-item>
               </v-list-group>
-            </v-list>
 
-            <v-list>
               <v-list-group
                   :value="false"
-                  prepend-icon="mdi-code-braces"
+                  no-action
+                  sub-group
               >
                 <template v-slot:activator>
-                  <v-list-item-content>
-                    <v-list-item-title> Software</v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </v-list-group>
-            </v-list>
+                  <v-list-item-title> Licencias</v-list-item-title>
 
-          </v-row>
-        </v-container>
-      </v-row>
-    </v-main>
-    <FooterV/>
-  </v-app>
+                  <v-list-item-icon>
+                    <v-icon>
+                      mdi-scale-balance
+                    </v-icon>
+                  </v-list-item-icon>
+                </template>
+                <v-list-item
+                    link
+                    :to="this.flaticon.license.url"
+                    target="_blank"
+                    class="px-12"
+                >
+                  <v-list-item-icon>
+                    <v-icon>
+                      mdi-file-pdf-box
+                    </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title> Flaticon</v-list-item-title>
+                </v-list-item>
+              </v-list-group>
+
+            </v-list-group>
+          </v-list>
+
+          <v-list>
+            <v-list-group
+                :value="false"
+                prepend-icon="mdi-code-braces"
+            >
+              <template v-slot:activator>
+                <v-list-item-content>
+                  <v-list-item-title> Software</v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-list-group>
+          </v-list>
+
+        </v-row>
+      </v-container>
+    </v-row>
 </template>
 
 <script>
-import FooterV from "@/components/accesories/Footer";
-import HeaderV from "@/components/accesories/Header";
 import HelpButton from "@/components/accesories/helpButton";
 
 export default {
   name: "AcknowledgementsView",
-  components: {HelpButton, HeaderV, FooterV},
+  components: {HelpButton},
 
   data: () => ({
     flaticon: {

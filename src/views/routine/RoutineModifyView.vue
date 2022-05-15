@@ -1,278 +1,275 @@
 <template>
-  <header-true-view>
-    <v-container
-        class="ma-0 mt-16 pa-0 fill-height"
-        fluid
-    >
-      <v-row no-gutters>
-        <v-col cols="11">
+  <v-container
+      class="ma-0 mt-16 pa-0 fill-height"
+      fluid
+  >
+    <v-row no-gutters>
+      <v-col cols="11">
         <v-card-text
             class="text-h1 text-center"
         >
           Crear una rutina
         </v-card-text>
-        </v-col>
-        <v-col class="text-right mr-10">
-          <help-button
+      </v-col>
+      <v-col class="text-right mr-10">
+        <help-button
             :message="'Se debe elegir el nombre de la rutina, el dispositivo a accionar y su accion.'"
-          />
-        </v-col>
-      </v-row>
+        />
+      </v-col>
+    </v-row>
 
-      <v-row
-          no-gutters
-          class="mx-6 justify-center align-center"
+    <v-row
+        no-gutters
+        class="mx-6 justify-center align-center"
+    >
+      <v-col
+          class="ma-0 pa-0"
       >
-        <v-col
-            class="ma-0 pa-0"
-        >
-          <txt-field
-              label="Nombre de la rutina"
-              hint="Ingresá un nombre para la rutina"
-              :rules="[rules.required]"
-              class="mx-1"
-          />
-        </v-col>
+        <txt-field
+            label="Nombre de la rutina"
+            hint="Ingresá un nombre para la rutina"
+            :rules="[rules.required]"
+            class="mx-1"
+        />
+      </v-col>
 
-        <v-col
-            cols="7"
+      <v-col
+          cols="7"
+      >
+        <v-row
+            no-gutters
+            class="ma-0 mx-6 pa-0 align-center justify-space-between"
+        >
+          <v-col>
+            <v-row
+                class="align-start justify-space-between"
+            >
+              <v-col
+                  class="ma-0 pa-2"
+              >
+                <container-vertical
+                    :tabs="this.devices.tabs"
+                    hint="Elegí un dispositivo"
+                    class="ma-0 mr-2 pa-0"
+                >
+
+                  <template v-slot:tab-1>
+                    <v-virtual-scroll
+                        :items="devices.favorites"
+                        height="277"
+                        item-height="105"
+                        bench="2"
+                    >
+                      <template v-slot:default="{ item }">
+                        <btn-device
+                            :key="item.id"
+                            :image-off="`icons/64/${item.image}-bw.png`"
+                            :image-on="`icons/64/${item.image}-color.png`"
+                            class="justify-center align-center"
+                            small
+                            @click="deviceButtonClick($event, item.id)"
+                        >
+                          {{ item.name }}
+                        </btn-device>
+                      </template>
+                    </v-virtual-scroll>
+                  </template>
+
+
+                  <template v-slot:tab-2>
+                    <v-virtual-scroll
+                        :items="devices.all"
+                        height="277"
+                        item-height="105"
+                        bench="2"
+                    >
+                      <template v-slot:default="{ item }">
+                        <btn-device
+                            :key="item.id"
+                            :image-off="`icons/64/${item.image}-bw.png`"
+                            :image-on="`icons/64/${item.image}-color.png`"
+                            class="justify-center align-center"
+                            small
+                            @click="deviceButtonClick($event, item.id)"
+                        >
+                          {{ item.name }}
+                        </btn-device>
+                      </template>
+                    </v-virtual-scroll>
+                  </template>
+
+                </container-vertical>
+              </v-col>
+
+              <v-col
+                  class="ma-0 ml-2 pa-2"
+              >
+                <container-vertical
+                    :tabs="this.actions.tabs"
+                    class="ma-0 pa-0"
+                    :disabled="!this.actions.enabled"
+                    hint="Elegí una acción"
+                >
+
+                  <template v-slot:tab-1>
+                    <v-row
+                        v-if="devices.selected === 0"
+                        no-gutters
+                        class="align-center justify-center fill-height"
+                    >
+                      <v-card-text
+                          class="text-center txt--text text-body-2"
+                      >
+                        Seleccioná un dispositivo primero.
+                      </v-card-text>
+
+                    </v-row>
+
+                    <v-card
+                        v-else
+                        flat
+                    >
+                      <v-virtual-scroll
+                          bench="2"
+                          :items="actions.byDevice[devices.selected]"
+                          height="277"
+                          item-height="64"
+                      >
+                        <template v-slot:default="{ item }">
+                          <v-list-item :key="item">
+                            <v-list-item-action>
+                              <btn-secondary
+                                  :height="48"
+                                  @click="selectedActionHandler($event, item)"
+                              >
+                                {{ item }}
+                              </btn-secondary>
+                            </v-list-item-action>
+                          </v-list-item>
+                        </template>
+                      </v-virtual-scroll>
+                    </v-card>
+                  </template>
+
+
+                  <template v-slot:tab-2>
+                    Lista de acciones 2
+                  </template>
+                </container-vertical>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-col>
+
+      <v-col
+          class="ma-0 pa-4"
+      >
+        <container-vertical
+            :tabs="[{ id: 0, title:'Rutina', icon:'' }]"
+            :disabled="!this.routine.enabled"
+            single-tab
         >
           <v-row
+              v-if="routine.stored.length < 1"
               no-gutters
-              class="ma-0 mx-6 pa-0 align-center justify-space-between"
+              class="align-center justify-center fill-height"
           >
-            <v-col>
-              <v-row
-                  class="align-start justify-space-between"
-              >
-                <v-col
-                    class="ma-0 pa-2"
-                >
-                  <container-vertical
-                      :tabs="this.devices.tabs"
-                      hint="Elegí un dispositivo"
-                      class="ma-0 mr-2 pa-0"
-                  >
-
-                    <template v-slot:tab-1>
-                      <v-virtual-scroll
-                          :items="devices.favorites"
-                          height="277"
-                          item-height="105"
-                          bench="2"
-                      >
-                        <template v-slot:default="{ item }">
-                          <btn-device
-                              :key="item.id"
-                              :image-off="`icons/64/${item.image}-bw.png`"
-                              :image-on="`icons/64/${item.image}-color.png`"
-                              class="justify-center align-center"
-                              small
-                              @click="deviceButtonClick($event, item.id)"
-                          >
-                            {{ item.name }}
-                          </btn-device>
-                        </template>
-                      </v-virtual-scroll>
-                    </template>
-
-
-                    <template v-slot:tab-2>
-                      <v-virtual-scroll
-                          :items="devices.all"
-                          height="277"
-                          item-height="105"
-                          bench="2"
-                      >
-                        <template v-slot:default="{ item }">
-                          <btn-device
-                              :key="item.id"
-                              :image-off="`icons/64/${item.image}-bw.png`"
-                              :image-on="`icons/64/${item.image}-color.png`"
-                              class="justify-center align-center"
-                              small
-                              @click="deviceButtonClick($event, item.id)"
-                          >
-                            {{ item.name }}
-                          </btn-device>
-                        </template>
-                      </v-virtual-scroll>
-                    </template>
-
-                  </container-vertical>
-                </v-col>
-
-                <v-col
-                    class="ma-0 ml-2 pa-2"
-                >
-                  <container-vertical
-                      :tabs="this.actions.tabs"
-                      class="ma-0 pa-0"
-                      :disabled="!this.actions.enabled"
-                      hint="Elegí una acción"
-                  >
-
-                    <template v-slot:tab-1>
-                      <v-row
-                          v-if="devices.selected === 0"
-                          no-gutters
-                          class="align-center justify-center fill-height"
-                      >
-                        <v-card-text
-                            class="text-center txt--text text-body-2"
-                        >
-                          Seleccioná un dispositivo primero.
-                        </v-card-text>
-
-                      </v-row>
-
-                      <v-card
-                          v-else
-                          flat
-                      >
-                        <v-virtual-scroll
-                            bench="2"
-                            :items="actions.byDevice[devices.selected]"
-                            height="277"
-                            item-height="64"
-                        >
-                          <template v-slot:default="{ item }">
-                            <v-list-item :key="item">
-                              <v-list-item-action>
-                                <btn-secondary
-                                    :height="48"
-                                    @click="selectedActionHandler($event, item)"
-                                >
-                                  {{ item }}
-                                </btn-secondary>
-                              </v-list-item-action>
-                            </v-list-item>
-                          </template>
-                        </v-virtual-scroll>
-                      </v-card>
-                    </template>
-
-
-                    <template v-slot:tab-2>
-                      Lista de acciones 2
-                    </template>
-                  </container-vertical>
-                </v-col>
-              </v-row>
-            </v-col>
+            <v-card-text
+                class="text-center txt--text text-body-2"
+            >
+              Todavía no agregaste ningún dispositivo.
+            </v-card-text>
           </v-row>
-        </v-col>
 
-        <v-col
-            class="ma-0 pa-4"
-        >
-          <container-vertical
-              :tabs="[{ id: 0, title:'Rutina', icon:'' }]"
-              :disabled="!this.routine.enabled"
-              single-tab
+          <v-virtual-scroll
+              v-else
+              bench="2"
+              :items="routine.stored"
+              height="277"
+              item-height="64"
           >
-            <v-row
-                v-if="routine.stored.length < 1"
-                no-gutters
-                class="align-center justify-center fill-height"
-            >
-              <v-card-text
-                  class="text-center txt--text text-body-2"
+            <template v-slot:default="{ item }">
+              <v-row
+                  no-gutters
+                  class="align-center justify-space-around"
               >
-                Todavía no agregaste ningún dispositivo.
-              </v-card-text>
-            </v-row>
-
-            <v-virtual-scroll
-                v-else
-                bench="2"
-                :items="routine.stored"
-                height="277"
-                item-height="64"
-            >
-              <template v-slot:default="{ item }">
-                <v-row
-                    no-gutters
-                    class="align-center justify-space-around"
+                <v-list-item-action
+                    v-if="routine.stored.length > 1"
+                    class="mx-2 mr-1"
                 >
-                  <v-list-item-action
-                      v-if="routine.stored.length > 1"
-                      class="mx-2 mr-1"
+                  <v-btn
+                      depressed
+                      fab
+                      color="primary darken-1"
+                      height="24"
+                      width="24"
+                      @click="moveUp({action: item.action, id: item.id, time: item.time})"
                   >
-                    <v-btn
-                        depressed
-                        fab
-                        color="primary darken-1"
-                        height="24"
-                        width="24"
-                        @click="moveUp({action: item.action, id: item.id, time: item.time})"
-                    >
-                      <v-icon>mdi-arrow-up-thick</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
+                    <v-icon>mdi-arrow-up-thick</v-icon>
+                  </v-btn>
+                </v-list-item-action>
 
-                  <v-list-item-action
-                      v-if="routine.stored.length > 1"
-                      class="mx-2 ml-1"
+                <v-list-item-action
+                    v-if="routine.stored.length > 1"
+                    class="mx-2 ml-1"
+                >
+                  <v-btn
+                      depressed
+                      fab
+                      color="primary darken-1"
+                      height="24"
+                      width="24"
+                      @click="moveDown({action: item.action, id: item.id, time: item.time})"
                   >
-                    <v-btn
-                        depressed
-                        fab
-                        color="primary darken-1"
-                        height="24"
-                        width="24"
-                        @click="moveDown({action: item.action, id: item.id, time: item.time})"
-                    >
-                      <v-icon>mdi-arrow-down-thick</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
+                    <v-icon>mdi-arrow-down-thick</v-icon>
+                  </v-btn>
+                </v-list-item-action>
 
-                  <v-list-item-content>
-                    <v-list-item-title
-                        class="text-center"
-                    >
-                      {{ getDeviceNameById(item.id) }}: {{ item.action }}
-                    </v-list-item-title>
-                  </v-list-item-content>
-
-                  <v-list-item-action
-                      class="mx-2"
+                <v-list-item-content>
+                  <v-list-item-title
+                      class="text-center"
                   >
-                    <v-btn
-                        depressed
-                        fab
-                        color="error"
-                        height="24"
-                        width="24"
-                        @click="removeStoredAction({action: item.action, id: item.id, time: item.time})"
-                    >
-                      <v-icon>mdi-close-circle-outline</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
-                </v-row>
-              </template>
-            </v-virtual-scroll>
-          </container-vertical>
-        </v-col>
-      </v-row>
+                    {{ getDeviceNameById(item.id) }}: {{ item.action }}
+                  </v-list-item-title>
+                </v-list-item-content>
 
-      <v-row
-          no-gutters
-          class="ma-0 pa-0 justify-center align-center"
+                <v-list-item-action
+                    class="mx-2"
+                >
+                  <v-btn
+                      depressed
+                      fab
+                      color="error"
+                      height="24"
+                      width="24"
+                      @click="removeStoredAction({action: item.action, id: item.id, time: item.time})"
+                  >
+                    <v-icon>mdi-close-circle-outline</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-row>
+            </template>
+          </v-virtual-scroll>
+        </container-vertical>
+      </v-col>
+    </v-row>
+
+    <v-row
+        no-gutters
+        class="ma-0 pa-0 justify-center align-center"
+    >
+      <btn-primary
+          :height="64"
+          :disabled="!this.routine.enabled"
       >
-        <btn-primary
-            :height="64"
-            :disabled="!this.routine.enabled"
-        >
-          Crear
-        </btn-primary>
-      </v-row>
-    </v-container>
-  </header-true-view>
+        Crear
+      </btn-primary>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import HeaderTrueView from "@/views/headerTrueView";
 import containerVertical from "@/components/containers/ContainerVertical";
 import BtnPrimary from "@/components/buttons/Primary";
 import BtnSecondary from "@/components/buttons/Secondary";
@@ -282,7 +279,7 @@ import HelpButton from "@/components/accesories/helpButton";
 
 export default {
   name: "RoutineCreationView",
-  components: {HelpButton, TxtField, BtnDevice, BtnSecondary, BtnPrimary, HeaderTrueView, containerVertical},
+  components: {HelpButton, TxtField, BtnDevice, BtnSecondary, BtnPrimary, containerVertical},
   data: () => ({
     rules: {
       required: value => !!value || 'Este campo es obligatorio'

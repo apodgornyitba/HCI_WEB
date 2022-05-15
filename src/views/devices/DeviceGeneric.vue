@@ -1,9 +1,7 @@
 <template>
-  <v-app>
-    <header-true-view>
       <v-row
           no-gutters
-          class="mt-16 justify-center align-center"
+          class="justify-center align-center"
       >
         <v-col
             no-gutters
@@ -29,16 +27,12 @@
           <slot name="right-pane"></slot>
         </v-col>
       </v-row>
-    </header-true-view>
-  </v-app>
 </template>
 
 <script>
-import HeaderTrueView from "@/views/headerTrueView";
-
 export default {
   name: "DeviceGeneric",
-  components: {HeaderTrueView}
+  components: {}
 }
 </script>
 

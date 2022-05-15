@@ -1,99 +1,87 @@
 <template>
-  <v-app>
+  <div>
+    <v-row no-gutters
+           class="align-center justify-end">
+      <help-button
+          :message="'Seleccione los ambientes que desee eliminar del hogar.'"
+          class="text-right"
+      />
+    </v-row>
+    <v-row no-gutters
+           class="align-center justify-end">
+      <v-col>
+        <template>
 
-    <header-true-view>
-
-      <v-main>
-
-        <v-row no-gutters
-               class="align-center justify-end">
-          <help-button
-              :message="'Seleccione los ambientes que desee eliminar del hogar.'"
-              class="text-right"
-          />
-        </v-row>
-        <v-row no-gutters
-               class="align-center justify-end">
-          <v-col>
-            <template>
-
-              <container-vertical
-                  :tabs="this.tabs"
-                  class="ma-2 pa-0"
-              >
+          <container-vertical
+              :tabs="this.tabs"
+              class="ma-2 pa-0"
+          >
 
 
-                <template v-slot:tab-1>
-
-                </template>
-
-              </container-vertical>
+            <template v-slot:tab-1>
 
             </template>
-          </v-col>
-          <v-col class="align-center justify-center" cols="6">
-            <template>
-              <container-noutline
-                  :title="`${ this.houseName }`"
-              >
-                <v-row>
-                  <template v-for="room in rooms">
-                    <card-modify
-                        :key="room.name"
-                        :name="room.name"
-                        :image="room.image"
-                        class="my-3 mx-1 pa-0"
-                    />
-                  </template>
-                </v-row>
-              </container-noutline>
-            </template>
-          </v-col>
-          <v-col class="align-center justify-center" cols="3">
-            <v-row
-                v-for="(button, index) in buttons"
-                :key="index"
-                class="ma-14 "
-            >
-              <v-tooltip bottom>
-                <template v-slot:activator="{on, attrs}">
-                  <v-btn
-                      :to="`${ button.path }`"
-                      icon
-                      outlined
-                      v-bind="attrs"
-                      v-on="on"
-                      width="50"
-                      height="50"
-                      :color="`${ button.color }`"
-                  >
-                    <v-icon large>{{ button.icon }}</v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ button.text }}</span>
-              </v-tooltip>
+
+          </container-vertical>
+
+        </template>
+      </v-col>
+      <v-col class="align-center justify-center" cols="6">
+        <template>
+          <container-noutline
+              :title="`${ this.houseName }`"
+          >
+            <v-row>
+              <template v-for="room in rooms">
+                <card-modify
+                    :key="room.name"
+                    :name="room.name"
+                    :image="room.image"
+                    class="my-3 mx-1 pa-0"
+                />
+              </template>
             </v-row>
-          </v-col>
+          </container-noutline>
+        </template>
+      </v-col>
+      <v-col class="align-center justify-center" cols="3">
+        <v-row
+            v-for="(button, index) in buttons"
+            :key="index"
+            class="ma-14 "
+        >
+          <v-tooltip bottom>
+            <template v-slot:activator="{on, attrs}">
+              <v-btn
+                  :to="`${ button.path }`"
+                  icon
+                  outlined
+                  v-bind="attrs"
+                  v-on="on"
+                  width="50"
+                  height="50"
+                  :color="`${ button.color }`"
+              >
+                <v-icon large>{{ button.icon }}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ button.text }}</span>
+          </v-tooltip>
         </v-row>
-      </v-main>
-
-
-    </header-true-view>
-
-  </v-app>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
-import HeaderTrueView from "@/views/headerTrueView";
 import HelpButton from "@/components/accesories/helpButton";
 import ContainerNoutline from "@/components/containers/ContainerNoutline";
-// import TxtField from "@/components/accesories/txt-field";
 import CardModify from "@/components/cardModify";
 import ContainerVertical from "@/components/containers/ContainerVertical";
 
 export default {
   name: "modifyHomeView",
-  components: {ContainerVertical, CardModify, ContainerNoutline, HelpButton, HeaderTrueView},
+  components: {ContainerVertical, CardModify, ContainerNoutline, HelpButton},
 
   data: () => ({
     buttons: [

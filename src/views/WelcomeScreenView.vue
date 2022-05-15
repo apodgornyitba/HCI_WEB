@@ -1,21 +1,21 @@
 <template>
   <v-container>
     <v-row>
-    <v-col>
-      <help-button
-          :message="'Seleccione un usuario para continuar'"
-          class="text-right"
-      />
-    </v-col>
+      <v-col>
+        <help-button
+            :message="'Seleccione un usuario para continuar'"
+            class="text-right"
+        />
+      </v-col>
     </v-row>
     <v-row class="align-center text-center">
       <v-col>
         <v-img
-          :src="require('../assets/logo.png')"
-          class="my-3"
-          contain
-          height="450"
-          width="450"
+            :src="require('../assets/logo.png')"
+            class="my-3"
+            contain
+            height="450"
+            width="450"
         />
       </v-col>
 
@@ -33,10 +33,11 @@
 </template>
 
 <script>
-  import UserTemplate from "@/components/UserTemplate";
-  import HelpButton from "@/components/accesories/helpButton";
-  export default {
-    name: 'WelcomeScreen',
-    components: {HelpButton, UserTemplate},
-  }
+import UserTemplate from "@/components/UserTemplate";
+import HelpButton from "@/components/accesories/helpButton";
+
+export default {
+  name: 'WelcomeScreen',
+  components: {HelpButton, UserTemplate},
+}
 </script>

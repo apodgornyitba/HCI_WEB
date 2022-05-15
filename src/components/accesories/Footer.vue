@@ -1,5 +1,6 @@
 <template>
     <v-footer
+        app
         color="secondary darken-1"
         class="txt--text text--lighten-1"
     >

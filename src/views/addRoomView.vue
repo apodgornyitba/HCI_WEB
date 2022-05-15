@@ -1,7 +1,5 @@
 <template>
-  <v-app>
-    <header-true-view>
-      <v-main>
+    <div>
         <v-row no-gutters
                class="align-center justify-end">
           <help-button
@@ -50,14 +48,10 @@
             Cancelar
           </btn-tertiary>
         </v-row>
-      </v-main>
-    </header-true-view>
-  </v-app>
+    </div>
 </template>
 
 <script>
-
-import HeaderTrueView from "@/views/headerTrueView";
 import CardAddDevice from "@/components/cardAddDevice";
 import BtnTertiary from "@/components/buttons/Tertiary";
 import BtnPrimary from "@/components/buttons/Primary";
@@ -66,7 +60,7 @@ import TxtField from "@/components/accesories/txt-field";
 
 export default {
   name: "addRoom",
-  components: {TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice, HeaderTrueView},
+  components: {TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice},
   data: () => ({
     rooms: [
       {name: 'Dorm. princ.', image: 'bed_big'},
