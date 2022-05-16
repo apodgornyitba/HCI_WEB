@@ -42,16 +42,61 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import HelpD from "@/components/accesories/helpD";
+import {mapState, mapActions} from "vuex";
 
 export default {
   name: "PersianaView",
   components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
+    blinds: {
+      id: "eb5e87892a3dfd81",
+      name: "my blinds",
+      type: {
+        id: "eu0v2xgprrhhg41g",
+        name : "blinds",
+        powerUsage: 350,
+      },
+    },
+    result: null,
+    controller: null,
     deviceOn: false,
     position: 0,
   }),
+  computed:{
+    ...mapState("blinds", {
+      on_off: (state) => state.on_off,
+    }),
+  },
   methods: {
+    ...mapActions("blinds", {
+      $modifyBlinds: "modify",
+      $openBlinds: "open",
+      $closeBlinds: "close",
+      $setLevelBlinds: "setLevel",
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2);
+    },
+    async openBlinds(){
+      try{
+        await this.$openBlinds(this.blinds)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
+    async closeBlinds(){
+      try{
+        await this.$closeBlinds(this.blinds)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
     stateChange(active) {
+      if(!active){
+        this.closeBlinds();
+      } else {
+        this.openBlinds();
+      }
       this.deviceOn = active;
 
       if (active === false) {

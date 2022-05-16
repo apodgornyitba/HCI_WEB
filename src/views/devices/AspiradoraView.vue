@@ -23,10 +23,16 @@
           <v-btn-toggle
               mandatory
           >
-            <v-btn :disabled="!deviceOn || !available">
+            <v-btn
+                :disabled="!deviceOn || !available"
+                @click="pauseVacuum"
+            >
               <v-icon>mdi-pause</v-icon>
             </v-btn>
-            <v-btn :disabled="!deviceOn || !available">
+            <v-btn
+                :disabled="!deviceOn || !available"
+                @click="startVacuum"
+            >
               <v-icon>mdi-play</v-icon>
             </v-btn>
           </v-btn-toggle>
@@ -115,6 +121,7 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
+import {mapActions} from "vuex";
 
 export default {
   name: "AspiradoraView",
@@ -123,8 +130,50 @@ export default {
     rooms: [      /*LISTA DE HABITACIONES AGREGADAS*/],
     deviceOn: false,
     available: false,
+    vacuum: {
+      id: "740267f7a8e9631e",
+      name: "my vacuum",
+      type: {
+        id: "ofglvd9gqx8yfl3l",
+        name: "vacuum",
+        powerUsage: 300,
+      },
+    },
   }),
   methods: {
+    ...mapActions("vacuum", {
+      $modifyVacuum: "modify",
+      $startVacuum: "start",
+      $pauseVacuum: "pause",
+      $dockVacuum: "dock",
+      $setModeVacuum: "setMode",
+      $setLocationVacuum: "setLocation",
+
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2);
+    },
+    async startVacuum(){
+      try{
+        await this.$startVacuum(this.vacuum);
+      } catch (e){
+        this.setResult(e);
+      }
+    },
+    async pauseVacuum(){
+      try{
+        await this.$pauseVacuum(this.vacuum);
+      } catch (e){
+        this.setResult(e);
+      }
+    },
+    async dockVacuum(){
+      try{
+        await this.$dockVacuum(this.vacuum);
+      } catch (e){
+        this.setResult(e);
+      }
+    },
     stateChange(active) {
       this.deviceOn = active;
     },
@@ -139,6 +188,7 @@ export default {
       this.available = true;
     },
     clickCargarMode(isActive, e) {
+      this.dockVacuum();
       this.$refs.btnTrapearMode.setActive(false, e);
       this.$refs.btnAspirarMode.setActive(false, e);
       this.available = false;

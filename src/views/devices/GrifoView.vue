@@ -57,17 +57,64 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceComponent from "@/components/deviceComponent";
 import HelpD from "@/components/accesories/helpD";
+import {mapState, mapActions} from "vuex";
 
 export default {
   name: "GrifoView",
   components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
     unidades:[ 'Litro', 'Decilitro', 'Centilitro', 'Mililitro' ],
+    faucet: {
+      id: "7b622e89d3c0765a",
+      name: "faucet1",
+      type: {
+        id: "dbrlsh7o5sn8ur4i",
+        name: "faucet",
+        powerUsage: 15,
+      },
+    },
+    result: null,
+    controller: null,
     deviceOn: false,
     position: 0,
   }),
+
+  computed:{
+    ...mapState("faucet", {
+      on_off: (state) => state.on_off,
+    }),
+  },
+
   methods: {
+    ...mapActions("faucet", {
+      $modifyFaucet: "modify",
+      $openFaucet: "open",
+      $closeFaucet: "close",
+      $dispenseFaucet: "dispense",
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2);
+    },
+    async openFaucet(){
+      try{
+        await this.$openFaucet(this.faucet)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
+    async closeFaucet(){
+      try{
+        await this.$closeFaucet(this.faucet)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
     stateChange(active) {
+      if(!active){
+        this.closeFaucet();
+      } else{
+        this.openFaucet();
+      }
       this.deviceOn = active;
 
       if (active === false) {

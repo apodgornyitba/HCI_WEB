@@ -79,6 +79,7 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import HelpD from "@/components/accesories/helpD";
+import {mapActions} from "vuex";
 
 export default {
   name: "LamparaView",
@@ -96,9 +97,44 @@ export default {
           { desc: 'white' },
           { desc: 'red lighten-5' }
     ],
-    color: 'black'
+    color: 'black',
+    lamp: {
+      id: "260fe46abd2014b9",
+      name: "my lamp",
+      type: {
+        id: "go46xmbqeomjrsjr",
+        name: "lamp",
+        powerUsage: 15,
+      },
+    },
+    result: null,
+    controller: null,
   }),
   methods: {
+    ...mapActions("lamp", {
+      $modifyLamp: "modify",
+      $turnOnLamp: "turnOn",
+      $turnOffLamp: "turnOff",
+      $setColorLamp: "setColor",
+      $setBrightnessLamp: "setBrightness",
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2);
+    },
+    async turnOnLamp(){
+      try{
+        await this.$turnOnLamp(this.lamp)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
+    async turnOffLamp(){
+      try{
+        await this.$turnOffLamp(this.lamp)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
     setColor(color) {
       this.color = color;
     },
@@ -109,6 +145,11 @@ export default {
       return this.color;
     },
     stateChange(active) {
+      if(!active){
+        this.turnOffLamp(this.lamp);
+      } else{
+        this.turnOnLamp(this.lamp);
+      }
       this.deviceOn = active;
 
       if (active === false) {

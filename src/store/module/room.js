@@ -1,4 +1,4 @@
-import { Room, RoomApi } from "../../api/room";
+import { Room, RoomApi } from "@/api/room";
 
 export default {
   namespaced: true,

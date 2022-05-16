@@ -132,6 +132,7 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
+import {mapActions} from "vuex";
 
 export default {
   name: "ACView",
@@ -141,8 +142,46 @@ export default {
     hor:['Automatico', '-90º', '-45º', '0', '45º', '90º'   ],
     state: "auto",
     deviceOn: false,
+    ac: {
+      id: "c6e21e5ab8d7ac28",
+      name: "my ac",
+      type: {
+        id: "li6cbv5sdlatti0j",
+        name: "ac",
+        powerUsage: 1600,
+      },
+    },
+    result: null,
+    controller: null,
   }),
   methods:{
+    ...mapActions("ac", {
+      $modifyAC: "modify",
+      $turnOnAC: "turnOn",
+      $turnOffAC: "turnOff",
+      $setTemperatureAC: "setTemperature",
+      $setModeAC: "setMode",
+      $setVerticalSwingAC: "setVerticalSwing",
+      $setHorizontalSwingAC: "setHorizontalSwing",
+      $setFanSpeedAC: "setFanSpeed",
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2);
+    },
+    async turnOnAC(){
+      try{
+        await this.$turnOnAC(this.ac)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
+    async turnOffAC(){
+      try{
+        await this.$turnOffAC(this.ac)
+      }catch (e){
+        this.setResult(e);
+      }
+    },
     toggleStatus(){
       this.$refs.btnIntensity.setActive(true);
 
@@ -170,6 +209,11 @@ export default {
       return `icons/64/fan_level_${ this.state }-color.png`
     },
     stateChange(active) {
+      if(!active){
+        this.turnOffAC(this.ac);
+      }else{
+        this.turnOnAC(this.ac);
+      }
       this.deviceOn = active;
     },
     clickFrioMode(isActive, e) {

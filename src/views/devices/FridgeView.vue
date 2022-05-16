@@ -88,14 +88,33 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
+import {mapActions} from "vuex";
 
 export default {
   name: "FridgeView",
   components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
     deviceOn: false,
+    fridge: {
+      id: "d3bfbae3f6a5044e",
+      name: "my fridge",
+      type: {
+        id: "rnizejqr2di0okho",
+        name: "refrigerator",
+        powerUsage: 90,
+      },
+    },
   }),
   methods: {
+    ...mapActions("fridge", {
+      $modifyFridge: "modify",
+      $setTemperatureFridge: "setTemperature",
+      $setFreezerTemperatureFridge: "setFreezerTemperature",
+      $setModeFridge: "setMode",
+    }),
+    setResult(result){
+      this.result = JSON.stringify(result, null, 2);
+    },
     stateChange(active) {
       this.deviceOn = active;
     },

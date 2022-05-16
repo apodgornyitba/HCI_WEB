@@ -147,6 +147,7 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
+import {mapActions} from "vuex";
 
 export default {
   name: "HornoView",
@@ -157,47 +158,89 @@ export default {
     modeOn2: false,
     switchState1: false,
     switchState2: false,
+    oven: {
+      id: "d02cea9e73688acb",
+      name: "my oven",
+      type: {
+        id: "im77xxyulpegfmv8",
+        name: "oven",
+        powerUsage: 1225,
+      },
+    },
+    result: null,
+    controller: null,
   }),
   methods: {
-    getState1() {
-      if (this.switchState1) {
-        return "Completo";
-      }
-      return "Económico";
-    },
-    getState2() {
-      if (this.switchState2) {
-        return "Convencional";
-      }
+      ...mapActions("oven", {
+        $modifyOven: "modify",
+        $turnOnOven: "turnOn",
+        $turnOffOven: "turnOff",
+        $setTemperatureOven: "setTemperature",
+        $setHeatOven: "setHeat",
+        $setGrillOven: "setGrill",
+        $setConvectionOven: "setConvection",
+      }),
+      setResult(result){
+        this.result = JSON.stringify(result, null, 2);
+      },
+      async turnOnOven(){
+        try{
+          await this.$turnOnOven(this.oven)
+        }catch (e){
+          this.setResult(e);
+        }
+      },
+      async turnOffOven(){
+        try{
+          await this.$turnOffOven(this.oven)
+        }catch (e){
+          this.setResult(e);
+        }
+      },
+      getState1() {
+        if (this.switchState1) {
+          return "Completo";
+        }
+        return "Económico";
+      },
+      getState2() {
+        if (this.switchState2) {
+          return "Convencional";
+        }
 
-      return "Económico";
+        return "Económico";
+      },
+      stateChange(active) {
+        if(!active){
+          this.turnOffOven(this.oven);
+        }else{
+          this.turnOnOven(this.oven);
+        }
+        this.deviceOn = active;
+      },
+      clickArribaMode(isActive, e) {
+        this.$refs.btnAbajoMode.setActive(false, e);
+        this.$refs.btnConvencionalMode.setActive(false, e);
+      },
+      clickAbajoMode(isActive, e) {
+        this.$refs.btnArribaMode.setActive(false, e);
+        this.$refs.btnConvencionalMode.setActive(false, e);
+      },
+      clickConvencionalMode(isActive, e) {
+        this.$refs.btnArribaMode.setActive(false, e);
+        this.$refs.btnAbajoMode.setActive(false, e);
+      },
+      clickGrillMode(isActive, e) {
+        this.$refs.btnConvectorMode.setActive(false, e);
+        this.modeOn1 = true;
+        this.modeOn2 = false;
+      },
+      clickConvectorMode(isActive, e) {
+        this.$refs.btnGrillMode.setActive(false, e);
+        this.modeOn2 = true;
+        this.modeOn1 = false;
+      },
     },
-    stateChange(active) {
-      this.deviceOn = active;
-    },
-    clickArribaMode(isActive, e) {
-      this.$refs.btnAbajoMode.setActive(false, e);
-      this.$refs.btnConvencionalMode.setActive(false, e);
-    },
-    clickAbajoMode(isActive, e) {
-      this.$refs.btnArribaMode.setActive(false, e);
-      this.$refs.btnConvencionalMode.setActive(false, e);
-    },
-    clickConvencionalMode(isActive, e) {
-      this.$refs.btnArribaMode.setActive(false, e);
-      this.$refs.btnAbajoMode.setActive(false, e);
-    },
-    clickGrillMode(isActive, e) {
-      this.$refs.btnConvectorMode.setActive(false, e);
-      this.modeOn1 = true;
-      this.modeOn2 = false;
-    },
-    clickConvectorMode(isActive, e) {
-      this.$refs.btnGrillMode.setActive(false, e);
-      this.modeOn2 = true;
-      this.modeOn1 = false;
-    },
-  },
 }
 </script>
 
