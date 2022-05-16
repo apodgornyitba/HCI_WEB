@@ -178,11 +178,27 @@ export default {
         this.validRoomName = false;
       }
     },
+
     setSelectedRoom(roomId) {
-      if (this.selectedRoom && this.selectedRoom !== roomId) {
-        this.$refs[`btn-${this.selectedRoom}`][0].setActive(false);
-        this.$refs[`radio-${this.selectedRoom}`][0].isActive = false;
+      if (this.selectedRoom) {
+        for (const ref in this.$refs) {
+          const split = ref.split('-');
+
+          if (split[1] !== roomId) {
+            switch (split[0]) {
+              case 'btn':
+                this.$refs[ref][0].setActive(false);
+                break;
+              case 'radio':
+                this.$refs[ref][0].isActive = false;
+                break;
+              default:
+                break;
+            }
+          }
+        }
       }
+
       this.selectedRoom = roomId;
     },
 
@@ -193,9 +209,7 @@ export default {
 
     radioButtonClickHandler(id) {
       this.setSelectedRoom(id);
-      if (this.selectedRoom) {
-        this.$refs[`btn-${this.selectedRoom}`][0].setActive(true);
-      }
+      this.$refs[`btn-${this.selectedRoom}`][0].setActive(true);
     },
 
 
