@@ -7,28 +7,30 @@
   >
     <div class="d-flex align-center">
 
-      <a :href="(this.homePath) ? this.homePath : '/'">
+      <router-link :to="(this.altHomePath && this.user.id) ? this.altHomePath : '/'">
         <v-img
             :src="require('@/assets/logo-name.png')"
         />
-      </a>
+      </router-link>
     </div>
 
-    <v-col offset-sm="7"/>
-    <v-btn v-if="this.showButtons"
-        color="black"
+    <v-col
+        offset-sm="7"/>
+    <v-btn v-if="user.id"
+           color="black"
            to="/mainScreen"
-        text
+           text
     >
       MI HOGAR
     </v-btn>
 
-    <div v-if="this.showUser">
-      <strong style="color:black"> {{ username }} </strong>
+    <div v-if="user.id">
+      <strong style="color:black"> {{ user.name }} </strong>
       <v-btn
           color="black"
           icon
           to="/"
+          @click="logOutHandler"
       >
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -37,17 +39,31 @@
 </template>
 
 <script>
+import {mapMutations, mapGetters} from "vuex";
+
 export default {
   name: "HeaderV",
   props: {
-    'homePath': String,
+    'altHomePath': String,
     'showUser': Boolean,
-    'showButtons': Boolean
   },
   data: () => ({
-    username: localStorage.getItem('username'),
     offset: true,
   }),
+  computed: {
+    ...mapGetters({
+      user: 'user/data',
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      clearUser: 'user/clearUserData'
+    }),
+
+    logOutHandler() {
+      this.clearUser();
+    },
+  }
 }
 </script>
 

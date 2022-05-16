@@ -1,9 +1,7 @@
 <template>
   <v-app id="app">
     <HeaderV
-        home-path="/mainScreen"
-        :show-user="true"
-        :show-buttons="true"
+        alt-home-path="/mainScreen"
     />
 
     <v-main>

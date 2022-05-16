@@ -7,8 +7,15 @@ import store from './store'
 Vue.config.productionTip = false
 
 new Vue({
+  el: '#app',
+
   router,
   vuetify,
   store,
-  render: h => h(App)
+
+  render: h => h(App),
+
+  beforeCreate() {
+    this.$store.commit('user/initializeStore');
+  }
 }).$mount('#app')
