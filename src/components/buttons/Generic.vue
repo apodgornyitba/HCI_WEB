@@ -19,7 +19,7 @@
     />
 
     <v-card-text
-        class="ma-1 pa-1"
+        class="ma-1 pa-1 btn-generic--text"
     >
       <slot></slot>
     </v-card-text>
@@ -113,7 +113,11 @@ export default {
   flex-direction: column !important;
 }
 
-.btn-generic.btn--active {
+.btn-generic .btn--active {
   border: 3px solid var(--v-primary-darken1) !important;
+}
+
+.btn-generic .btn-generic--text {
+  white-space: pre-line;
 }
 </style>

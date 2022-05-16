@@ -62,7 +62,7 @@ import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
-import ContainerWithHint from "@/components/accesories/ContainerWithHint";
+import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
 export default {
   name: "PuertaView",

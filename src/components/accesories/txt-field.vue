@@ -1,23 +1,21 @@
 <template>
-  <container-with-hint
+  <v-text-field
+      v-bind="$attrs"
+      ref="txtField"
+      :label="this.label"
       :hint="this.hint"
-  >
-      <v-text-field
-          v-bind="$attrs"
-          :label="this.label"
-          outlined
-          clearable
-          hide-details
-      />
-  </container-with-hint>
+      persistent-hint
+      outlined
+      clearable
+      @change="change"
+      @update:error="updateError"
+  />
 </template>
 
 <script>
-import ContainerWithHint from "@/components/accesories/ContainerWithHint";
 
 export default {
   name: "txt-field",
-  components: {ContainerWithHint},
   props: {
     label: {
       type: String,
@@ -28,6 +26,14 @@ export default {
       required: true
     },
   },
+  methods: {
+    change(e) {
+      this.$emit('change', e);
+    },
+    updateError(value) {
+      this.$emit('update:error', value);
+    }
+  }
 }
 </script>
 

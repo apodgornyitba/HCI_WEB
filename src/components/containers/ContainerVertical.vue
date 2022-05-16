@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import ContainerWithHint from "@/components/accesories/ContainerWithHint";
+import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
 export default {
   name: "ContainerVertical",

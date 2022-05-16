@@ -49,7 +49,7 @@ import CardRutinas from "@/components/cardRutinas";
 import CardRooms from "@/components/cardRooms";
 import CardDispFav from "@/components/cardDispFav";
 import HelpButton from "@/components/accesories/helpButton";
-import FloatingContainer from "@/components/accesories/FloatingContainer";
+import FloatingContainer from "@/components/containers/FloatingContainer";
 
 export default {
   name: "MainScreenView",

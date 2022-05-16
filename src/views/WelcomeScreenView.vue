@@ -32,7 +32,7 @@
 <script>
 import UserTemplate from "@/components/UserTemplate";
 import HelpButton from "@/components/accesories/helpButton";
-import FloatingContainer from "@/components/accesories/FloatingContainer";
+import FloatingContainer from "@/components/containers/FloatingContainer";
 
 export default {
   name: 'WelcomeScreen',

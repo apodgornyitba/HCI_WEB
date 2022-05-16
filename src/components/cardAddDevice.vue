@@ -1,20 +1,14 @@
 <template>
-  <v-card
-      flat
-      max-width="250"
+  <btn-device
+      ref="btnDevice"
+      disable-border
+      :image-off="`icons/64/${this.image}-bw.png`"
+      :image-on="`icons/64/${this.image}-color.png`"
+      class="ma-3 pa-0"
+      @click="clickHandler"
   >
-    <v-card-actions>
-      <v-col>
-        <btn-device
-            :image-off= "`icons/64/${this.image}-bw.png`"
-            class="my-3 mx-1 pa-0"
-            disabled
-        >
-          {{ this.name }}
-        </btn-device>
-      </v-col>
-    </v-card-actions>
-  </v-card>
+    {{ this.name }}
+  </btn-device>
 </template>
 
 <script>
@@ -27,8 +21,17 @@ export default {
   props: {
     'name': String,
     'image': String,
-  } 
+  },
 
+  methods: {
+    clickHandler(active, e) {
+      this.$emit('click', {active: active, event: e});
+    },
+
+    setActive(value) {
+      this.$refs.btnDevice.setActive(value);
+    }
+  }
 }
 </script>
 

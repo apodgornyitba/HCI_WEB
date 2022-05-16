@@ -8,6 +8,7 @@
       <v-container
           fluid
           fill-height
+          class="justify-center align-center"
       >
         <router-view/>
       </v-container>
