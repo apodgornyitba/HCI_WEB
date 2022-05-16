@@ -1,6 +1,7 @@
 <template>
   <btn-device
       ref="btnDevice"
+      v-bind="$attrs"
       disable-border
       :image-off="`icons/64/${this.image}-bw.png`"
       :image-on="`icons/64/${this.image}-color.png`"

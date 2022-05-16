@@ -7,6 +7,7 @@
       <v-card
           :outlined="outlined"
           :class="classes.rowCard"
+          elevation="0"
       >
         <v-row
             no-gutters
@@ -32,6 +33,7 @@ export default {
   props: {
     hint: String,
     outlined: Boolean,
+    errorHint: Boolean,
   },
   computed: {
     classes() {
@@ -51,7 +53,10 @@ export default {
           'text-center',
           'txt--text',
           'text-subtitle-2',
-          'text--darken-1',
+          {
+            'text--darken-1': !this.errorHint,
+            'text--darken-2': this.errorHint,
+          },
         ],
         rowCard: {
           'mx-6': this.outlined,

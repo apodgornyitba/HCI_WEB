@@ -13,13 +13,21 @@
         >
           Agregar un ambiente
         </h1>
-        <txt-field
-            :value="roomName"
+        <v-text-field
+            v-model="roomName"
             :rules="[rules.required, rules.name]"
+
             label="Nombre del ambiente"
             hint="Introducí el nombre para tu nuevo ambiente"
-            @update:error="roomNameChangeError"
+
+            persistent-hint
+            outlined
+            clearable
+
             class="mx-1"
+
+            @update:error="roomNameChangeError"
+            @change="roomNameChange"
         />
       </v-col>
     </v-row>
@@ -59,13 +67,22 @@
     <v-row
         class="my-2 mt-5 align-center text-center justify-center"
     >
-      <btn-primary
-          to="/mainScreen"
-          :disabled="confirmButtonDisabled"
+      <container-with-hint
+          :hint="confirmBtn.errorMsg"
+          error-hint
       >
-        Confirmar
-      </btn-primary>
+        <btn-primary
+            :disabled="confirmButtonDisabled"
+            :loading="confirmBtn.waitingApi"
+            :color="confirmBtn.color"
+            @click="createRoom"
+        >
+          <v-icon v-if="confirmBtn.icon"> mdi-check-bold</v-icon>
+          <div v-else> Confirmar</div>
+        </btn-primary>
+      </container-with-hint>
     </v-row>
+
     <v-row class="ma-auto align-center text-center justify-center">
       <btn-tertiary
           @click="$router.back()"
@@ -81,17 +98,25 @@ import CardAddDevice from "@/components/cardAddDevice";
 import BtnTertiary from "@/components/buttons/Tertiary";
 import BtnPrimary from "@/components/buttons/Primary";
 import HelpButton from "@/components/accesories/helpButton";
-import TxtField from "@/components/accesories/txt-field";
 import FloatingContainer from "@/components/containers/FloatingContainer";
 import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
+import {mapActions} from "vuex";
+import {Room} from "@/api/room";
+
 export default {
   name: "addRoom",
-  components: {ContainerWithHint, FloatingContainer, TxtField, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice},
+  components: {ContainerWithHint, FloatingContainer, HelpButton, BtnPrimary, BtnTertiary, CardAddDevice},
   data: () => ({
     roomName: '',
     validRoomName: false,
     selectedRoom: null,
+    confirmBtn: {
+      waitingApi: false,
+      color: '',
+      icon: false,
+      errorMsg: '',
+    },
 
     rooms: [
       {id: 'bedroomMain', name: 'Dormitorio principal', image: 'bed_big'},
@@ -135,6 +160,17 @@ export default {
   },
 
   methods: {
+    ...mapActions("room", {
+      $createRoom: "create",
+      $getRoom: "get",
+      $getAllRooms: "getAll",
+    }),
+
+    roomNameChange() {
+      if (this.confirmBtn.color === 'error') {
+        this.confirmBtn.color = '';
+      }
+    },
     roomNameChangeError(val) {
       if (!val) {
         this.validRoomName = true;
@@ -159,6 +195,48 @@ export default {
       this.setSelectedRoom(id);
       if (this.selectedRoom) {
         this.$refs[`btn-${this.selectedRoom}`][0].setActive(true);
+      }
+    },
+
+
+    /* API */
+    async createRoom() {
+      if (this.confirmBtn.waitingApi || this.confirmBtn.color) {
+        return;
+      }
+
+      const room = new Room(null, this.roomName);
+
+      this.confirmBtn.waitingApi = true;
+      try {
+        await this.$createRoom(room);
+
+        this.confirmBtn.waitingApi = false;
+        this.confirmBtn.color = 'info';
+        this.confirmBtn.icon = true;
+
+        setTimeout(() => this.$router.back(), 1000);
+
+      } catch (e) {
+        let errorMsg = '';
+
+        this.confirmBtn.waitingApi = false;
+        this.confirmBtn.color = 'error';
+        this.confirmBtn.icon = false;
+
+        switch (e.code) {
+          case 1:
+            errorMsg = `El nombre '${this.roomName} es inválido.'`;
+            break;
+          case 2:
+            errorMsg = `La habitación '${this.roomName}' ya existe.`;
+            break;
+          default:
+            errorMsg = `Se ha producido un error. Vuelva a intentarlo más tarde.'`;
+            break;
+        }
+
+        this.confirmBtn.errorMsg = errorMsg;
       }
     },
   }

@@ -24,5 +24,6 @@ export default {
         base: '#000000',
         lighten1: '#FFFFFF',
         darken1: '#646464',
+        darken2: '#EF0035',
     }
 }
