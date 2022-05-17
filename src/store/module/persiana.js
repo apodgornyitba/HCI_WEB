@@ -26,8 +26,8 @@ export default {
             dispatch("get");
             return Object.assign(new blinds(), result);
         },
-        async setLevel({ dispatch }, blinds) {
-            const result = await blindsApi.modifyAction(blinds, /* Agregar el parametro o parametros necesarios para dispense*/);
+        async setLevel({ dispatch }, [blinds, body]) {
+            const result = await blindsApi.modifyAction(blinds, 'setLevel', body);
             dispatch("get");
             return Object.assign(new blinds(), result);
         },
