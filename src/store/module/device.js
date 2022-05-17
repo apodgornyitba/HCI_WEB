@@ -31,8 +31,6 @@ export default {
             result = result.map((device) => Object.assign(new Device(), device));
             commit("replace", result);
         },
-
-
         async getType({dispatch}, id) {
             const result = await DeviceTypeApi.get(id);
             dispatch("getAllTypes");

@@ -8,6 +8,7 @@
         class="align-center"
         :max="(this.max) ? this.max : maxDefault"
         :min="(this.min) ? this.min : minDefault"
+        :value="(this.value) ? this.value : sliderValue"
         hide-details
         @change="setFieldValue"
     >
@@ -34,10 +35,11 @@ export default {
     'title': String,
     max: Number,
     min: Number,
+    value: Number,
   },
   data: () => ({
     slider: 0,
-    sliderValue: 0,
+    sliderValue: 0, //FIX: 100 para que funcione la persiana
     maxDefault: 100,
     minDefault: 0,
   }),

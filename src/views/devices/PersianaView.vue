@@ -63,6 +63,7 @@ export default {
   name: "PersianaView",
   components: {BtnDevice, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
+    //FIX: pasarle una cortina
     blinds: {
       id: "231fb6f6c7a8756c",
       name: "my blinds",

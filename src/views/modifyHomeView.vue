@@ -2,7 +2,7 @@
   <div>
     <floating-container>
       <help-button
-          :message="'Seleccione los ambientes que desee eliminar del hogar.'"
+          :message="'Seleccione los ambientes o dispositivos del hogar que desee modificar, o añada nuevos.'"
           class="text-right"
       />
     </floating-container>
@@ -192,7 +192,7 @@
       <btn-tertiary
           @click="$router.back()"
       >
-        Cancelar
+        Volver
       </btn-tertiary>
     </v-row>
   </div>

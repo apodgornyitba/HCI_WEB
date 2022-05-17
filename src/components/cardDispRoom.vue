@@ -25,6 +25,7 @@ import CardDevice from "@/components/cardDevice";
 export default {
   name: "cardDispRoom",
   components: {CardDevice, ContainerNoutline},
+  //FIX: CUANDO ESTE TODO ANDANDO HAY QUE PASAR LOS DATOS DE DEL ROOM
   data: () => ({
     devices: [
       {name: 'Parlante', image: 'speaker', state1: 'Volumen', state2: '[Cancion]'},

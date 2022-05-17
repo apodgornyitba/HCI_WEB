@@ -1,23 +1,9 @@
 <template>
   <div>
-    <v-row no-gutters
-           class="align-center justify-end">
-      <help-button
-          :message="'Se muestra el estado actual de los dipositivos del ambiente. Hacer click en un dispositivo para utilizarlo'"
-          class="text-right"
-      />
-    </v-row>
-    <v-row
-        no-gutters
-        class="align-center justify-end"
-    >
-      <v-col cols="3">
-        <cardRutinas/>
-      </v-col>
-      <v-col cols="8">
-        <cardDispRoom/>
-      </v-col>
-      <v-col cols="1">
+    <floating-container>
+      <div
+          class="ma-1 pa-1"
+      >
         <v-tooltip bottom>
           <template v-slot:activator="{on, attrs}">
             <v-btn
@@ -27,15 +13,27 @@
                 outlined
                 style="color:black"
                 large
-                to="/modifyDevices"
+                to="/modifyHome"
             >
               <v-icon>
                 mdi-pencil
               </v-icon>
             </v-btn>
           </template>
-          <span>Modificar ambiente</span>
+          <span>Modificar hogar</span>
         </v-tooltip>
+      </div>
+      <help-button
+          :message="'Se muestra el estado actual de los dipositivos del ambiente. Hacer click en un dispositivo para utilizarlo'"
+          class="text-right"
+      />
+    </floating-container>
+    <v-row
+        no-gutters
+        class="align-center justify-end"
+    >
+      <v-col>
+        <cardDispRoom/>
       </v-col>
     </v-row>
   </div>
@@ -43,18 +41,15 @@
 
 <script>
 
-import CardRutinas from "@/components/cardRutinas";
 import cardDispRoom from "@/components/cardDispRoom";
 import HelpButton from "@/components/accesories/helpButton";
+import FloatingContainer from "@/components/containers/FloatingContainer";
 
 export default {
   name: "roomScreenView",
-  components: {cardDispRoom, CardRutinas, HelpButton}
+  components: {FloatingContainer, cardDispRoom, HelpButton}
 }
 </script>
 
 <style scoped>
-.houseScreenView > span {
-  flex-direction: column !important;
-}
 </style>

@@ -163,7 +163,7 @@ export default {
         this.$refs.sliderPosition.setSliderValue(this.position);
       }
     },
-    sliderStateChange(value) {
+    /*sliderStateChange(value) {
       if (value > 0) {
         this.$refs.devComponent.setStatus(true);
         this.position = this.$refs.sliderPosition.getValue();
@@ -172,7 +172,7 @@ export default {
         this.$refs.devComponent.setStatus(false);
         this.deviceOn = false;
       }
-    }
+    } @change="sliderStateChange"*/
   },
 }
 </script>

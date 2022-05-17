@@ -5,7 +5,7 @@ class DeviceApi {
         return `${Api.baseUrl}/devices${slug ? `/${slug}` : ""}`;
     }
 
-    static async add(device, type, controller) {
+    static async add(device, controller) {
         return await Api.post(DeviceApi.getUrl(), device, controller);
     }
 
@@ -65,6 +65,7 @@ class DeviceMeta {
         this.favorite = favorite;
     }
 }
+
 
 class DeviceType {
     constructor(id) {
