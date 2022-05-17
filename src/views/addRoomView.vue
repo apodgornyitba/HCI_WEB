@@ -102,7 +102,7 @@ import FloatingContainer from "@/components/containers/FloatingContainer";
 import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
 import {mapActions} from "vuex";
-import {Room} from "@/api/room";
+import {Room, RoomMeta} from "@/api/room";
 
 export default {
   name: "addRoom",
@@ -219,7 +219,9 @@ export default {
         return;
       }
 
-      const room = new Room(null, this.roomName);
+      const selectedRoomImage = this.rooms.find(obj => obj.id === this.selectedRoom).image;
+
+      const room = new Room(null, this.roomName, new RoomMeta(selectedRoomImage));
 
       this.confirmBtn.waitingApi = true;
       try {

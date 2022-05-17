@@ -1,8 +1,13 @@
 <template>
   <v-container
-      class="ma-0 mt-16 pa-0 fill-height"
       fluid
   >
+    <floating-container>
+      <help-button
+          :message="'Se debe elegir el nombre de la rutina, el dispositivo a accionar y su accion.'"
+      />
+    </floating-container>
+
     <v-row no-gutters>
       <v-col cols="11">
         <v-card-text
@@ -10,11 +15,6 @@
         >
           Crear una rutina
         </v-card-text>
-      </v-col>
-      <v-col class="text-right mr-10">
-        <help-button
-            :message="'Se debe elegir el nombre de la rutina, el dispositivo a accionar y su accion.'"
-        />
       </v-col>
     </v-row>
 
@@ -54,48 +54,42 @@
                 >
 
                   <template v-slot:tab-1>
-                    <v-virtual-scroll
-                        :items="devices.favorites"
-                        height="277"
-                        item-height="105"
-                        bench="2"
+                    <v-card
+                        flat
+                        class="d-flex flex-wrap flex-row align-center justify-space-around"
                     >
-                      <template v-slot:default="{ item }">
-                        <btn-device
-                            :key="item.id"
-                            :image-off="`icons/64/${item.image}-bw.png`"
-                            :image-on="`icons/64/${item.image}-color.png`"
-                            class="justify-center align-center"
-                            small
-                            @click="deviceButtonClick($event, item.id)"
-                        >
-                          {{ item.name }}
-                        </btn-device>
-                      </template>
-                    </v-virtual-scroll>
+                      <btn-device
+                          v-for="item in devices.favorites"
+                          :key="item.id"
+                          :image-off="`icons/64/${item.image}-bw.png`"
+                          :image-on="`icons/64/${item.image}-color.png`"
+                          class="justify-center align-center"
+                          small
+                          @click="deviceButtonClick($event, item.id)"
+                      >
+                        {{ item.name }}
+                      </btn-device>
+                    </v-card>
                   </template>
 
 
                   <template v-slot:tab-2>
-                    <v-virtual-scroll
-                        :items="devices.all"
-                        height="277"
-                        item-height="105"
-                        bench="2"
+                    <v-card
+                        flat
+                        class="d-flex flex-wrap flex-row align-center justify-space-around"
                     >
-                      <template v-slot:default="{ item }">
-                        <btn-device
-                            :key="item.id"
-                            :image-off="`icons/64/${item.image}-bw.png`"
-                            :image-on="`icons/64/${item.image}-color.png`"
-                            class="justify-center align-center"
-                            small
-                            @click="deviceButtonClick($event, item.id)"
-                        >
-                          {{ item.name }}
-                        </btn-device>
-                      </template>
-                    </v-virtual-scroll>
+                      <btn-device
+                          v-for="item in devices.all"
+                          :key="item.id"
+                          :image-off="`icons/64/${item.image}-bw.png`"
+                          :image-on="`icons/64/${item.image}-color.png`"
+                          class="justify-center align-center"
+                          small
+                          @click="deviceButtonClick($event, item.id)"
+                      >
+                        {{ item.name }}
+                      </btn-device>
+                    </v-card>
                   </template>
 
                 </container-vertical>
@@ -276,10 +270,11 @@ import BtnSecondary from "@/components/buttons/Secondary";
 import BtnDevice from "@/components/buttons/Device";
 import TxtField from "@/components/accesories/txt-field";
 import HelpButton from "@/components/accesories/helpButton";
+import FloatingContainer from "@/components/containers/FloatingContainer";
 
 export default {
   name: "RoutineCreationView",
-  components: {HelpButton, TxtField, BtnDevice, BtnSecondary, BtnPrimary, containerVertical},
+  components: {FloatingContainer, HelpButton, TxtField, BtnDevice, BtnSecondary, BtnPrimary, containerVertical},
   data: () => ({
     rules: {
       required: value => !!value || 'Este campo es obligatorio'

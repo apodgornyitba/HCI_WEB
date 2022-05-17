@@ -2,7 +2,10 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import user from "./module/user";
+
 import room from "./module/room";
+import device from "./module/device";
+
 import faucet from "./module/grifo"
 import blinds from "./module/persiana"
 import speaker from "./module/parlante"
@@ -19,6 +22,7 @@ export default new Vuex.Store({
     modules: {
         user,
         room,
+        device,
         faucet,
         blinds,
         speaker,

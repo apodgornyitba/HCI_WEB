@@ -34,6 +34,8 @@
           show-arrows
           grow
           class="py-2 px-1"
+
+          @change="tabChangeHandler"
       >
         <template v-for="n in this.numberOfTabs">
           <v-tab
@@ -97,17 +99,29 @@ import ContainerWithHint from "@/components/containers/ContainerWithHint";
 export default {
   name: "ContainerVertical",
   components: {ContainerWithHint},
+
   props: {
     tabs: Array,
     disabled: Boolean,
     singleTab: Boolean,
   },
+
   data() {
     return {
       tab: null,
       tabIdx: 1
     }
   },
+
+  computed: {
+    numberOfTabs() {
+      return this.tabs.length;
+    },
+    getTab() {
+      return this.tabs;
+    }
+  },
+
   methods: {
     getImage(idx) {
       const img = this.tabs[idx].image;
@@ -122,17 +136,15 @@ export default {
     },
     tabClickHandler(idx) {
       this.tabIdx = idx;
-    }
-  },
-  computed: {
-    numberOfTabs() {
-      return this.tabs.length;
     },
-    getTab() {
-      return this.tabs;
+
+    tabChangeHandler(tab) {
+      this.$emit('change', tab);
+    },
+
+    getCurrentTab() {
+      return this.tab;
     }
-  },
-  created() {
   },
 }
 </script>

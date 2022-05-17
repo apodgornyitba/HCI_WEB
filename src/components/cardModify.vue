@@ -15,7 +15,6 @@
       </v-col>
       <v-col>
         <v-checkbox
-            v-model="selectDevice"
             color="primary"
             :colorCB="this.colorCB"
         >
