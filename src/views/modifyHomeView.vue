@@ -173,7 +173,8 @@
         </btn-primary>
       </container-with-hint>
 
-
+      <v-spacer/>
+<!--
       <btn-secondary
           :disabled="!selected"
           @click="editButtonClickHandler"
@@ -183,6 +184,7 @@
           <div class="mt-2">{{ editButton.text }}</div>
         </div>
       </btn-secondary>
+-->
 
     </v-row>
 
