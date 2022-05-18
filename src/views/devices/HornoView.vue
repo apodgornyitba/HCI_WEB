@@ -16,103 +16,99 @@
       >
         <v-row no-gutters
                class="align-center justify-center">
-        <v-col no-gutters>
-        <btn-device
-            :disabled="!deviceOn"
-            :disable-border="!deviceOn"
-            ref="btnAbajoMode"
-            image-off="icons/64/oven_mode_down-bw.png"
-            image-on="icons/64/oven_mode_down-color.png"
-            @click="clickAbajoMode"
-        >
-          Abajo
-        </btn-device>
-        <btn-device
-            :disabled="!deviceOn"
-            :disable-border="!deviceOn"
-            ref="btnConvencionalMode"
-            image-off="icons/64/oven_mode_common-bw.png"
-            image-on="icons/64/oven_mode_common-color.png"
-            @click="clickConvencionalMode"
-        >
-          Convencional
-        </btn-device>
-        <btn-device
-            :disabled="!deviceOn"
-            :disable-border="!deviceOn"
-            ref="btnArribaMode"
-            image-off="icons/64/oven_mode_up-bw.png"
-            image-on="icons/64/oven_mode_up-color.png"
-            @click="clickArribaMode"
-        >
-          Arriba
-        </btn-device>
-      </v-col>
-      <v-col no-gutters>
-        <v-card
-            outlined
-            max-width="250"
-            style="margin-bottom: 50px"
-        >
-          <v-card-actions>
-            <v-col>
-              <btn-device
-                  :disabled="!deviceOn"
-                  :disable-border="!deviceOn"
-                  ref="btnGrillMode"
-                  image-off="icons/64/grill-bw.png"
-                  image-on="icons/64/grill-color.png"
-                  @click="clickGrillMode"
-              >
-                Grill
-              </btn-device>
-            </v-col>
-            <v-col>
-              <v-row>
-              <p>{{ getState1() }}</p>
-              </v-row>
-              <v-switch
-                  v-model="switchState1"
-                  color="primary"
-                  inset
-                  :disabled="!modeOn1"
-              >
-              </v-switch>
-            </v-col>
-          </v-card-actions>
-        </v-card>
-        <v-card
-            outlined
-            max-width="250"
-        >
-          <v-card-actions >
-            <v-col >
-              <btn-device
-                  :disabled="!deviceOn"
-                  :disable-border="!deviceOn"
-                  ref="btnConvectorMode"
-                  image-off="icons/64/convector-bw.png"
-                  image-on="icons/64/convector-color.png"
-                  @click="clickConvectorMode"
-              >
-                Convector
-              </btn-device>
-            </v-col>
-            <v-col>
-              <v-row>
-                <p>{{ getState2() }}</p>
-              </v-row>
-              <v-switch
-                  v-model="switchState2"
-                  color="primary"
-                  inset
-                  :disabled="!modeOn2"
-              >
-              </v-switch>
-            </v-col>
-          </v-card-actions>
-        </v-card>
-        </v-col>
+          <v-col no-gutters>
+            <btn-device
+                :disabled="!deviceOn"
+                :disable-border="!deviceOn"
+                ref="btnAbajoMode"
+                image-off="icons/64/oven_mode_down-bw.png"
+                image-on="icons/64/oven_mode_down-color.png"
+                @click="clickAbajoMode"
+            >
+              Abajo
+            </btn-device>
+            <btn-device
+                :disabled="!deviceOn"
+                :disable-border="!deviceOn"
+                ref="btnConvencionalMode"
+                image-off="icons/64/oven_mode_common-bw.png"
+                image-on="icons/64/oven_mode_common-color.png"
+                @click="clickConvencionalMode"
+            >
+              Convencional
+            </btn-device>
+            <btn-device
+                :disabled="!deviceOn"
+                :disable-border="!deviceOn"
+                ref="btnArribaMode"
+                image-off="icons/64/oven_mode_up-bw.png"
+                image-on="icons/64/oven_mode_up-color.png"
+                @click="clickArribaMode"
+            >
+              Arriba
+            </btn-device>
+          </v-col>
+          <v-col no-gutters>
+            <v-card
+                outlined
+                max-width="250"
+                style="margin-bottom: 50px"
+            >
+              <v-card-actions>
+                <v-col>
+                  <btn-device
+                      :disabled="!deviceOn"
+                      :disable-border="!deviceOn"
+                      ref="btnGrillMode"
+                      image-off="icons/64/grill-bw.png"
+                      image-on="icons/64/grill-color.png"
+                      @click="clickGrillMode"
+                  >
+                    Grill
+                  </btn-device>
+                </v-col>
+                <v-col>
+                  <v-card>
+                    <v-select label="Estado"
+                              v-model="grillState"
+                              :items="grillStatus"
+                              :disabled="!deviceOn"
+                    >
+                    </v-select>
+                  </v-card>
+                </v-col>
+              </v-card-actions>
+            </v-card>
+            <v-card
+                outlined
+                max-width="250"
+            >
+              <v-card-actions>
+                <v-col>
+                  <btn-device
+                      :disabled="!deviceOn"
+                      :disable-border="!deviceOn"
+                      ref="btnConvectorMode"
+                      image-off="icons/64/convector-bw.png"
+                      image-on="icons/64/convector-color.png"
+                      @click="clickConvectorMode"
+                  >
+                    Convector
+                  </btn-device>
+                </v-col>
+                <v-col>
+                  <v-card>
+                    <v-select label="Estado"
+                              v-model="convectorState"
+                              :items="convectorStatus"
+                              :disabled="!deviceOn"
+                    >
+                    </v-select>
+                  </v-card>
+                </v-col>
+              </v-card-actions>
+            </v-card>
+          </v-col>
         </v-row>
       </v-container>
     </template>
@@ -129,10 +125,23 @@
       >
         <SliderMM
             title="Temperatura (°C)"
-            min = "90"
-            max = "230"
+            ref="sliderPosition"
+            :min="90"
+            :max="230"
             :disabled="!deviceOn"
+            @change="sliderStateChange"
         />
+      </v-row>
+      <v-row class="justify-center">
+        <btn-device
+            :disabled="!deviceOn"
+            :disable-border="!deviceOn"
+            ref="btnSetTemperature"
+            @click="callSetTemperature"
+        >
+          <v-icon>mdi-thermometer-plus</v-icon>
+          DEFINIR TEMPERATURA
+        </btn-device>
       </v-row>
     </template>
 
@@ -153,7 +162,13 @@ export default {
   name: "HornoView",
   components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
+
+    grillStatus: ['eco', 'large', 'off' ],
+    grillState: 'off',
+    convectorStatus: ['eco', 'normal', 'off' ],
+    convectorState: 'off',
     deviceOn: false,
+    position: 90,
     modeOn1: false,
     modeOn2: false,
     switchState1: false,
@@ -171,76 +186,107 @@ export default {
     controller: null,
   }),
   methods: {
-      ...mapActions("oven", {
-        $modifyOven: "modify",
-        $turnOnOven: "turnOn",
-        $turnOffOven: "turnOff",
-        $setTemperatureOven: "setTemperature",
-        $setHeatOven: "setHeat",
-        $setGrillOven: "setGrill",
-        $setConvectionOven: "setConvection",
-      }),
-      setResult(result){
-        this.result = JSON.stringify(result, null, 2);
-      },
-      async turnOnOven(){
-        try{
-          await this.$turnOnOven(this.oven)
-        }catch (e){
-          this.setResult(e);
-        }
-      },
-      async turnOffOven(){
-        try{
-          await this.$turnOffOven(this.oven)
-        }catch (e){
-          this.setResult(e);
-        }
-      },
-      getState1() {
-        if (this.switchState1) {
-          return "Completo";
-        }
-        return "Económico";
-      },
-      getState2() {
-        if (this.switchState2) {
-          return "Convencional";
-        }
-
-        return "Económico";
-      },
-      stateChange(active) {
-        if(!active){
-          this.turnOffOven(this.oven);
-        }else{
-          this.turnOnOven(this.oven);
-        }
-        this.deviceOn = active;
-      },
-      clickArribaMode(isActive, e) {
-        this.$refs.btnAbajoMode.setActive(false, e);
-        this.$refs.btnConvencionalMode.setActive(false, e);
-      },
-      clickAbajoMode(isActive, e) {
-        this.$refs.btnArribaMode.setActive(false, e);
-        this.$refs.btnConvencionalMode.setActive(false, e);
-      },
-      clickConvencionalMode(isActive, e) {
-        this.$refs.btnArribaMode.setActive(false, e);
-        this.$refs.btnAbajoMode.setActive(false, e);
-      },
-      clickGrillMode(isActive, e) {
-        this.$refs.btnConvectorMode.setActive(false, e);
-        this.modeOn1 = true;
-        this.modeOn2 = false;
-      },
-      clickConvectorMode(isActive, e) {
-        this.$refs.btnGrillMode.setActive(false, e);
-        this.modeOn2 = true;
-        this.modeOn1 = false;
-      },
+    ...mapActions("oven", {
+      $modifyOven: "modify",
+      $turnOnOven: "turnOn",
+      $turnOffOven: "turnOff",
+      $setTemperatureOven: "setTemperature",
+      $setHeatOven: "setHeat",
+      $setGrillOven: "setGrill",
+      $setConvectionOven: "setConvection",
+    }),
+    setResult(result) {
+      this.result = JSON.stringify(result, null, 2);
     },
+    async turnOnOven() {
+      try {
+        await this.$turnOnOven(this.oven);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    async turnOffOven() {
+      try {
+        await this.$turnOffOven(this.oven);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    async setTemperature(body) {
+      try {
+        await this.$setTemperatureOven([this.oven, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetTemperature(){
+      this.setTemperature([this.position]);
+    },
+    async setHeat(body) {
+      try {
+        await this.$setHeatOven([this.oven, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetHeat(mode){
+      this.setHeat([mode]);
+    },
+    async setGrill(body) {
+      try {
+        await this.$setGrillOven([this.oven, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetGrill(mode){
+      this.setGrill([mode]);
+    },
+    async setConvection(body) {
+      try {
+        await this.$setConvectionOven([this.oven, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetConvection(mode){
+      this.setConvection([mode])
+    },
+    stateChange(active) {
+      if (!active) {
+        this.turnOffOven(this.oven);
+      } else {
+        this.turnOnOven(this.oven);
+      }
+      this.deviceOn = active;
+    },
+    sliderStateChange() {
+      this.position = this.$refs.sliderPosition.getValue();
+    },
+    clickArribaMode(isActive, e) {
+      this.callSetHeat('top');
+      this.$refs.btnAbajoMode.setActive(false, e);
+      this.$refs.btnConvencionalMode.setActive(false, e);
+    },
+    clickAbajoMode(isActive, e) {
+      this.callSetHeat('bottom');
+      this.$refs.btnArribaMode.setActive(false, e);
+      this.$refs.btnConvencionalMode.setActive(false, e);
+
+    },
+    clickConvencionalMode(isActive, e) {
+      this.callSetHeat('conventional');
+      this.$refs.btnArribaMode.setActive(false, e);
+      this.$refs.btnAbajoMode.setActive(false, e);
+
+    },
+    clickGrillMode() {
+      this.callSetGrill(this.grillState);
+    },
+    clickConvectorMode() {
+      this.callSetConvection()
+    },
+  },
 }
 </script>
 

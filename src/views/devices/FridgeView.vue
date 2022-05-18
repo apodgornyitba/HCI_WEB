@@ -16,9 +16,22 @@
         <SliderMM
             :disabled="!deviceOn"
             title="Temperatura Heladera (°C)"
+            ref="fridgePosition"
             :max="8"
             :min="2"
+            @change="temperatureFridgeStatus"
         />
+      </v-row>
+      <v-row class="justify-center">
+        <btn-device
+            :disabled="!deviceOn"
+            :disable-border="!deviceOn"
+            ref="btnSetFridgeTemperature"
+            @click="callSetTemperature"
+        >
+          <v-icon>mdi-thermometer-plus</v-icon>
+          DEFINIR TEMPERATURA HELADERA
+        </btn-device>
       </v-row>
       <v-row
           class="my-10 align-center justify-center"
@@ -26,9 +39,22 @@
         <SliderMM
             :disabled="!deviceOn"
             title="Temperatura Freezer (°C)"
+            ref="freezerPosition"
             :max="-8"
             :min="-20"
+            @change="temperatureFreezerStatus"
         />
+      </v-row>
+      <v-row class="justify-center">
+        <btn-device
+            :disabled="!deviceOn"
+            :disable-border="!deviceOn"
+            ref="btnSetFreezerTemperature"
+            @click="callSetFreezerTemperature"
+        >
+          <v-icon>mdi-thermometer-plus</v-icon>
+          DEFINIR TEMPERATURA FREEZER
+        </btn-device>
       </v-row>
     </template>
 
@@ -95,6 +121,8 @@ export default {
   components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
     deviceOn: false,
+    fridgePosition: 2,
+    freezerPosition: -8,
     fridge: {
       id: "e82b46925d2bccdd",
       name: "my fridge",
@@ -115,18 +143,57 @@ export default {
     setResult(result){
       this.result = JSON.stringify(result, null, 2);
     },
+    async setTemperatureFridge(body) {
+      try {
+        await this.$setTemperatureFridge([this.fridge, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetTemperature() {
+      this.setTemperatureFridge([this.fridgePosition]);
+    },
+    async setFreezerTemperatureFridge(body) {
+      try {
+        await this.$setFreezerTemperatureFridge([this.fridge, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetFreezerTemperature(){
+      this.setFreezerTemperatureFridge([this.freezerPosition]);
+    },
+    async setModeFridge(body) {
+      try {
+        await this.$setModeFridge([this.fridge, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetMode(mode){
+      this.setModeFridge([mode]);
+    },
     stateChange(active) {
       this.deviceOn = active;
     },
+    temperatureFridgeStatus(){
+      this.fridgePosition = this.$refs.fridgePosition.getValue();
+    },
+    temperatureFreezerStatus(){
+      this.freezerPosition = this.$refs.freezerPosition.getValue();
+    },
     clickPartyMode(isActive, e) {
+      this.callSetMode('party');
       this.$refs.btnNormalMode.setActive(false, e);
       this.$refs.btnVacationMode.setActive(false, e);
     },
     clickNormalMode(isActive, e) {
+      this.callSetMode('default');
       this.$refs.btnPartyMode.setActive(false, e);
       this.$refs.btnVacationMode.setActive(false, e);
     },
     clickVacationMode(isActive, e) {
+      this.callSetMode('vacation');
       this.$refs.btnPartyMode.setActive(false, e);
       this.$refs.btnNormalMode.setActive(false, e);
     },

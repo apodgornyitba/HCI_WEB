@@ -18,52 +18,65 @@
       <v-container
           class="align-center justify-space-around"
       >
-      <v-row no-gutters
-             class="align-center justify-center">
-         <v-btn-toggle
-             mandatory
-         >
-           <v-btn
-               :disabled="!deviceOn"
-               @click="previousSongSpeaker"
-           >
-             <v-icon>mdi-step-backward</v-icon>
-           </v-btn >
-           <v-btn
-               :disabled="!deviceOn"
-               @click="pauseSpeaker"
-           >
-             <v-icon>mdi-pause</v-icon>
-           </v-btn>
-           <v-btn
-               :disabled="!deviceOn"
-               @click="playSpeaker"
-           >
-             <v-icon>mdi-play</v-icon>
-           </v-btn >
-           <v-btn
-               :disabled="!deviceOn"
-               @click="stopSpeaker"
-           >
-             <v-icon>mdi-stop</v-icon>
-           </v-btn>
-           <v-btn
-               :disabled="!deviceOn"
-               @click="nextSongSpeaker"
-           >
-             <v-icon>mdi-step-forward</v-icon>
-           </v-btn>
-         </v-btn-toggle>
-      </v-row>
+        <v-row no-gutters
+               class="align-center justify-center">
+          <v-btn-toggle
+              mandatory
+          >
+            <v-btn
+                :disabled="!deviceOn"
+                @click="previousSongSpeaker"
+            >
+              <v-icon>mdi-step-backward</v-icon>
+            </v-btn>
+            <v-btn
+                :disabled="!deviceOn"
+                @click="pauseSpeaker"
+            >
+              <v-icon>mdi-pause</v-icon>
+            </v-btn>
+            <v-btn
+                :disabled="!deviceOn"
+                @click="callPlaySpeaker"
+            >
+              <v-icon>mdi-play</v-icon>
+            </v-btn>
+            <v-btn
+                :disabled="!deviceOn"
+                @click="stopSpeaker"
+            >
+              <v-icon>mdi-stop</v-icon>
+            </v-btn>
+            <v-btn
+                :disabled="!deviceOn"
+                @click="nextSongSpeaker"
+            >
+              <v-icon>mdi-step-forward</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-row>
         <v-row
             class="my-10  align-center justify-center"
         >
-        <SliderMM
-          title="Volumen"
-          :max="10"
-          :disabled="!deviceOn"
-        />
-      </v-row>
+          <SliderMM
+              title="Volumen"
+              ref="volume"
+              :max="10"
+              :disabled="!deviceOn"
+              @change="volumeState"
+          />
+        </v-row>
+        <v-row class="justify-center">
+          <btn-device
+              :disabled="!deviceOn"
+              :disable-border="!deviceOn"
+              ref="btnSetFreezerTemperature"
+              @click="callSetVolume"
+          >
+            <v-icon>mdi-plus-thick</v-icon>
+            DEFINIR VOLUMEN
+          </btn-device>
+        </v-row>
       </v-container>
     </template>
 
@@ -80,11 +93,28 @@
           <v-card
               min-width="300"
           >
-            <v-select label = "GÉNERO MUSICAL"
-                      :items = "genres"
-                      :disabled="!deviceOn">
+            <v-select label="GÉNERO MUSICAL"
+                      :items="genres"
+                      v-model="genre"
+                      :disabled="!deviceOn"
+                      @input="callConsole"
+            >
+
             </v-select>
           </v-card>
+        </v-row>
+        <v-row class="justify-center ">
+          <btn-device
+              :disabled="!deviceOn"
+              :disable-border="!deviceOn"
+              ref="btnSetGenre"
+              @click="callSetGenre"
+
+          >
+            <v-icon>mdi-plus-thick</v-icon>
+            DEFINIR GENERO
+          </btn-device>
+
         </v-row>
         <v-row
             class="my-10 align-center justify-center"
@@ -93,23 +123,24 @@
               min-width="300"
               outlined
           >
-          <v-virtual-scroll
-              :items="items"
-              :item-height="50"
-              height="240"
-          >
-            <template v-slot:default="{ item }">
-              <v-list-item>
-                <v-list-item-action>
-                  <v-btn :disabled="!deviceOn"
+            <v-virtual-scroll
+                :items="items"
+                :item-height="50"
+                height="240"
+            >
+              <template v-slot:default="{ item }">
+                <v-list-item>
+                  <v-list-item-action>
+                    <v-btn
+                      disabled
                       text
-                  >
-                    {{ item.song }}
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-            </template>
-          </v-virtual-scroll>
+                    >
+                      {{ item.song }}
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </template>
+            </v-virtual-scroll>
           </v-card>
         </v-row>
       </v-container>
@@ -123,18 +154,17 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import HelpD from "@/components/accesories/helpD";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
+import BtnDevice from "@/components/buttons/Device";
+
 export default {
   name: "ParlanteView",
-  components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {BtnDevice, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
 
   data: () => ({
-    songs: [
-      {title: '', author: ''},
-        //LISTA DE CANCIONES DE LA API
-    ],
-    genres: ['Rock', 'Pop',  'Rap', 'Clasica', 'Reggaeton' ],
-      /*REVISAR SI LA LISTA ESTA EN L API*/
+    genres: ['rock','pop','latina','classical','dance','country'],
+    genre: '',
+    /*REVISAR SI LA LISTA ESTA EN L API*/
     speaker: {
       id: "e44179ad2a0209b7",
       name: "my speaker",
@@ -147,7 +177,9 @@ export default {
     deviceOn: false,
     result: null,
     controller: null,
+    volume: 5,
   }),
+
   methods: {
     ...mapActions("speaker", {
       $modifySpeaker: "modify",
@@ -162,67 +194,118 @@ export default {
       $getPlaylistSpeaker: "getPlaylist",
 
     }),
-    setResult(result){
+    setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
-    async playSpeaker(){
-      try{
+    async playSpeaker() {
+      try {
         await this.$playSpeaker(this.speaker);
-      } catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async pauseSpeaker(){
-      try{
+    callConsole(){
+      console.log('genre: ', this.genre)
+    },
+    callPlaySpeaker() {
+      if (this.speakerStatus === 'paused') {
+        this.resumeSpeaker();
+      } else if (this.speakerStatus === 'stopped') {
+        this.playSpeaker();
+      }
+    },
+    async pauseSpeaker() {
+      try {
         await this.$pauseSpeaker(this.speaker);
-      } catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async stopSpeaker(){
-      try{
+    async stopSpeaker() {
+      try {
         await this.$stopSpeaker(this.speaker);
-      } catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async resumeSpeaker(){
-      try{
+    async resumeSpeaker() {
+      try {
         await this.$resumeSpeaker(this.speaker);
-      } catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async nextSongSpeaker(){
-      try{
+    async nextSongSpeaker() {
+      try {
         await this.$nextSongSpeaker(this.speaker);
-      } catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async previousSongSpeaker(){
-      try{
+    async previousSongSpeaker() {
+      try {
         await this.$previousSongSpeaker(this.speaker);
-      } catch (e){
+      } catch (e) {
         this.setResult(e);
       }
+    },
+    async setVolumeSpeaker(body) {
+      try {
+        await this.$setVolumeSpeaker([this.speaker, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetVolume(){
+      this.setVolumeSpeaker([this.volume]);
+    },
+    async setGenreSpeaker(body) {
+      try {
+        await this.$setGenreSpeaker([this.speaker, body]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callSetGenre(){
+      console.log(this.genre);
+      this.setGenreSpeaker([this.genre]);
+    },
+    async getPlaylistSpeaker() {
+      try {
+        await this.$getPlaylistSpeaker([this.speaker, this.result]);
+      } catch (e) {
+        this.setResult(e);
+      }
+    },
+    callGetPlaylist(){
+      this.getPlaylistSpeaker();
     },
     stateChange(active) {
       this.deviceOn = active;
+      this.callGetPlaylist();
     },
+    volumeState() {
+      this.volume = this.$refs.volume.getValue();
+    }
   },
   computed: {
-    items () {
-      return Array.from({ length: this.songs.length }, (_, i) => {
-        const title = this.songs[i].title
-        const author = this.songs[i].author
+    ...mapState("speaker", {
+      speakerStatus: (state) => state.speakerStatus,
+      playlist: (state) => state.playlist,
+    }),
+    items() {
+      return Array.from({length: this.playlist.length}, (_, i) => {
+        const title = this.playlist[i].title
+        const artist = this.playlist[i].artist
+        const album = this.playlist[i].album;
 
         return {
-          song: `${title} - ${author}`,
+          song: `${title} - ${ album } - ${artist}`,
         }
       })
     },
-  }
+  },
+
 }
 </script>
 

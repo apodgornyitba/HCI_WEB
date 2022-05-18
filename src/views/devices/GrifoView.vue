@@ -117,9 +117,6 @@ export default {
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
-    setUnitType(){
-      console.log(this.unit)
-    },
     async openFaucet() {
       try {
         await this.$openFaucet(this.faucet);

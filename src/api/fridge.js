@@ -13,8 +13,8 @@ class fridgeApi {
         return await Api.put(fridgeApi.getUrl(fridge.id), fridge, controller);
     }
 
-    static async modifyAction(fridge, action, controller) {
-        return await Api.put(`${ fridgeApi.getUrl(fridge.id)}/${ action }`, fridge, controller);
+    static async modifyAction(fridge, action, body, controller) {
+        return await Api.put(`${ fridgeApi.getUrl(fridge.id)}/${ action }`, body, controller);
     }
 
     static async delete(id, controller) {

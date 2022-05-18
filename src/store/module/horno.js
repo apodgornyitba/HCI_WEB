@@ -26,23 +26,23 @@ export default {
             dispatch("get");
             return Object.assign(new oven(), result);
         },
-        async setTemperature({ dispatch }, oven) {
-            const result = await ovenApi.modifyAction(oven, /* Agregar el parametro o parametros necesarios para dispense*/);
+        async setTemperature({ dispatch }, [oven, body]) {
+            const result = await ovenApi.modifyAction(oven, 'setTemperature', body);
             dispatch("get");
             return Object.assign(new oven(), result);
         },
-        async setHeat({ dispatch }, oven) {
-            const result = await ovenApi.modifyAction(oven, /* Agregar el parametro o parametros necesarios para dispense*/);
+        async setHeat({ dispatch }, [oven, body]) {
+            const result = await ovenApi.modifyAction(oven, 'setHeat', body);
             dispatch("get");
             return Object.assign(new oven(), result);
         },
-        async setGrill({ dispatch }, oven) {
-            const result = await ovenApi.modifyAction(oven, /* Agregar el parametro o parametros necesarios para dispense*/);
+        async setGrill({ dispatch }, [oven, body]) {
+            const result = await ovenApi.modifyAction(oven, 'setGrill', body);
             dispatch("get");
             return Object.assign(new oven(), result);
         },
-        async setConvection({ dispatch }, oven) {
-            const result = await ovenApi.modifyAction(oven, /* Agregar el parametro o parametros necesarios para dispense*/);
+        async setConvection({ dispatch }, [oven, body]) {
+            const result = await ovenApi.modifyAction(oven, 'setConvection', body);
             dispatch("get");
             return Object.assign(new oven(), result);
         },
