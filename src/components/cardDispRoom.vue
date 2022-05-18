@@ -33,7 +33,6 @@
 import ContainerNoutline from "@/components/containers/ContainerNoutline";
 import CardDevice from "@/components/cardDevice";
 import {mapActions, mapGetters, mapState} from "vuex";
-import { Room } from "@/api/room";
 
 
 export default {
@@ -41,7 +40,7 @@ export default {
   components: {CardDevice, ContainerNoutline},
   props: {
     'name': String,
-    'room': Room,
+    'roomId': String,
   },
   data() {
     return {

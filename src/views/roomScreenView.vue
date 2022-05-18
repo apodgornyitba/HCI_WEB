@@ -34,8 +34,6 @@
     >
             <v-col v-if="rooms">
               <cardDispRoom
-                  :name = "this.roomsshow.name"
-                :room="this.roomsshow"
               />
             </v-col>
     </v-row>
@@ -60,12 +58,13 @@ export default {
   },
   data() {
     return {
-      roomsshow: [],
+      roomsshow: null,
     }
   },
   computed: {
     ...mapState("room", {
       rooms: (state) => state.rooms,
+      path: (state) => state.path,
     }),
 
   },
@@ -80,7 +79,11 @@ export default {
       if (!this.rooms) {
         return;
       }
-      this.roomsshow = this.rooms.find(path => path.name === this.mypath);
+      // console.log("Rooms: ", this.rooms);
+      console.log("Mypath: ", this.mypath);
+      // console.log("Rooms find: ", this.rooms.find(path => path.name === this.mypath));
+      // this.roomsshow = this.rooms.find(path => path.name === this.mypath);
+      // console.log("RoomsShow: ", this.roomsshow);
     },
     async getAllRooms() {
       try {

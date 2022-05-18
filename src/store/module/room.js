@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     rooms: [],
+    path: String,
   },
   actions: {
     async create({ dispatch }, room) {
@@ -20,9 +21,15 @@ export default {
       await RoomApi.delete(id);
       dispatch("getAll");
     },
+
     async get({ dispatch }, id) {
       const result = await RoomApi.get(id);
       dispatch("getAll");
+      return Object.assign(new Room(), result);
+    },
+    async getRoomPath({ commit }, id) {
+      const result = await RoomApi.get(id);
+      commit("setPath", result);
       return Object.assign(new Room(), result);
     },
     async getAll({ commit }, controller) {
@@ -30,10 +37,14 @@ export default {
       result = result.map((room) => Object.assign(new Room(), room));
       commit("replace", result);
     },
+
   },
   mutations: {
     replace(state, rooms) {
       state.rooms = rooms;
+    },
+    setPath(state, room) {
+      state.path = room.name;
     },
   },
 };

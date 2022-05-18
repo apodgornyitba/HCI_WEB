@@ -15,7 +15,10 @@
       </v-col>
       <v-col>
         <v-row>
-        {{ this.state }}
+        {{ this.state["status"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["temperature"] }}
         </v-row>
         <v-row>
           {{ this.state["lock"] }}
