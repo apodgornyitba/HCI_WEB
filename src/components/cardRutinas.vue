@@ -27,36 +27,40 @@
     </template>
 
     <template v-slot:tab-2>
-      <!--<div
-          v-if="devices && devices.length > 0"
+      <v-card
+          v-if="devices"
+          flat
           class="d-flex flex-wrap flex-row align-center justify-space-around"
       >
-        <template v-for="dev in this.devices">
-          <btn-device
-              :key="dev.id"
-              :image-off="`icons/64/${dev.meta.image}-bw.png`"
-              :image-on="`icons/64/${dev.meta.image}-color.png`"
-              class="my-3 mx-1 pa-0"
-          >
-            {{ dev.name }}
-          </btn-device>
-        </template>
-      </div>
-
-      <div v-else>
+        <btn-device
+            v-for="item in devices"
+            :key="item.id"
+            :image-off="`icons/64/${item.meta.image}-bw.png`"
+            :image-on="`icons/64/${item.meta.image}-color.png`"
+            class="justify-center align-center"
+            small
+        >
+          {{ item.name }}
+        </btn-device>
+      </v-card>
+      <v-card
+          v-else
+          flat
+          class="d-flex flex-wrap flex-row align-center justify-space-around"
+      >
         <v-card-text
             class="d-flex flex-wrap align-center justify-center text-center text-body-1"
         >
           Todavía no agregaste ningún dispositivo.
         </v-card-text>
-      </div>-->
-      <!-- ACA ROMPE PERO QUIERO AGREGAR LA LIST -->
+      </v-card>
     </template>
 
     <template v-slot:tab-3>
       <v-img
-          max-width="300px"
-        :src="require(`@/assets/Codigo_QR.png`)"
+          max-width="250px"
+          :src="require(`@/assets/Codigo_QR.png`)"
+          class="ma-auto"
       />
     </template>
 
@@ -67,10 +71,11 @@
 import ContainerVertical from "@/components/containers/ContainerVertical";
 import BtnPrimary from "@/components/buttons/Primary";
 import {mapActions, mapState} from "vuex";
+import BtnDevice from "@/components/buttons/Device";
 
 export default {
   name: "cardRutinas",
-  components: {BtnPrimary, ContainerVertical},
+  components: {BtnDevice, BtnPrimary, ContainerVertical},
   data() {
     return {
       tabs: [
@@ -80,7 +85,6 @@ export default {
       ]
     }
   },
-  //FIX: VER COMENTARIO DE ARRIBA
   computed: {
     ...mapState("device", {
       devices: (state) => state.devices,
