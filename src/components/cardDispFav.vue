@@ -2,21 +2,21 @@
   <container-horizontal
       title="Dispositivos Favoritos"
   >
-    <div
+    <v-row
         v-if="devices && devices.length > 0"
-        class="d-flex flex-wrap flex-row align-center justify-space-around"
+        class="align-center justify-space-around"
     >
-    <template v-for="dev in this.devices">
-      <btn-device
-          :key="dev.id"
-          :image-off="`icons/64/${dev.meta.image}-bw.png`"
-          :image-on="`icons/64/${dev.meta.image}-color.png`"
-          class="my-3 mx-1 pa-0"
-      >
-        {{ dev.name }}
-      </btn-device>
-    </template>
-    </div>
+      <template v-for="dev in this.devices">
+        <btn-device
+            :key="dev.id"
+            :image-off="`icons/64/${dev.meta.image}-bw.png`"
+            :image-on="`icons/64/${dev.meta.image}-color.png`"
+            class="my-3 mx-1 pa-0"
+        >
+          {{ dev.name }}
+        </btn-device>
+      </template>
+    </v-row>
 
     <div v-else>
       <v-card-text

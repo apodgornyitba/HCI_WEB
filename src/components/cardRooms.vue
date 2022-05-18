@@ -2,13 +2,12 @@
   <container-horizontal
       title="Ambientes"
   >
-    <div
+    <v-row
         v-if="rooms.length > 0"
-        class="d-flex flex-wrap flex-row align-center justify-space-around"
+        class="align-center justify-space-around"
     >
-    <template v-for="room in rooms">
-
       <btn-device
+          v-for="room in rooms"
           :key="room.id"
           :image-off="`icons/64/${room.meta.image}-bw.png`"
           :image-on="`icons/64/${room.meta.image}-color.png`"
@@ -16,9 +15,7 @@
       >
         {{ room.name }}
       </btn-device>
-
-    </template>
-    </div>
+    </v-row>
 
     <div v-else>
       <v-card-text

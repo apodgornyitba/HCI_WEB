@@ -19,7 +19,7 @@
             outlined
         >
           <v-row
-              class="ma-0 pa-0 justify-space-around"
+              class="ma-0 pa-0 align-center justify-space-around"
           >
             <slot></slot>
           </v-row>
