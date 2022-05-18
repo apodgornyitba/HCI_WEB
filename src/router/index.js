@@ -48,6 +48,11 @@ const routes = [
         component: () => import('../views/modifyHomeView.vue')
     },
     {
+        path: '/modifyDevice',
+        name: 'modifyDevice',
+        component: () => import('../views/modifyDeviceView')
+    },
+    {
         path: '/addDevice',
         name: 'addDevice',
         component: () => import('../views/addDeviceView.vue')

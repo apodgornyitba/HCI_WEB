@@ -65,6 +65,27 @@
       </container-with-hint>
     </v-row>
     <v-row
+        class="my-5 align-center justify-center"
+    >
+      <v-col cols="4">
+        <container-with-hint
+            outlined
+            :hint="deviceRoomHint()"
+        >
+          <v-select
+              v-model="dropdownSelect"
+              :items="getDropdownRooms()"
+              :disabled="confirmBtn.waitingApi"
+              item-value="id"
+              item-text="name"
+              label="Ambientes"
+              class="mt-2 px-3"
+          >
+          </v-select>
+        </container-with-hint>
+      </v-col>
+    </v-row>
+    <v-row
         class="my-2 mt-5 align-center text-center justify-center"
     >
       <container-with-hint
@@ -101,7 +122,7 @@ import HelpButton from "@/components/accesories/helpButton";
 import FloatingContainer from "@/components/containers/FloatingContainer";
 import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import {Device, DeviceType, DeviceMeta} from "@/api/device";
 
 export default {
@@ -131,6 +152,12 @@ export default {
       {id: 'im77xxyulpegfmv8', name: 'Horno', image: 'oven'}
     ],
 
+    dropdownEmptyRoom: {id: 'empty', name: 'Ninguno'},
+    dropdownSelect: null,
+    /*
+        dropdownSelect: {id: 'empty', name: 'Ninguno'},
+    */
+
     rules: {
       required: value => !!value || 'Este campo es obligatorio',
       name: value => {
@@ -150,6 +177,10 @@ export default {
   }),
 
   computed: {
+    ...mapState("room", {
+      rooms: (state) => state.rooms,
+    }),
+
     confirmButtonDisabled: function () {
       let disable = true;
 
@@ -161,9 +192,16 @@ export default {
     },
   },
 
+  mounted() {
+    this.getAllRooms();
+  },
+
   methods: {
     ...mapActions("device", {
       $createDevice: "create",
+    }),
+    ...mapActions("room", {
+      $getAllRooms: "getAll",
     }),
 
     deviceNameChange() {
@@ -212,6 +250,18 @@ export default {
       this.$refs[`btn-${this.selectedDevice}`][0].setActive(true);
     },
 
+    deviceRoomHint() {
+      const deviceHint = this.deviceName ? this.deviceName : 'tu dispositivo';
+      return `Opcionalmente, agregá ${deviceHint} a un ambiente`;
+    },
+
+    getDropdownRooms() {
+      let roomsName = [this.dropdownEmptyRoom];
+      if (this.rooms) {
+        roomsName = [...roomsName, ...this.rooms];
+      }
+      return roomsName;
+    },
 
     /* API */
     async createDevice() {
@@ -220,11 +270,14 @@ export default {
       }
 
       const selectedDeviceImage = this.devices.find(obj => obj.id === this.selectedDevice).image;
+      const selectedRoom = (this.dropdownSelect && this.dropdownSelect !== "empty")
+          ? this.dropdownSelect
+          : null;
 
       const device = new Device(null,
           this.deviceName,
           new DeviceType(this.selectedDevice),
-          new DeviceMeta(selectedDeviceImage, false));
+          new DeviceMeta(selectedDeviceImage, false, selectedRoom));
 
       this.confirmBtn.waitingApi = true;
       try {
@@ -255,6 +308,17 @@ export default {
         }
 
         this.confirmBtn.errorMsg = errorMsg;
+      }
+    },
+
+
+    async getAllRooms() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllRooms(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load rooms due to: ", e);
       }
     },
   }

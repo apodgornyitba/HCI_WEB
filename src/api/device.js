@@ -60,9 +60,12 @@ class Device {
 }
 
 class DeviceMeta {
-    constructor(image, favorite) {
+    constructor(image, favorite, room) {
         this.image = image;
         this.favorite = favorite;
+        if (room) {
+            this.room = room;
+        }
     }
 }
 
