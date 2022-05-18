@@ -96,7 +96,7 @@ export default {
   data: () => ({
     deviceOn: false,
     fridge: {
-      id: "d3bfbae3f6a5044e",
+      id: "e82b46925d2bccdd",
       name: "my fridge",
       type: {
         id: "rnizejqr2di0okho",

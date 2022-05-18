@@ -136,7 +136,7 @@ export default {
     genres: ['Rock', 'Pop',  'Rap', 'Clasica', 'Reggaeton' ],
       /*REVISAR SI LA LISTA ESTA EN L API*/
     speaker: {
-      id: "90157d133d766e61",
+      id: "e44179ad2a0209b7",
       name: "my speaker",
       type: {
         id: "c89b94e8581855bc",

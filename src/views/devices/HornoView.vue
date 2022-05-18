@@ -159,7 +159,7 @@ export default {
     switchState1: false,
     switchState2: false,
     oven: {
-      id: "d02cea9e73688acb",
+      id: "232e4e72736e42c4",
       name: "my oven",
       type: {
         id: "im77xxyulpegfmv8",
