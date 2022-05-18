@@ -86,7 +86,6 @@ export default {
         console.error("Invalid type.")
         return;
       }
-
       this.clickActions(value);
       this.$refs.btn.setActive(value, e);
     }

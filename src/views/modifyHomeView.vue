@@ -359,6 +359,7 @@ export default {
 
       switch (this.currentTab) {
         case 1:
+          //this.desvincular(this.selected);
           this.deleteRoom(this.selected);
           break;
         case 2:

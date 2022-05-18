@@ -47,11 +47,11 @@ const routes = [
         name: 'modifyHome',
         component: () => import('../views/modifyHomeView.vue')
     },
-    {
+    /*{
         path: '/modifyDevice',
         name: 'modifyDevice',
         component: () => import('../views/modifyDeviceView')
-    },
+    },*/
     {
         path: '/addDevice',
         name: 'addDevice',

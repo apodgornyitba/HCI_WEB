@@ -7,12 +7,14 @@ export default {
         deviceTypes: [],
     },
     getters: {
-        isInRoom(state, roomId) {
-            if (!roomId) {
-                console.error("module/device.js: No room id provided.");
-                return state.devices;
+        isInRoom(state) {
+            return (roomId) => {
+                if (!roomId) {
+                    console.error("module/device.js: No room id provided.");
+                    return state.devices;
+                }
+                return state.devices.filter(dev => dev.meta.room === roomId);
             }
-            return state.devices.filter(dev => dev.meta.room === roomId);
         },
         favoriteDevices(state) {
             return state.devices.filter(dev => dev.meta.favorite);
