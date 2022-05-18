@@ -99,7 +99,7 @@ export default {
     ],
     color: 'black',
     lamp: {
-      id: "260fe46abd2014b9",
+      id: "5f267650584de307",
       name: "my lamp",
       type: {
         id: "go46xmbqeomjrsjr",

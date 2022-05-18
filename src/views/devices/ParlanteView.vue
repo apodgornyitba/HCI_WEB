@@ -166,7 +166,7 @@ export default {
     genre: '',
     /*REVISAR SI LA LISTA ESTA EN L API*/
     speaker: {
-      id: "e44179ad2a0209b7",
+      id: "48edaf31e54fb1e6",
       name: "my speaker",
       type: {
         id: "c89b94e8581855bc",
