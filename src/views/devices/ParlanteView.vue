@@ -31,7 +31,7 @@
             </v-btn>
             <v-btn
                 :disabled="!deviceOn"
-                @click="pauseSpeaker"
+                @click="callPauseSpeaker"
             >
               <v-icon>mdi-pause</v-icon>
             </v-btn>
@@ -43,7 +43,7 @@
             </v-btn>
             <v-btn
                 :disabled="!deviceOn"
-                @click="stopSpeaker"
+                @click="callStopSpeaker"
             >
               <v-icon>mdi-stop</v-icon>
             </v-btn>
@@ -97,7 +97,6 @@
                       :items="genres"
                       v-model="genre"
                       :disabled="!deviceOn"
-                      @input="callConsole"
             >
 
             </v-select>
@@ -163,7 +162,8 @@ export default {
 
   data: () => ({
     genres: ['rock','pop','latina','classical','dance','country'],
-    genre: '',
+    genre: 'pop',
+    previosGenre: '',
     /*REVISAR SI LA LISTA ESTA EN L API*/
     speaker: {
       id: "48edaf31e54fb1e6",
@@ -178,6 +178,7 @@ export default {
     result: null,
     controller: null,
     volume: 5,
+    previousVolume: 5,
   }),
 
   methods: {
@@ -204,9 +205,6 @@ export default {
         this.setResult(e);
       }
     },
-    callConsole(){
-      console.log('genre: ', this.genre)
-    },
     callPlaySpeaker() {
       if (this.speakerStatus === 'paused') {
         this.resumeSpeaker();
@@ -221,11 +219,21 @@ export default {
         this.setResult(e);
       }
     },
+    callPauseSpeaker(){
+      if(this.speakerStatus !== 'paused' && this.speakerStatus !== 'stopped'){
+        this.pauseSpeaker();
+      }
+    },
     async stopSpeaker() {
       try {
         await this.$stopSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
+      }
+    },
+    callStopSpeaker(){
+      if(this.speakerStatus !== 'stopped'){
+        this.stopSpeaker();
       }
     },
     async resumeSpeaker() {
@@ -256,8 +264,11 @@ export default {
         this.setResult(e);
       }
     },
-    callSetVolume(){
-      this.setVolumeSpeaker([this.volume]);
+    callSetVolume() {
+      if (this.volume !== this.previousVolume) {
+        this.setVolumeSpeaker([this.volume]);
+      }
+      this.previousVolume = this.volume;
     },
     async setGenreSpeaker(body) {
       try {
@@ -267,8 +278,11 @@ export default {
       }
     },
     callSetGenre(){
-      console.log(this.genre);
-      this.setGenreSpeaker([this.genre]);
+      if(this.genre !== this.previousGenre) {
+        this.setGenreSpeaker([this.genre]);
+      }
+      this.previousGenre = this.genre;
+      setTimeout(() => this.callGetPlaylist(), 1000);
     },
     async getPlaylistSpeaker() {
       try {
@@ -285,7 +299,7 @@ export default {
       this.callGetPlaylist();
     },
     volumeState() {
-      this.volume = this.$refs.volume.getValue();
+        this.volume = this.$refs.volume.getValue();
     }
   },
   computed: {

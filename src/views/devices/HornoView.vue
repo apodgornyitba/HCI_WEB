@@ -164,11 +164,15 @@ export default {
   data: () => ({
 
     grillStatus: ['eco', 'large', 'off' ],
-    grillState: 'off',
+    grillState: 'eco',
+    previousGrill: 'eco',
     convectorStatus: ['eco', 'normal', 'off' ],
     convectorState: 'off',
+    previousConvector: 'off',
+    heatMode: 'conventional',
     deviceOn: false,
     position: 90,
+    previousPosition: 90,
     modeOn1: false,
     modeOn2: false,
     switchState1: false,
@@ -220,7 +224,10 @@ export default {
       }
     },
     callSetTemperature(){
-      this.setTemperature([this.position]);
+      if(this.position !== this.previousPosition) {
+        this.setTemperature([this.position]);
+      }
+      this.previousPosition = this.position;
     },
     async setHeat(body) {
       try {
@@ -264,27 +271,42 @@ export default {
       this.position = this.$refs.sliderPosition.getValue();
     },
     clickArribaMode(isActive, e) {
-      this.callSetHeat('top');
+      if(this.heatMode !== 'top') {
+        this.callSetHeat('top');
+        this.heatMode = 'top'
+      }
       this.$refs.btnAbajoMode.setActive(false, e);
       this.$refs.btnConvencionalMode.setActive(false, e);
     },
     clickAbajoMode(isActive, e) {
-      this.callSetHeat('bottom');
+      if(this.heatMode !== 'bottom') {
+        this.callSetHeat('bottom');
+        this.heatMode = 'bottom';
+      }
       this.$refs.btnArribaMode.setActive(false, e);
       this.$refs.btnConvencionalMode.setActive(false, e);
 
     },
     clickConvencionalMode(isActive, e) {
-      this.callSetHeat('conventional');
+      if(this.heatMode !== 'conventional') {
+        this.callSetHeat('conventional');
+        this.heatMode = 'conventional';
+      }
       this.$refs.btnArribaMode.setActive(false, e);
       this.$refs.btnAbajoMode.setActive(false, e);
 
     },
     clickGrillMode() {
-      this.callSetGrill(this.grillState);
+      if(this.grillState !== this.previousGrill) {
+        this.callSetGrill(this.grillState);
+      }
+      this.previousGrill = this.grillState;
     },
     clickConvectorMode() {
-      this.callSetConvection()
+      if(this.convectorState !== this.previousConvector) {
+        this.callSetConvection(this.convectorState);
+      }
+      this.previousConvector = this.convectorState;
     },
   },
 }

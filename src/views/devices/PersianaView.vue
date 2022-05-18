@@ -33,15 +33,13 @@
         />
       </v-row>
       <v-row class="justify-center ">
-        <!--    CAMBIAR ICONO      -->
         <btn-device
             :disabled="deviceOn"
             :disable-border="deviceOn"
             ref="btnSetLevel"
-            image-off="icons/64/tap_drop-bw.png"
-            image-on="icons/64/tap_drop-color.png"
             @click="callSetLevel"
         >
+          <v-icon>mdi-blinds-open</v-icon>
           DEFINIR NIVEL
         </btn-device>
 
@@ -77,6 +75,7 @@ export default {
     controller: null,
     deviceOn: false,
     position: 0,
+    previousPosition: 0,
   }),
   computed:{
     ...mapState("blinds", {
@@ -115,7 +114,10 @@ export default {
       }
     },
     callSetLevel(){
-      this.setLevelBlinds([this.position]);
+      if (this.position !== this.previousPosition) {
+        this.setLevelBlinds([this.position]);
+      }
+      this.previousPosition = this.position;
     },
     stateChange(active) {
       if(!active){

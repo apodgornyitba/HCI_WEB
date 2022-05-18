@@ -122,7 +122,9 @@ export default {
   data: () => ({
     deviceOn: false,
     fridgePosition: 2,
+    previousFridgePosition: 2,
     freezerPosition: -8,
+    previousFreezerPosition: -8,
     fridge: {
       id: "e82b46925d2bccdd",
       name: "my fridge",
@@ -151,7 +153,11 @@ export default {
       }
     },
     callSetTemperature() {
-      this.setTemperatureFridge([this.fridgePosition]);
+      if (this.fridgePosition !== this.previousFridgePosition) {
+        this.setTemperatureFridge([this.fridgePosition]);
+      }
+
+      this.previousFridgePosition = this.fridgePosition;
     },
     async setFreezerTemperatureFridge(body) {
       try {
@@ -161,7 +167,10 @@ export default {
       }
     },
     callSetFreezerTemperature(){
-      this.setFreezerTemperatureFridge([this.freezerPosition]);
+      if (this.freezerPosition !== this.previousFreezerPosition) {
+        this.setFreezerTemperatureFridge([this.freezerPosition]);
+      }
+      this.previousFreezerPosition = this.freezerPosition;
     },
     async setModeFridge(body) {
       try {
