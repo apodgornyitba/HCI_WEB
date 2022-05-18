@@ -21,7 +21,7 @@
       <v-card-text
           class="d-flex flex-wrap align-center justify-center text-center text-body-1"
       >
-        Todavía no agregaste ningún dispositivo.
+        Todavía no agregaste ningún ambiente.
       </v-card-text>
     </div>
   </container-horizontal>
