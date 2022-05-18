@@ -3,10 +3,10 @@
       title="Dispositivos Favoritos"
   >
     <v-row
-        v-if="devices && devices.length > 0"
+        v-if="favorites && favorites.length > 0"
         class="align-center justify-space-around"
     >
-      <template v-for="dev in this.devices">
+      <template v-for="dev in this.favorites">
         <btn-device
             :key="dev.id"
             :image-off="`icons/64/${dev.meta.image}-bw.png`"
@@ -32,7 +32,7 @@
 <script>
 import BtnDevice from "@/components/buttons/Device";
 import ContainerHorizontal from "@/components/containers/ContainerHorizontal";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "cardDispFav",
@@ -40,10 +40,18 @@ export default {
     BtnDevice,
     ContainerHorizontal
   },
+  data() {
+    return {
+      favorites: [],
+    }
+  },
   computed: {
     ...mapState("device", {
       devices: (state) => state.devices,
     }),
+    ...mapGetters("device", [
+      "favoriteDevices",
+    ]),
   },
   mounted() {
     this.getAllDevices();
@@ -52,17 +60,27 @@ export default {
     ...mapActions("device", {
       $getAllDevices: "getAll",
     }),
+
+
+    /* API */
+    getFavorites() {
+      if (!this.devices) {
+        return;
+      }
+      this.favorites = this.favoriteDevices;
+    },
     async getAllDevices() {
       try {
         this.controller = new AbortController();
         await this.$getAllDevices(this.controller);
         this.controller = null;
+
+        this.getFavorites();
       } catch (e) {
         console.error("Could not load devices due to: ", e);
       }
     },
   }
-  //FIX: TODOS LOS DIPOSITIVOS QUE TENGAN EL FLAG DE FAVORITOS
 }
 </script>
 

@@ -6,6 +6,18 @@ export default {
         devices: [],
         deviceTypes: [],
     },
+    getters: {
+        isInRoom(state, roomId) {
+            if (!roomId) {
+                console.error("module/device.js: No room id provided.");
+                return state.devices;
+            }
+            return state.devices.filter(dev => dev.meta.room === roomId);
+        },
+        favoriteDevices(state) {
+            return state.devices.filter(dev => dev.meta.favorite);
+        },
+    },
     actions: {
         async create({dispatch}, device) {
             const result = await DeviceApi.add(device);
