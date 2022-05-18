@@ -1,4 +1,4 @@
-import { faucet, faucetApi } from "@/api/grifo";
+import {faucet, faucetApi} from "@/api/grifo";
 
 export default {
     namespaced: true,
@@ -7,41 +7,41 @@ export default {
         on_off: Boolean,
     },
     actions: {
-        async create({ dispatch }, faucet) {
+        async create({dispatch}, faucet) {
             const result = await faucetApi.add(faucet);
             dispatch("get");
             return Object.assign(new faucet(), result);
         },
-        async modify({ dispatch }, faucet) {
+        async modify({dispatch}, faucet) {
             const result = await faucetApi.modify(faucet);
             dispatch("get");
             return result;
         },
-        async open({ dispatch }, faucet) {
-            const result = await faucetApi.modifyAction(faucet, 'open');
+        async open({dispatch}, faucet) {
+            const result = await faucetApi.modifyAction(faucet, 'open', {});
             dispatch("get");
             return Object.assign(new faucet(), result);
         },
-        async close({ dispatch }, faucet) {
-            const result = await faucetApi.modifyAction(faucet, 'close');
+        async close({dispatch}, faucet) {
+            const result = await faucetApi.modifyAction(faucet, 'close', {});
             dispatch("get");
             return Object.assign(new faucet(), result);
         },
-        async dispense({ dispatch }, faucet) {
-            const result = await faucetApi.modifyAction(faucet, /* Agregar el parametro o parametros necesarios para dispense*/);
+        async dispense({dispatch}, [faucet, body]) {
+            const result = await faucetApi.modifyAction(faucet, 'dispense', body);
             dispatch("get");
             return Object.assign(new faucet(), result);
         },
-        async delete({ dispatch }, id) {
+        async delete({dispatch}, id) {
             await faucetApi.delete(id);
             dispatch("get");
         },
-        async getState({ dispatch }, id) {
+        async getState({dispatch}, id) {
             const result = await faucetApi.getState(id);
             dispatch("get");
             return Object.assign(new faucet(), result);
         },
-        async get({ commit }, id) {
+        async get({commit}, id) {
             let result = await faucetApi.get(id);
             result = Object.assign(new faucet(), result);
             commit("replace", result);

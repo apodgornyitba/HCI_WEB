@@ -71,6 +71,7 @@ export default {
   data: () => ({
     deviceOn: false,
     locked: true,
+    //FIX: OBTENER EL ID DE LAS PUERTAS
     door: {
       id: "185723ea2f6c70d2",
       name: "my door",

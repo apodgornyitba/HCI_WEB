@@ -32,6 +32,20 @@
             :message="'Elija en que posición abrir la persiana'"
         />
       </v-row>
+      <v-row class="justify-center ">
+        <!--    CAMBIAR ICONO      -->
+        <btn-device
+            :disabled="deviceOn"
+            :disable-border="deviceOn"
+            ref="btnSetLevel"
+            image-off="icons/64/tap_drop-bw.png"
+            image-on="icons/64/tap_drop-color.png"
+            @click="callSetLevel"
+        >
+          DEFINIR NIVEL
+        </btn-device>
+
+      </v-row>
     </template>
   </device-generic>
 </template>
@@ -43,13 +57,15 @@ import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import HelpD from "@/components/accesories/helpD";
 import {mapState, mapActions} from "vuex";
+import BtnDevice from "@/components/buttons/Device";
 
 export default {
   name: "PersianaView",
-  components: {HelpD, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {BtnDevice, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
+    //FIX: pasarle una cortina
     blinds: {
-      id: "eb5e87892a3dfd81",
+      id: "231fb6f6c7a8756c",
       name: "my blinds",
       type: {
         id: "eu0v2xgprrhhg41g",
@@ -91,6 +107,16 @@ export default {
         this.setResult(e);
       }
     },
+    async setLevelBlinds(body){
+      try{
+        await this.$setLevelBlinds([this.blinds, body]);
+      }catch (e){
+        this.setResult(e);
+      }
+    },
+    callSetLevel(){
+      this.setLevelBlinds([this.position]);
+    },
     stateChange(active) {
       if(!active){
         this.closeBlinds();
@@ -99,19 +125,19 @@ export default {
       }
       this.deviceOn = active;
 
-      if (active === false) {
-        this.$refs.sliderPosition.setSliderValue(0);
-      } else {
-        this.$refs.sliderPosition.setSliderValue(this.position);
-      }
+      // if (active === false) {
+      //   this.$refs.sliderPosition.setSliderValue(0);
+      // } else {
+      //   this.$refs.sliderPosition.setSliderValue(this.position);
+      // }
     },
-    sliderStateChange(value) {
-      if (value > 0) {
-        this.$refs.devComponent.setStatus(true);
-        this.position = this.$refs.sliderPosition.getValue();
-      } else {
-        this.$refs.devComponent.setStatus(false);
-      }
+    sliderStateChange() {
+      // if (value > 0) {
+      //   this.$refs.devComponent.setStatus(true);
+      this.position = this.$refs.sliderPosition.getValue();
+      // } else {
+      //   this.$refs.devComponent.setStatus(false);
+      // }
     }
   },
 

@@ -2,18 +2,31 @@
   <container-horizontal
       title="Ambientes"
   >
-    <template v-for="(dev, idx) in devices">
+    <div
+        v-if="rooms.length > 0"
+        class="d-flex flex-wrap flex-row align-center justify-space-around"
+    >
+    <template v-for="room in rooms">
 
       <btn-device
-          :key="idx"
-          :image-off="`icons/64/${dev.image}-bw.png`"
-          :image-on="`icons/64/${dev.image}-color.png`"
+          :key="room.id"
+          :image-off="`icons/64/${room.meta.image}-bw.png`"
+          :image-on="`icons/64/${room.meta.image}-color.png`"
           class="my-3 mx-1 pa-0"
       >
-        {{ dev.name }}
+        {{ room.name }}
       </btn-device>
-    </template>
 
+    </template>
+    </div>
+
+    <div v-else>
+      <v-card-text
+          class="d-flex flex-wrap align-center justify-center text-center text-body-1"
+      >
+        Todavía no agregaste ningún dispositivo.
+      </v-card-text>
+    </div>
   </container-horizontal>
 
 </template>
@@ -21,6 +34,7 @@
 <script>
 import BtnDevice from "@/components/buttons/Device";
 import ContainerHorizontal from "@/components/containers/ContainerHorizontal";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "cardHomes",
@@ -28,15 +42,28 @@ export default {
     BtnDevice,
     ContainerHorizontal
   },
-  data: () => ({
-    devices: [
-      {name: 'Dormitorio 1', image: 'bed_big'},
-      {name: 'Oficina', image: 'desk'},
-      {name: 'Cocina', image: 'kitchen'},
-      {name: 'Baño 1', image: 'bath'},
-      {name: 'Garaje', image: 'garage'},
-    ]
-  })
+  computed: {
+    ...mapState("room", {
+      rooms: (state) => state.rooms,
+    }),
+  },
+  mounted() {
+    this.getAllRooms();
+  },
+  methods: {
+    ...mapActions("room", {
+      $getAllRooms: "getAll",
+    }),
+    async getAllRooms() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllRooms(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load rooms due to: ", e);
+      }
+    },
+  }
 }
 </script>
 

@@ -12,12 +12,6 @@
             GRUPO 5
           </h2>
         </v-col>
-        <v-col>
-          <help-button
-              :message="'Seleccione un usuario para continuar'"
-              class="text-right mr-10"
-          />
-        </v-col>
       </v-row>
       <v-row class="align-center">
         <v-col class="text-center">
@@ -28,8 +22,7 @@
               :src="require('@/assets/martin.png')"
               max-width="300px"
               max-height="300px"
-
-              style="margin-left: 150px"
+              style="margin-left: 50px"
           />
           <h3 class="subheading font-weight-light">
             Legajo: 60401
@@ -47,7 +40,7 @@
               max-width="300px"
               max-height="300px"
 
-              style="margin-left: 150px"
+              style="margin-left: 50px"
           />
           <h3 class="subheading font-weight-light">
             Legajo: 60570
@@ -64,7 +57,7 @@
               :src="require('@/assets/sol.png')"
               max-width="300px"
               max-height="300px"
-              style="margin-left: 150px"
+              style="margin-left: 50px"
           />
           <h3 class="subheading font-weight-light">
             Legajo: 61278
@@ -78,11 +71,10 @@
 </template>
 
 <script>
-import HelpButton from "@/components/accesories/helpButton";
 
 export default {
   name: "aboutView",
-  components: {HelpButton}
+  components: {}
 }
 </script>
 

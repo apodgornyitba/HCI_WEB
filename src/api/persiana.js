@@ -13,8 +13,8 @@ class blindsApi {
         return await Api.put(blindsApi.getUrl(blinds.id), blinds, controller);
     }
 
-    static async modifyAction(blinds, action, controller) {
-        return await Api.put(`${ blindsApi.getUrl(blinds.id)}/${ action }`, blinds, controller);
+    static async modifyAction(blinds, action, body, controller) {
+        return await Api.put(`${ blindsApi.getUrl(blinds.id)}/${ action }`, body, controller);
     }
 
     static async delete(id, controller) {

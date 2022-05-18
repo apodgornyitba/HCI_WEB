@@ -1,14 +1,15 @@
 import { Api } from "./api";
 
 class doorApi {
+    //*
     static getUrl(slug) {
         return `${Api.baseUrl}/devices${slug ? `/${slug}` : ""}`;
     }
-
+    //*
     static async add(door, controller) {
         return await Api.post(doorApi.getUrl(), door, controller);
     }
-
+    //*
     static async modify(door, controller) {
         return await Api.put(doorApi.getUrl(door.id), door, controller);
     }
@@ -16,11 +17,11 @@ class doorApi {
     static async modifyAction(door, action, controller) {
         return await Api.put(`${ doorApi.getUrl(door.id)}/${ action }`, door, controller);
     }
-
+    //*
     static async delete(id, controller) {
         return await Api.delete(doorApi.getUrl(id), controller);
     }
-
+    //*
     static async get(id, controller) {
         return await Api.get(doorApi.getUrl(id), controller);
     }
@@ -28,7 +29,7 @@ class doorApi {
     static async getState(id, controller) {
         return await Api.get(`${ doorApi.getUrl(id)}/state`, controller);
     }
-
+    //*
     static async getAll(controller) {
         return await Api.get(doorApi.getUrl(), controller);
     }
@@ -40,8 +41,9 @@ class door {
             this.id = id;
         }
         this.name = name;
-        this.type={
+        this.type = {
             id: "lsf78ly0eqrjbz91",
+            //*
             name: "door",
             powerUsage: 350,
         }

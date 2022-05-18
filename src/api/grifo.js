@@ -13,8 +13,8 @@ class faucetApi {
         return await Api.put(faucetApi.getUrl(faucet.id), faucet, controller);
     }
 
-    static async modifyAction(faucet, action, controller) {
-        return await Api.put(`${ faucetApi.getUrl(faucet.id)}/${ action }`, faucet, controller);
+    static async modifyAction(faucet, action, body, controller) {
+        return await Api.put(`${ faucetApi.getUrl(faucet.id)}/${ action }`, body, controller);
     }
 
     static async delete(id, controller) {

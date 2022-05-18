@@ -13,6 +13,28 @@
                 outlined
                 style="color:black"
                 large
+                to="/createroutine"
+            >
+              <v-icon>
+                mdi-table-plus
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Crear una rutina</span>
+        </v-tooltip>
+      </div>
+      <div
+          class="ma-1 pa-1"
+      >
+        <v-tooltip bottom>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn
+                v-bind="attrs"
+                v-on="on"
+                icon
+                outlined
+                style="color:black"
+                large
                 to="/modifyHome"
             >
               <v-icon>
@@ -32,7 +54,7 @@
         no-gutters
         class="align-center justify-end"
     >
-      <v-col cols="3">
+      <v-col cols="4">
         <cardRutinas/>
       </v-col>
       <v-col>

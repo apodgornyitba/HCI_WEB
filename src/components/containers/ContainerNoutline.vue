@@ -7,7 +7,7 @@
         no-gutters
     >
       <v-card-text
-          class="ma-2 pa-0 text-h2"
+          class="align-center justify-center text-center ma-2 pa-0 text-h2"
       >
         {{ this.title }}
       </v-card-text>
