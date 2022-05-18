@@ -15,10 +15,7 @@
       </v-col>
       <v-col>
         <v-row>
-        {{ this.state1 }}
-        </v-row>
-        <v-row>
-          {{ this.state2 }}
+        {{ this.state }}
         </v-row>
         <v-switch
             v-model="switchState"
@@ -47,15 +44,13 @@ export default {
   props: {
     'name': String,
     'image': String,
-    'state1': String,
-    'state2': String
+    'state': String,
   },
   methods: {
     getState() {
       if (!this.image) {
         return '';
       }
-
       if (this.switchState) {
         return `icons/64/${this.image}-color.png`;
       }

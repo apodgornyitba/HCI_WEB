@@ -1,6 +1,6 @@
 <template>
   <container-noutline
-      title="[AMBIENTE]"
+      :title = this.name
   >
     <v-row
         v-if="roomDevices && roomDevices.length > 0"
@@ -11,8 +11,7 @@
               :key="dev.id"
               :name="dev.name"
               :image="dev.meta.image"
-              :state1="dev.state1"
-              :state2="dev.state2"
+              :state="dev.state"
               class="my-3 mx-1 pa-0"
           />
         </template>
@@ -34,10 +33,16 @@
 import ContainerNoutline from "@/components/containers/ContainerNoutline";
 import CardDevice from "@/components/cardDevice";
 import {mapActions, mapGetters, mapState} from "vuex";
+import { Room } from "@/api/room";
+
 
 export default {
   name: "cardDispRoom",
   components: {CardDevice, ContainerNoutline},
+  props: {
+    'name': String,
+    'room': Room,
+  },
   data() {
     return {
       roomDevices: [],
@@ -63,7 +68,7 @@ export default {
       if (!this.devices) {
         return;
       }
-      this.roomDevices = this.isInRoom("6357316943e13c9c");
+      this.roomDevices = this.isInRoom(this.room.id);
     },
     async getAllDevices() {
       try {
@@ -76,7 +81,7 @@ export default {
       }
     },
   }
-}
+} //FIX: pasarle el status de cada dispositivo
 </script>
 
 <style scoped>
