@@ -1,6 +1,6 @@
 <template>
   <container-noutline
-      :title = this.name
+      title = "titulo"
   >
     <v-row
         v-if="roomDevices && roomDevices.length > 0"
@@ -68,7 +68,7 @@ export default {
       if (!this.devices) {
         return;
       }
-      this.roomDevices = this.isInRoom(this.room.id);
+      this.roomDevices = this.isInRoom("b453bb5547bc55ca");
     },
     async getAllDevices() {
       try {
@@ -81,7 +81,7 @@ export default {
       }
     },
   }
-} //FIX: pasarle el status de cada dispositivo
+}
 </script>
 
 <style scoped>

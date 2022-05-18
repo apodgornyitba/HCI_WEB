@@ -28,6 +28,7 @@ export default {
     imageOn: String,
     imageOff: String,
     small: Boolean,
+
   },
   data() {
     return {

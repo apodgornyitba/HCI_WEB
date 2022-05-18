@@ -17,6 +17,30 @@
         <v-row>
         {{ this.state }}
         </v-row>
+        <v-row>
+          {{ this.state["lock"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["freezerTemperature"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["mode"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["level"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["volume"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["genre"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["color"] }}
+        </v-row>
+        <v-row>
+          {{ this.state["brightness"] }}
+        </v-row>
         <v-switch
             v-model="switchState"
             color="primary"
@@ -44,7 +68,7 @@ export default {
   props: {
     'name': String,
     'image': String,
-    'state': String,
+    'state': Object,
   },
   methods: {
     getState() {
