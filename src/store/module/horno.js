@@ -8,51 +8,51 @@ export default {
     actions: {
         async create({ dispatch }, oven) {
             const result = await ovenApi.add(oven);
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async modify({ dispatch }, oven) {
             const result = await ovenApi.modify(oven);
-            dispatch("get");
+            dispatch("get", oven.id);
             return result;
         },
         async turnOn({ dispatch }, oven) {
             const result = await ovenApi.modifyAction(oven, 'turnOn');
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async turnOff({ dispatch }, oven) {
             const result = await ovenApi.modifyAction(oven, 'turnOff');
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async setTemperature({ dispatch }, [oven, body]) {
             const result = await ovenApi.modifyAction(oven, 'setTemperature', body);
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async setHeat({ dispatch }, [oven, body]) {
             const result = await ovenApi.modifyAction(oven, 'setHeat', body);
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async setGrill({ dispatch }, [oven, body]) {
             const result = await ovenApi.modifyAction(oven, 'setGrill', body);
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async setConvection({ dispatch }, [oven, body]) {
             const result = await ovenApi.modifyAction(oven, 'setConvection', body);
-            dispatch("get");
+            dispatch("get", oven.id);
             return Object.assign(new oven(), result);
         },
         async delete({ dispatch }, id) {
             await ovenApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await ovenApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new oven(), result);
         },
         async get({ commit }, id) {

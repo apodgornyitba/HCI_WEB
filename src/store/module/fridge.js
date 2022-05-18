@@ -8,36 +8,36 @@ export default {
     actions: {
         async create({ dispatch }, fridge) {
             const result = await fridgeApi.add(fridge);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
         async modify({ dispatch }, fridge) {
             const result = await fridgeApi.modify(fridge);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return result;
         },
         async setFreezerTemperature({ dispatch }, [fridge, body]) {
             const result = await fridgeApi.modifyAction(fridge, 'setFreezerTemperature',body);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
         async setTemperature({ dispatch }, [fridge, body]) {
             const result = await fridgeApi.modifyAction(fridge, 'setTemperature',body);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
         async setMode({ dispatch }, [fridge, body]) {
             const result = await fridgeApi.modifyAction(fridge, 'setMode', body);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
         async delete({ dispatch }, id) {
             await fridgeApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await fridgeApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new fridge(), result);
         },
         async get({ commit }, id) {
