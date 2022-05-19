@@ -33,15 +33,16 @@
         />
       </v-row>
       <v-row class="justify-center ">
-        <btn-device
+        <btn-primary
             :disabled="deviceOn"
             :disable-border="deviceOn"
             ref="btnSetLevel"
             @click="callSetLevel"
         >
-          <v-icon>mdi-blinds-open</v-icon>
-          DEFINIR NIVEL
-        </btn-device>
+          <v-card-text>
+          Definir nivel
+          </v-card-text>
+        </btn-primary>
 
       </v-row>
     </template>
@@ -55,19 +56,18 @@ import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import HelpD from "@/components/accesories/helpD";
 import {mapState, mapActions} from "vuex";
-import BtnDevice from "@/components/buttons/Device";
+import BtnPrimary from "@/components/buttons/Primary";
 
 export default {
   name: "PersianaView",
-  components: {BtnDevice, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {BtnPrimary, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
-    //FIX: pasarle una cortina
     blinds: {
-      id: "231fb6f6c7a8756c",
-      name: "my blinds",
+      id: '',
+      name: '',
       type: {
-        id: "eu0v2xgprrhhg41g",
-        name : "blinds",
+        id:'',
+        name: '',
         powerUsage: 350,
       },
     },
@@ -77,7 +77,14 @@ export default {
     position: 0,
     previousPosition: 0,
   }),
+  //FIX: guarda el state en la api pero no se me mantiene la parte visual --> el switch no se mantiene
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
+  },
   computed:{
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
     ...mapState("blinds", {
       on_off: (state) => state.on_off,
     }),
@@ -89,38 +96,50 @@ export default {
       $closeBlinds: "close",
       $setLevelBlinds: "setLevel",
     }),
-    setResult(result){
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getDeviceState() {
+      this.blinds = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
+      this.position = this.blinds.state['level'];
+      this.previousPosition = this.position;
+      this.$refs.sliderPosition.setSliderValue(this.position);
+    },
+
+    setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
-    async openBlinds(){
-      try{
+    async openBlinds() {
+      try {
         await this.$openBlinds(this.blinds)
-      }catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async closeBlinds(){
-      try{
+    async closeBlinds() {
+      try {
         await this.$closeBlinds(this.blinds)
-      }catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    async setLevelBlinds(body){
-      try{
+    async setLevelBlinds(body) {
+      try {
         await this.$setLevelBlinds([this.blinds, body]);
-      }catch (e){
+      } catch (e) {
         this.setResult(e);
       }
     },
-    callSetLevel(){
+    callSetLevel() {
       if (this.position !== this.previousPosition) {
         this.setLevelBlinds([this.position]);
       }
       this.previousPosition = this.position;
     },
     stateChange(active) {
-      if(!active){
+      if (!active) {
         this.closeBlinds();
       } else {
         this.openBlinds();
@@ -140,9 +159,17 @@ export default {
       // } else {
       //   this.$refs.devComponent.setStatus(false);
       // }
-    }
-  },
-
+    },
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
+      }
+    },
+  }
 }
 </script>
 

@@ -82,13 +82,12 @@ export default {
   data: () => ({
     unidades: ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'kl' ],
     unit: 'l',
-    //FIX: DEBE OBTENER UN GRIFO DE LAS LISTA DE LOS AGREGADOS
     faucet: {
-      id: "c40c5deea7400aa5",
-      name: "faucet1",
+      id: '',
+      name: '',
       type: {
-        id: "dbrlsh7o5sn8ur4i",
-        name: "faucet",
+        id: '',
+        name: '',
         powerUsage: 15,
       },
     },
@@ -99,11 +98,16 @@ export default {
     body: null,
     position: 0,
   }),
-
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
+  },
   computed: {
     ...mapState("faucet", {
       on_off: (state) => state.on_off,
       unitType: (state) => state.unitType,
+    }),
+    ...mapState("device", {
+      devices: (state) => state.devices,
     }),
   },
 
@@ -114,8 +118,19 @@ export default {
       $closeFaucet: "close",
       $dispenseFaucet: "dispense",
     }),
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
+    },
+    getDeviceState() {
+      this.faucet = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
+      this.position = this.faucet.state['brightness'];
+      this.previousPosition = this.position;
+      this.$refs.sliderPosition.setSliderValue(this.position);
+
     },
     async openFaucet() {
       try {
@@ -139,6 +154,7 @@ export default {
       }
 
     },
+
     callDispense(){
       this.dispenseFaucet([this.position, this.unit]);
       this.dispenseOn = true;
@@ -158,6 +174,15 @@ export default {
         this.$refs.sliderPosition.setSliderValue(0);
       } else {
         this.$refs.sliderPosition.setSliderValue(this.position);
+      }
+    },
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
       }
     },
     /*sliderStateChange(value) {
