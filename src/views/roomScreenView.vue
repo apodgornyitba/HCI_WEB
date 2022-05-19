@@ -53,7 +53,7 @@
 
       <v-row
           v-if="roomInformation.devices"
-          class="align-center justify-space-between"
+          class="align-center justify-space-around"
       >
         <card-device
             v-for="device in roomInformation.devices"
@@ -93,6 +93,9 @@ export default {
 
   data() {
     return {
+      intervalID: null,
+      routePath: '',
+
       roomInformation: {
         id: '',
         name: '',
@@ -114,11 +117,25 @@ export default {
   mounted() {
     this.roomInformation.id = this.$route.params.roomId;
 
+    /* Llamada antes del loop */
     this.getAllRooms();
     this.getAllDevices();
     this.getRoomName();
     this.getRoomImage();
     this.getRoomDevices();
+
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllRooms();
+      this.getAllDevices();
+      this.getRoomName();
+      this.getRoomImage();
+      this.getRoomDevices();
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {

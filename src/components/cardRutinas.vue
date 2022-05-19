@@ -97,6 +97,9 @@ export default {
   components: {ContainerWithHint, BtnDevice, BtnPrimary, ContainerVertical},
   data() {
     return {
+      intervalID: null,
+      routePath: '',
+
       tabs: [
         {id: 1, title: 'Rutinas', icon: 'mdi-phone', image: 'spinclock'},
         {id: 2, title: 'Dispositivos', icon: 'mdi-heart', image: 'bulb_smart'},
@@ -118,8 +121,18 @@ export default {
   },
 
   mounted() {
+    /* Llamada antes del loop */
     this.getAllDevices();
     this.getAllRoutines().then(this.populateRoutineButtons);
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices();
+      this.getAllRoutines().then(this.populateRoutineButtons);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {
@@ -168,7 +181,15 @@ export default {
 
       } catch (e) {
         console.error("Error:", e);
+
+        this.routineButtons[id].icon = false;
+        this.routineButtons[id].color = 'red';
         this.routineButtons[id].hint = 'Se ha producido un error. Vuelva a intentarlo más tarde.';
+
+        setTimeout(() => {
+          this.routineButtons[id].icon = false;
+          this.routineButtons[id].color = '';
+        }, 2000);
       }
 
     }

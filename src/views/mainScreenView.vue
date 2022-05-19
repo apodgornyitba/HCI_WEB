@@ -52,14 +52,20 @@
     </floating-container>
     <v-row
         no-gutters
-        class="align-center justify-end"
+        class="align-center justify-space-around"
     >
       <v-col cols="4">
         <cardRutinas/>
       </v-col>
-      <v-col>
-        <cardRooms/>
-        <cardDispFav/>
+      <v-col
+          class="fill-height align-center justify-space-around"
+      >
+        <v-row class="mb-5">
+          <cardRooms/>
+        </v-row>
+        <v-row class="mt-5">
+          <cardDispFav/>
+        </v-row>
       </v-col>
     </v-row>
   </div>

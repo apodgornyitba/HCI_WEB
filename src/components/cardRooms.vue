@@ -40,6 +40,12 @@ export default {
     BtnDevice,
     ContainerHorizontal
   },
+
+  data: () =>({
+    intervalID: null,
+    routePath: '',
+  }),
+
   computed: {
     ...mapState("room", {
       rooms: (state) => state.rooms,
@@ -48,7 +54,16 @@ export default {
   },
 
   mounted() {
+    /* Llamada antes del loop */
     this.getAllRooms();
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllRooms();
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {

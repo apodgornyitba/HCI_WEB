@@ -6,7 +6,7 @@
         v-if="favorites && favorites.length > 0"
         class="align-center justify-space-around"
     >
-      <template v-for="dev in this.favorites">
+      <template v-for="dev in favorites">
         <btn-device
             :key="dev.id"
             :image-off="`icons/64/${dev.meta.image}-bw.png`"
@@ -23,7 +23,7 @@
       <v-card-text
           class="d-flex flex-wrap align-center justify-center text-center text-body-1"
       >
-        Todavía no agregaste ningún dispositivo.
+        Todavía no agregaste ningún dispositivo como favorito.
       </v-card-text>
     </div>
   </container-horizontal>
@@ -43,6 +43,9 @@ export default {
   },
   data() {
     return {
+      intervalID: null,
+      routePath: '',
+
       favorites: [],
     }
   },
@@ -55,7 +58,16 @@ export default {
     ]),
   },
   mounted() {
+    /* Llamada antes del loop */
     this.getAllDevices();
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices();
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
   methods: {
     ...mapActions("device", {
