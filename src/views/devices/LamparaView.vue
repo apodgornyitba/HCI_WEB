@@ -5,6 +5,7 @@
       <device-component
           ref="devComponent"
           :name="$route.params.deviceId"
+          :loading="waitingForApi"
           image="lamp"
           class="ma-auto align-center justify-center"
           @change="stateChange"
@@ -17,14 +18,18 @@
       >
         <v-row no-gutters
                class="align-center justify-center">
-          <v-sheet
-              :color="getColor()"
-              elevation="2"
-              height="150"
-              outlined
-              shaped
-              width="110"
-          ></v-sheet>
+          <container-with-hint
+            hint="Color actual"
+          >
+            <v-sheet
+                :color="getColor()"
+                elevation="2"
+                height="150"
+                outlined
+                shaped
+                width="110"
+            ></v-sheet>
+          </container-with-hint>
         </v-row>
         <v-row
             class="my-10  align-center justify-center"
@@ -32,19 +37,8 @@
           <SliderMM
               ref="sliderPosition"
               title="Intensidad"
+              :loading="waitingForApi"
               @change="sliderStateChange"/>
-        </v-row>
-        <v-row class="justify-center">
-          <btn-primary
-              :disabled="!deviceOn"
-              :disable-border="!deviceOn"
-              ref="btnSetBrightness"
-              @click="callSetBrightness"
-          >
-            <v-card-text>
-              Definir intensidad
-            </v-card-text>
-          </btn-primary>
         </v-row>
       </v-container>
     </template>
@@ -92,12 +86,14 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import HelpD from "@/components/accesories/helpD";
 import {mapActions, mapState} from "vuex";
-import BtnPrimary from "@/components/buttons/Primary";
+import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
 export default {
   name: "LamparaView",
-  components: {BtnPrimary, HelpD, SliderMM, DeviceGeneric, DeviceComponent},
+  components: {ContainerWithHint, HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
+    waitingForApi: true,
+
     deviceOn: false,
     position: 0,
     previousPosition: 0,
@@ -124,11 +120,21 @@ export default {
     controller: null,
   }),
 
-
   mounted() {
+    console.log("La previa");
+    /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
+
+    setInterval(() => {
+      console.log("La partuza");
+      this.getAllDevices().then(this.getDeviceState);
+    }, 5000);
+
+    console.log("La resaca");
+
+
   },
-  //FIX: la lampara no setea la brightnes en 0 cuanod se apaga --> siempre piensa que esta prendida
+
   methods: {
     ...mapActions("lamp", {
       $modifyLamp: "modify",
@@ -144,17 +150,34 @@ export default {
     getDeviceState() {
       this.lamp = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.position = this.lamp.state['brightness'];
-      this.previousPosition = this.position;
-      this.$refs.sliderPosition.setSliderValue(this.position);
+      this.waitingForApi = true;
+      this.deviceOn = (this.lamp.state['status'] === 'on') ? true : false;
 
       this.color = '#' + this.lamp.state['color'];
+
+      this.position = this.lamp.state['brightness'];
+      this.previousPosition = this.position;
+
+      if (this.deviceOn) {
+        this.$refs.sliderPosition.setSliderValue(this.position);
+      }
+      else {
+        this.$refs.sliderPosition.setSliderValue(0);
+      }
+
+      this.$refs.devComponent.setStatus(this.deviceOn);
+
+      this.waitingForApi = false;
     },
 
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
     async turnOnLamp() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
         await this.$turnOnLamp(this.lamp)
       } catch (e) {
@@ -162,6 +185,10 @@ export default {
       }
     },
     async turnOffLamp() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
         await this.$turnOffLamp(this.lamp);
       } catch (e) {
@@ -169,6 +196,10 @@ export default {
       }
     },
     async setColorLamp(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
         await this.$setColorLamp([this.lamp, body]);
       } catch (e) {
@@ -182,18 +213,24 @@ export default {
       }
     },
     async setBrightnessLamp(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
         await this.$setBrightnessLamp([this.lamp, body]);
       } catch (e) {
         this.setResult(e);
       }
     },
+
     callSetBrightness() {
       if (this.position !== this.previousPosition) {
         this.setBrightnessLamp([this.position]);
       }
       this.previousPosition = this.position;
     },
+
     getColor() {
       if (!this.deviceOn) {
         return '#000000'
@@ -222,15 +259,13 @@ export default {
         this.position = this.$refs.sliderPosition.getValue();
         this.deviceOn = true;
 
-        if (this.on_off === false) {
-          this.turnOnLamp(this.lamp);
-        }
+        this.callSetBrightness();
+
+        this.turnOnLamp();
       } else {
         this.$refs.devComponent.setStatus(false);
         this.deviceOn = false;
-        if (this.on_off === true) {
-          this.turnOffLamp(this.lamp);
-        }
+        this.turnOffLamp();
       }
     },
 

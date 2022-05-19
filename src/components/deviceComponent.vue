@@ -23,6 +23,7 @@
               v-bind="attrs"
               v-on="on"
               style="color: black"
+              :loading="loading || waitingForApi"
           >
             <v-icon
                 v-if="!favorite"
@@ -69,6 +70,7 @@
             v-model="active"
             color="primary"
             inset
+            :loading="loading || waitingForApi"
             @change="stateChange"
         >
           <!-- TODO: Add error handling
@@ -95,6 +97,10 @@ export default {
     'on': String,
     'off': String,
     'alwaysActive': Boolean,
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: function () {
     return {
@@ -114,7 +120,12 @@ export default {
   },
 
   mounted() {
+    /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
+
+    setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+    }, 10000);
   },
 
   methods: {
