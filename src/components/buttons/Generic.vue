@@ -6,6 +6,7 @@
       :width="this.width"
       :height="this.height"
       :color="bindProperty('color','primary base')"
+      :to="`/roomScreen/${ path }`"
       raised
       elevation="3"
       @click="click"
@@ -32,6 +33,7 @@ export default {
   props: {
     image: String,
     toggle: Boolean,
+    path: String,
   },
   data: () => ({
     isActive: false,

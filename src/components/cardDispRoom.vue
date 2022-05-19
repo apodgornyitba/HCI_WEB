@@ -1,6 +1,6 @@
 <template>
   <container-noutline
-      title = "titulo"
+      :title = "this.name"
   >
     <v-row
         v-if="roomDevices && roomDevices.length > 0"
@@ -39,8 +39,8 @@ export default {
   name: "cardDispRoom",
   components: {CardDevice, ContainerNoutline},
   props: {
-    'name': String,
-    'roomId': String,
+    name: String,
+    roomid: String,
   },
   data() {
     return {
@@ -67,7 +67,9 @@ export default {
       if (!this.devices) {
         return;
       }
-      this.roomDevices = this.isInRoom("b453bb5547bc55ca");
+      console.log("roomNAME: ", this.name)
+      console.log("roomID: ", this.roomid);
+      this.roomDevices = this.isInRoom(this.roomid);
     },
     async getAllDevices() {
       try {

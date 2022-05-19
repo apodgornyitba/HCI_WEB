@@ -12,7 +12,8 @@
           :image-off="`icons/64/${room.meta.image}-bw.png`"
           :image-on="`icons/64/${room.meta.image}-color.png`"
           class="my-3 mx-1 pa-0"
-          @click="setPathRoom"
+          :path="room.name"
+          @click="getRoomPath(room.id)"
       >
         {{ room.name }}
       </btn-device>
@@ -62,6 +63,15 @@ export default {
       } catch (e) {
         console.error("Could not load rooms due to: ", e);
       }
+    },
+    async getRoomPath(id){
+      try{
+        await this.$getRoomPath(id);
+        console.log("path:", this.path);
+      }catch(e){
+        console.error("Could not load rooms due to: ", e);
+      }
+
     },
   }
 }

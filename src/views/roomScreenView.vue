@@ -34,6 +34,8 @@
     >
             <v-col v-if="rooms">
               <cardDispRoom
+                  :name="this.name"
+                  :roomid="this.roomid"
               />
             </v-col>
     </v-row>
@@ -46,6 +48,7 @@ import cardDispRoom from "@/components/cardDispRoom";
 import HelpButton from "@/components/accesories/helpButton";
 import FloatingContainer from "@/components/containers/FloatingContainer";
 import {mapActions, mapState} from "vuex";
+import {Room} from "@/api/room";
 
 export default {
   name: "roomScreenView",
@@ -56,17 +59,11 @@ export default {
       require: true,
     }
   },
-  data() {
-    return {
-      roomsshow: null,
-    }
-  },
   computed: {
     ...mapState("room", {
       rooms: (state) => state.rooms,
       path: (state) => state.path,
     }),
-
   },
   mounted() {
     this.getAllRooms();
@@ -79,11 +76,13 @@ export default {
       if (!this.rooms) {
         return;
       }
-      // console.log("Rooms: ", this.rooms);
-      console.log("Mypath: ", this.mypath);
-      // console.log("Rooms find: ", this.rooms.find(path => path.name === this.mypath));
-      // this.roomsshow = this.rooms.find(path => path.name === this.mypath);
-      // console.log("RoomsShow: ", this.roomsshow);
+      let roomsshow = new Room();
+      roomsshow = this.rooms.find(path => path.name === this.path);
+      this.name = roomsshow.name.toString();
+      console.log("name in destination: ", this.name);
+      this.roomid = roomsshow.id.toString();
+      console.log("id in destination: ", this.roomid);
+
     },
     async getAllRooms() {
       try {
@@ -96,7 +95,13 @@ export default {
       }
     },
 
-  }
+  },
+  data() {
+    return {
+      name: '',
+      roomid: '',
+    }
+  },
 }
 </script>
 
