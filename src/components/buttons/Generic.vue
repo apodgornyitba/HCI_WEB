@@ -6,7 +6,7 @@
       :width="this.width"
       :height="this.height"
       :color="bindProperty('color','primary base')"
-      :to="`${ path }`"
+      :to="this.path ? `${ path }` : ''"
       raised
       elevation="3"
       @click="click"
@@ -121,5 +121,6 @@ export default {
 
 .btn-generic .btn-generic--text {
   white-space: pre-line;
+  text-align: center;
 }
 </style>

@@ -69,7 +69,8 @@ class DeviceMeta {
 
 
 class DeviceType {
-    constructor() {
+    constructor(id) {
+        this.id = id;
     }
 }
 

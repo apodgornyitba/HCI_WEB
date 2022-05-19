@@ -7,8 +7,8 @@
       />
     </floating-container>
     <v-row
-      no-gutters
-      class="my-2 mb-3 text-center align-center justify-center"
+        no-gutters
+        class="my-2 mb-3 text-center align-center justify-center"
     >
       <h1>
         Modificar {{ this.houseName }}
@@ -20,6 +20,7 @@
       <container-vertical
           :tabs="tabs"
           @change="tabChangeHandler"
+          class="ma-2 mx-5"
       >
         <template v-slot:tab-1>
           <div
@@ -164,6 +165,7 @@
       >
         <btn-primary
             class="mx-15"
+            :path="addButton.path"
             @click="addClickHandler"
         >
           <div class="d-flex flex-column align-center justify-center">
@@ -173,18 +175,21 @@
         </btn-primary>
       </container-with-hint>
 
-      <v-spacer/>
-<!--
-      <btn-secondary
-          :disabled="!selected"
-          @click="editButtonClickHandler"
-      >
-        <div class="d-flex flex-column align-center justify-center">
-          <v-icon>mdi-pencil</v-icon>
-          <div class="mt-2">{{ editButton.text }}</div>
-        </div>
-      </btn-secondary>
--->
+      <!--
+            <btn-secondary
+                :disabled="!selected"
+                @click="editButtonClickHandler"
+            >
+              <div class="d-flex flex-column align-center justify-center">
+                <v-icon>mdi-pencil</v-icon>
+                <div class="mt-2">{{ editButton.text }}</div>
+              </div>
+            </btn-secondary>
+      -->
+      <div
+          class="d-flex"
+          style="width: 220px;"
+      />
 
     </v-row>
 
@@ -235,6 +240,7 @@ export default {
       errorMsg: '',
     },
     addButton: {
+      path:'',
       text: '',
     },
     deleteButton: {
@@ -317,12 +323,18 @@ export default {
       switch (this.currentTab) {
         case 1:
           this.editButton.text = 'Editar habitación seleccionada';
+
+          this.addButton.path='/addRoom';
           this.addButton.text = 'Añadir habitación';
+
           this.deleteButton.text = 'Eliminar habitación seleccionada';
           break;
         case 2:
           this.editButton.text = 'Editar dispositivo seleccionado';
+
+          this.addButton.path='/addDevice';
           this.addButton.text = 'Añadir dispositivo';
+
           this.deleteButton.text = 'Eliminar dispositivo seleccionado';
           break;
         default:
