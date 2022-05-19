@@ -30,7 +30,6 @@
             ref="btnSetFridgeTemperature"
             @click="callSetTemperature"
         >
-          <v-icon class="mt-4 mb-n3">mdi-thermometer-plus</v-icon>
           <v-card-text>
             Definir temperatura heladera
           </v-card-text>
@@ -55,7 +54,6 @@
             ref="btnSetFreezerTemperature"
             @click="callSetFreezerTemperature"
         >
-          <v-icon class="mt-4 mb-n3">mdi-thermometer-plus</v-icon>
           <v-card-text>
             Definir temperatura freezer
           </v-card-text>

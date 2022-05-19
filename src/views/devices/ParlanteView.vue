@@ -113,7 +113,6 @@
               @click="callSetGenre"
 
           >
-            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
             <v-card-text>
               Definir genero
             </v-card-text>

@@ -41,7 +41,6 @@
               ref="btnSetBrightness"
               @click="callSetBrightness"
           >
-            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
             <v-card-text>
               Definir intensidad
             </v-card-text>

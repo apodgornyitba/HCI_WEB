@@ -3,6 +3,7 @@
 
     <template v-slot:left-pane>
       <device-component
+          ref="devComponent"
           :name="$route.params.deviceId"
           image="oven"
           class="ma-auto align-center justify-center"
@@ -133,15 +134,16 @@
         />
       </v-row>
       <v-row class="justify-center">
-        <btn-device
+        <btn-primary
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
             ref="btnSetTemperature"
             @click="callSetTemperature"
         >
-          <v-icon>mdi-thermometer-plus</v-icon>
-          DEFINIR TEMPERATURA
-        </btn-device>
+          <v-card-text>
+            Definir temperatura
+          </v-card-text>
+        </btn-primary>
       </v-row>
     </template>
 
@@ -156,39 +158,40 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
+import BtnPrimary from "@/components/buttons/Primary";
 
 export default {
   name: "HornoView",
-  components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
+  components: {BtnPrimary, HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
 
     grillStatus: ['eco', 'large', 'off' ],
-    grillState: 'eco',
-    previousGrill: 'eco',
+    grillState: '',
+    previousGrill: '',
     convectorStatus: ['eco', 'normal', 'off' ],
-    convectorState: 'off',
-    previousConvector: 'off',
-    heatMode: 'conventional',
+    convectorState: '',
+    previousConvector: '',
+    heatMode: '',
     deviceOn: false,
     position: 90,
     previousPosition: 90,
-    modeOn1: false,
-    modeOn2: false,
-    switchState1: false,
-    switchState2: false,
     oven: {
-      id: "232e4e72736e42c4",
-      name: "my oven",
+      id: '',
+      name: '',
       type: {
-        id: "im77xxyulpegfmv8",
-        name: "oven",
-        powerUsage: 1225,
+        id: '',
+        name: '',
       },
     },
     result: null,
     controller: null,
   }),
+
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
+  },
+
   methods: {
     ...mapActions("oven", {
       $modifyOven: "modify",
@@ -199,6 +202,50 @@ export default {
       $setGrillOven: "setGrill",
       $setConvectionOven: "setConvection",
     }),
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getDeviceState() {
+      this.oven = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
+      this.position = this.oven.state['temperature'];
+      this.previousPosition = this.position;
+      this.$refs.sliderPosition.setSliderValue(this.position);
+
+      this.grillState = this.oven.state['grill'];
+      this.previousGrill = this.grillState;
+      if(this.grillState === 'off'){
+        this.$refs.btnGrillMode.setActive(false);
+      } else if(this.grillState === 'eco' || this.grillState === 'large' ){
+        this.$refs.btnGrillMode.setActive(true);
+      }
+
+      this.convectorState = this.oven.state['convection'];
+      this.previousConvector = this.convectorState;
+      if(this.convectorState === 'off'){
+        this.$refs.btnConvectorMode.setActive(false);
+      } else if(this.convectorState === 'eco' || this.convectorState === 'normal' ){
+        this.$refs.btnConvectorMode.setActive(true);
+      }
+
+      this.heatMode = this.oven.state['heat'];
+
+      if(this.heatMode === 'top'){
+        this.$refs.btnArribaMode.setActive(true);
+      } else if(this.heatMode === 'bottom'){
+        this.$refs.btnAbajoMode.setActive(true);
+      }else if (this.heatMode === 'conventional'){
+        this.$refs.btnConvencionalMode.setActive(true);
+      }
+
+      if(this.oven.state['status'] === 'on'){
+        this.deviceOn = true;
+      } else if (this.oven.state['status'] === 'off'){
+        this.deviceOn = false;
+      }
+    },
+
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
@@ -262,8 +309,11 @@ export default {
     stateChange(active) {
       if (!active) {
         this.turnOffOven(this.oven);
+        this.$refs.devComponent.setStatus(false);
       } else {
         this.turnOnOven(this.oven);
+        this.$refs.devComponent.setStatus(true);
+
       }
       this.deviceOn = active;
     },
@@ -308,7 +358,24 @@ export default {
       }
       this.previousConvector = this.convectorState;
     },
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
+      }
+    },
   },
+  computed: {
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
+    ...mapState("oven", {
+      on_off: (state) => state.on_off,
+    }),
+  }
 }
 </script>
 
