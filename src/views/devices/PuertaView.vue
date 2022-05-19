@@ -105,15 +105,13 @@ export default {
     /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
 
-    /*
-        this.routePath = this.$route.path;
-        this.intervalID = setInterval(() => {
-          this.getAllDevices().then(this.getDeviceState);
-          if (!this.routePath || this.$route.path !== this.routePath) {
-            clearInterval(this.intervalID);
-          }
-        }, 5000);
-    */
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {
@@ -131,8 +129,12 @@ export default {
     getDeviceState() {
       this.door = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      if (this.door) {
+      if (!this.door) {
+        return;
+      }
+      try {
         this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
 
         if (this.door.state['status'] === "opened") {
           this.deviceOn = true;
@@ -150,10 +152,14 @@ export default {
           this.$refs.btnUnlockMode.setActive(false);
           this.$refs.btnLockMode.setActive(true);
         }
+      } catch (e) {
+        console.error("Error while getting device state. Moving on anyway.", e);
+      } finally {
 
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
 
-      this.waitingForApi = false;
     },
 
     setResult(result) {
@@ -169,29 +175,36 @@ export default {
       try {
         this.waitingForApi = true;
         this.$refs.devComponent.waitForExternalApi(true);
+
         await this.$openDoor(this.door)
+        console.log("door opened");
       } catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
+        console.log("mutx unlock");
       }
-
-      this.$refs.devComponent.waitForExternalApi(false);
-      this.waitingForApi = false;
     },
     async closeDoor() {
       if (this.waitingForApi) {
         return;
       }
+      console.log("closeDoor");
 
       try {
         this.waitingForApi = true;
         this.$refs.devComponent.waitForExternalApi(true);
         await this.$closeDoor(this.door)
+        console.log("door closed");
       } catch (e) {
         this.setResult(e);
+        console.error("Error closing door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
-
-      this.$refs.devComponent.waitForExternalApi(false);
-      this.waitingForApi = false;
     },
     async lockDoor() {
       if (this.waitingForApi) {
@@ -203,9 +216,9 @@ export default {
         await this.$lockDoor(this.door);
       } catch (e) {
         this.setResult(e);
+      } finally {
+        this.waitingForApi = false;
       }
-
-      this.waitingForApi = false;
     },
     async unlockDoor() {
       if (this.waitingForApi) {
@@ -217,9 +230,9 @@ export default {
         await this.$unlockDoor(this.door);
       } catch (e) {
         this.setResult(e);
+      } finally {
+        this.waitingForApi = false;
       }
-
-      this.waitingForApi = false;
     },
 
     stateChange(active) {
@@ -227,9 +240,12 @@ export default {
         return;
       }
 
+      console.log("stateChange:", active);
+
       if (this.locked) {
         this.$refs.devComponent.setStatus(false);
       } else {
+        console.log("active:", active);
         if (active) {
           this.openDoor();
         } else {

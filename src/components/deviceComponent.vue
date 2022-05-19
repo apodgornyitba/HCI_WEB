@@ -189,22 +189,38 @@ export default {
       this.setDeviceAsFavorite();
     },
     stateChange(status) {
+      console.log("stateChange:", status);
       this.$emit('change', status);
     },
 
     setStatus(status) {
+      console.log("setStatus:", status);
       this.active = status;
     },
 
     getDeviceState() {
       const device = this.devices.find(device => device.id === this.name);
 
-      if(device) {
+      if (device) {
+        console.log("getDeviceState:", device);
         this.waitingForApi = true;
         this.favorite = device.meta.favorite;
-        this.active = (device.state.status && device.state.status === "on") ? true : false;
+
+        if (device.state.status) {
+          switch (device.state.status) {
+            case 'on':      /* Fallthrough */
+            case 'opened':
+            case 'open':
+            case 'active':
+              this.active = true;
+              break;
+            default:
+              this.active = false;
+              break;
+          }
+        }
+        this.waitingForApi = false;
       }
-      this.waitingForApi = false;
     },
 
     /* API */
@@ -216,7 +232,8 @@ export default {
       } catch (e) {
         console.error("Could not load rooms due to: ", e);
       }
-    },
+    }
+    ,
 
     async setDeviceAsFavorite() {
       if (this.waitingForApi) {

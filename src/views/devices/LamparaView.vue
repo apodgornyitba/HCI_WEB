@@ -179,9 +179,15 @@ export default {
       }
 
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$turnOnLamp(this.lamp)
       } catch (e) {
         this.setResult(e);
+      }
+      finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     async turnOffLamp() {
@@ -190,9 +196,14 @@ export default {
       }
 
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$turnOffLamp(this.lamp);
       } catch (e) {
         this.setResult(e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     async setColorLamp(body) {
@@ -201,9 +212,12 @@ export default {
       }
 
       try {
+        this.waitingForApi = true;
         await this.$setColorLamp([this.lamp, body]);
       } catch (e) {
         this.setResult(e);
+      } finally {
+        this.waitingForApi = false;
       }
     },
     setColor(color) {
@@ -218,9 +232,12 @@ export default {
       }
 
       try {
+        this.waitingForApi = true;
         await this.$setBrightnessLamp([this.lamp, body]);
       } catch (e) {
         this.setResult(e);
+      } finally {
+        this.waitingForApi = false;
       }
     },
 

@@ -1,4 +1,4 @@
-import { door, doorApi } from "@/api/door";
+import { Door, DoorApi } from "@/api/door";
 
 export default {
     namespaced: true,
@@ -7,47 +7,48 @@ export default {
     },
     actions: {
         async create({ dispatch }, door) {
-            const result = await doorApi.add(door);
+            const result = await DoorApi.add(door);
             dispatch("get", door.id);
-            return Object.assign(new door(), result);
+            return Object.assign(new Door(), result);
         },
         async modify({ dispatch }, door) {
-            const result = await doorApi.modify(door);
+            const result = await DoorApi.modify(door);
             dispatch("get", door.id);
             return result;
         },
         async open({ dispatch }, door) {
-            const result = await doorApi.modifyAction(door, 'open');
+            console.log("open:", door);
+            const result = await DoorApi.modifyAction(door, 'open');
             dispatch("get", door.id);
-            return Object.assign(new door(), result);
+            return Object.assign(new Door(), result);
         },
         async close({ dispatch }, door) {
-            const result = await doorApi.modifyAction(door, 'close');
+            const result = await DoorApi.modifyAction(door, 'close');
             dispatch("get", door.id);
-            return Object.assign(new door(), result);
+            return Object.assign(new Door(), result);
         },
         async lock({ dispatch }, door) {
-            const result = await doorApi.modifyAction(door, 'lock');
+            const result = await DoorApi.modifyAction(door, 'lock');
             dispatch("get", door.id);
-            return Object.assign(new door(), result);
+            return Object.assign(new Door(), result);
         },
         async unlock({ dispatch }, door) {
-            const result = await doorApi.modifyAction(door, 'unlock');
+            const result = await DoorApi.modifyAction(door, 'unlock');
             dispatch("get", door.id);
-            return Object.assign(new door(), result);
+            return Object.assign(new Door(), result);
         },
         async delete({ dispatch }, id) {
-            await doorApi.delete(id);
+            await DoorApi.delete(id);
             dispatch("get", id);
         },
         async getState({ dispatch }, id) {
-            const result = await doorApi.getState(id);
+            const result = await DoorApi.getState(id);
             dispatch("get", id);
-            return Object.assign(new door(), result);
+            return Object.assign(new Door(), result);
         },
         async get({ commit }, id) {
-            let result = await doorApi.get(id);
-            result = Object.assign(new door(), result);
+            let result = await DoorApi.get(id);
+            result = Object.assign(new Door(), result);
             commit("replace", result);
         },
     },
