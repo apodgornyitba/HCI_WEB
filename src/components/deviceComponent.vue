@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="pa-4"
+      class="pa-4"
   >
     <v-row
         class="justify-center align-center mx-4"
@@ -71,9 +71,9 @@
           inset
           @change="stateChange"
       >
-<!-- TODO: Add error handling
-        :error="!hasError"
--->
+        <!-- TODO: Add error handling
+                :error="!hasError"
+        -->
       </v-switch>
 
       <v-spacer/>
@@ -101,6 +101,7 @@ export default {
       active: false,
       favorite: false,
       hasError: false,
+      waitingForApi: false,
     }
   },
 
@@ -110,13 +111,14 @@ export default {
     }),
   },
 
-  mounted(){
-    this.getAllDevices();
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
   },
 
   methods: {
     ...mapActions("device", {
-        $getAllDevices:"getAll",
+      $getAllDevices: "getAll",
+      $modifyDevice: "modify",
     }),
 
     getDeviceNameById() {
@@ -166,6 +168,7 @@ export default {
     },
     toggleFavorite() {
       this.favorite = !this.favorite;
+      this.setDeviceAsFavorite();
     },
     stateChange(status) {
       this.$emit('change', status);
@@ -178,6 +181,13 @@ export default {
       this.hasError = status;
     },
 
+    getDeviceState() {
+      const device = this.devices.find(device => device.id === this.name);
+
+      this.favorite = device.meta.favorite;
+      this.active = (device.state.status && device.state.status === "on") ? true : false;
+    },
+
     /* API */
     async getAllDevices() {
       try {
@@ -188,6 +198,28 @@ export default {
         console.error("Could not load rooms due to: ", e);
       }
     },
+
+    async setDeviceAsFavorite() {
+      if (this.waitingForApi) {
+        return;
+      }
+
+      let device = this.devices.find(device => device.id === this.name);
+
+      device.meta.favorite = this.favorite;
+      delete device['type'];
+      delete device['state'];
+
+      this.waitingForApi = true;
+      try {
+        this.controller = new AbortController();
+        await this.$modifyDevice(device, this.controller);
+        this.controller = null;
+        this.waitingForApi = false;
+      } catch (e) {
+        console.error("Could not load device due to: ", e);
+      }
+    }
   },
 }
 </script>
