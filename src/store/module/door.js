@@ -17,7 +17,6 @@ export default {
             return result;
         },
         async open({ dispatch }, door) {
-            console.log("open:", door);
             const result = await DoorApi.modifyAction(door, 'open');
             dispatch("get", door.id);
             return Object.assign(new Door(), result);

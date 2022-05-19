@@ -189,12 +189,10 @@ export default {
       this.setDeviceAsFavorite();
     },
     stateChange(status) {
-      console.log("stateChange:", status);
       this.$emit('change', status);
     },
 
     setStatus(status) {
-      console.log("setStatus:", status);
       this.active = status;
     },
 
@@ -202,7 +200,6 @@ export default {
       const device = this.devices.find(device => device.id === this.name);
 
       if (device) {
-        console.log("getDeviceState:", device);
         this.waitingForApi = true;
         this.favorite = device.meta.favorite;
 

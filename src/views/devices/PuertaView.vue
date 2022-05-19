@@ -177,27 +177,23 @@ export default {
         this.$refs.devComponent.waitForExternalApi(true);
 
         await this.$openDoor(this.door)
-        console.log("door opened");
       } catch (e) {
         this.setResult(e);
         console.error("Error opening door:", e);
       } finally {
         this.$refs.devComponent.waitForExternalApi(false);
         this.waitingForApi = false;
-        console.log("mutx unlock");
       }
     },
     async closeDoor() {
       if (this.waitingForApi) {
         return;
       }
-      console.log("closeDoor");
 
       try {
         this.waitingForApi = true;
         this.$refs.devComponent.waitForExternalApi(true);
         await this.$closeDoor(this.door)
-        console.log("door closed");
       } catch (e) {
         this.setResult(e);
         console.error("Error closing door:", e);
@@ -240,12 +236,9 @@ export default {
         return;
       }
 
-      console.log("stateChange:", active);
-
       if (this.locked) {
         this.$refs.devComponent.setStatus(false);
       } else {
-        console.log("active:", active);
         if (active) {
           this.openDoor();
         } else {
