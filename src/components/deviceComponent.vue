@@ -110,7 +110,10 @@ export default {
       height: 400,
       active: false,
       favorite: false,
+
       waitingForApi: false,
+      intervalID: null,
+      routePath: '',
     }
   },
 
@@ -124,9 +127,13 @@ export default {
     /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
 
-    // setInterval(() => {
-    //   this.getAllDevices().then(this.getDeviceState);
-    // }, 10000);
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 10000);
   },
 
   methods: {
@@ -209,6 +216,7 @@ export default {
             case 'opened':
             case 'open':
             case 'active':
+            case 'playing':
               this.active = true;
               break;
             default:
@@ -229,8 +237,7 @@ export default {
       } catch (e) {
         console.error("Could not load rooms due to: ", e);
       }
-    }
-    ,
+    },
 
     async setDeviceAsFavorite() {
       if (this.waitingForApi) {

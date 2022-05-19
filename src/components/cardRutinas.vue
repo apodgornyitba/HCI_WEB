@@ -52,6 +52,8 @@
         <btn-device
             v-for="item in devices"
             :key="item.id"
+
+            :ref="`btn-all-${item.id}`"
             :image-off="`icons/64/${item.meta.image}-bw.png`"
             :image-on="`icons/64/${item.meta.image}-color.png`"
             class="justify-center align-center"
@@ -99,6 +101,7 @@ export default {
     return {
       intervalID: null,
       routePath: '',
+      waitingForApi: false, /* For buttons */
 
       tabs: [
         {id: 1, title: 'Rutinas', icon: 'mdi-phone', image: 'spinclock'},
@@ -122,12 +125,12 @@ export default {
 
   mounted() {
     /* Llamada antes del loop */
-    this.getAllDevices();
+    this.getAllDevices().then(this.getDeviceState);
     this.getAllRoutines().then(this.populateRoutineButtons);
 
     this.routePath = this.$route.path;
     this.intervalID = setInterval(() => {
-      this.getAllDevices();
+      this.getAllDevices().then(this.getDeviceState);
       this.getAllRoutines().then(this.populateRoutineButtons);
       if (!this.routePath || this.$route.path !== this.routePath) {
         clearInterval(this.intervalID);
@@ -157,6 +160,34 @@ export default {
           hint: '',
         }
       }
+    },
+
+
+    getDeviceState() {
+      if (this.waitingForApi) {
+        return;
+      }
+
+      for (const device of this.devices) {
+        this.waitingForApi = true;
+
+        if (device.state.status) {
+          switch (device.state.status) {
+            case 'on':      /* Fallthrough */
+            case 'opened':
+            case 'open':
+            case 'active':
+            case 'playing':
+              this.$refs[`btn-all-${device.id}`][0].setActive(true);
+              break;
+            default:
+              this.$refs[`btn-all-${device.id}`][0].setActive(false);
+              break;
+          }
+        }
+      }
+
+      this.waitingForApi = false;
     },
 
     async routineClickHandler(id) {
@@ -192,9 +223,9 @@ export default {
         }, 2000);
       }
 
-    }
-    ,
+    },
 
+    /* API */
     async getAllDevices() {
       try {
         this.controller = new AbortController();
@@ -203,8 +234,7 @@ export default {
       } catch (e) {
         console.error("Could not load devices due to: ", e);
       }
-    }
-    ,
+    },
 
     async getAllRoutines() {
       try {
