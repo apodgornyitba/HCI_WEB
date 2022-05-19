@@ -37,12 +37,6 @@ const routes = [
         name: 'routinecreation',
         component: () => import('../views/routine/RoutineCreationView.vue')
     },
-
-    {
-        path: '/modifyDevices',
-        name: 'modifyDevices',
-        component: () => import('../views/modifyDevicesView.vue')
-    },
     {
         path: '/modifyHome',
         name: 'modifyHome',
@@ -89,17 +83,17 @@ const routes = [
         name: 'grifo',
         component: () => import('../views/devices/GrifoView')
     },
-    {
+    /*{
         path: '/li6cbv5sdlatti0j/:deviceId',
         name: 'ac',
         component: () => import('../views/devices/ACView')
-    },
+    },*/
     {
         path: '/im77xxyulpegfmv8/:deviceId',
         name: 'horno',
         component: () => import('../views/devices/HornoView')
     },
-    {
+    /*{
         path: '/ofglvd9gqx8yfl3l/:deviceId',
         name: 'aspiradora',
         component: () => import('../views/devices/AspiradoraView')
@@ -108,7 +102,7 @@ const routes = [
         path: '/mxztsyjzsrq7iaqc/:deviceId',
         name: 'alarma',
         component: () => import('../views/devices/AlarmaView')
-    },
+    },*/
 
     // 404: Not found
     {
