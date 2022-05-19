@@ -8,24 +8,8 @@ export default {
         types: [],
     },
     getters: {
-        isInRoom(state) {
-            return (roomId) => {
-                if (!roomId) {
-                    console.error("module/device.js: No room id provided.");
-                    return state.devices;
-                }
-                return state.devices.filter(dev => dev.meta.room === roomId);
-            }
-        },
         favoriteDevices(state) {
             return state.devices.filter(dev => dev.meta.favorite);
-        },
-
-        getActionByType(state) {
-            return function (id) {
-                const device = state.types.filter(type => type.id === id);
-                console.log("module/device.js: device:", device);
-            }
         },
     },
     actions: {

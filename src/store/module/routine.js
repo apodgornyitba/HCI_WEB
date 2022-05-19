@@ -32,6 +32,12 @@ export default {
             result = result.map((routine) => Object.assign(new Routine(), routine));
             commit("replace", result);
         },
+
+        async execute({dispatch}, [routine, controller]) {
+            const result = await RoutineApi.execute(routine, controller);
+            dispatch("getAll");
+            return result;
+        }
     },
 
     mutations: {

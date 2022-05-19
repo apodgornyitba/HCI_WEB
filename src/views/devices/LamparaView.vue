@@ -35,15 +35,17 @@
               @change="sliderStateChange"/>
         </v-row>
         <v-row class="justify-center">
-            <btn-device
-                :disabled="!deviceOn"
-                :disable-border="!deviceOn"
-                ref="btnSetBrightness"
-                @click="callSetBrightness"
-            >
-              <v-icon>mdi-plus-thick</v-icon>
-              DEFINIR INTENSIDAD
-            </btn-device>
+          <btn-primary
+              :disabled="!deviceOn"
+              :disable-border="!deviceOn"
+              ref="btnSetBrightness"
+              @click="callSetBrightness"
+          >
+            <v-icon>mdi-plus-thick</v-icon>
+            <v-card-text>
+              Definir intensidad
+            </v-card-text>
+          </btn-primary>
         </v-row>
       </v-container>
     </template>
@@ -51,7 +53,7 @@
     <template v-slot:right-pane>
       <v-row class="justify-end mr-5">
         <help-d
-            :message="'Eliga la intensidad y el color de la luz'"
+            :message="'Elija la intensidad y el color de la luz'"
         />
       </v-row>
       <v-row
@@ -91,11 +93,11 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import HelpD from "@/components/accesories/helpD";
 import {mapActions, mapState} from "vuex";
-import BtnDevice from "@/components/buttons/Device";
+import BtnPrimary from "@/components/buttons/Primary";
 
 export default {
   name: "LamparaView",
-  components: { BtnDevice, HelpD, SliderMM, DeviceGeneric, DeviceComponent},
+  components: {BtnPrimary, HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
     deviceOn: false,
     position: 0,
@@ -112,17 +114,23 @@ export default {
     ],
     color: '#000000',
     lamp: {
-      id: "5f267650584de307",
-      name: "my lamp",
+      id: '',
+      name: '',
       type: {
-        id: "go46xmbqeomjrsjr",
-        name: "lamp",
+        id: '',
+        name: '',
         powerUsage: 15,
       },
     },
     result: null,
     controller: null,
   }),
+
+
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
+  },
+
   methods: {
     ...mapActions("lamp", {
       $modifyLamp: "modify",
@@ -131,6 +139,19 @@ export default {
       $setColorLamp: "setColor",
       $setBrightnessLamp: "setBrightness",
     }),
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getDeviceState() {
+      this.lamp = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
+      this.position = this.lamp.state['brightness'];
+      this.previousPosition = this.position;
+      this.$refs.sliderPosition.setSliderValue(this.position);
+
+      this.color = '#' + this.lamp.state['color'];
+    },
 
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
@@ -157,9 +178,9 @@ export default {
       }
     },
     setColor(color) {
-      if(this.color !== color) {
+      if (this.color !== color) {
         this.color = color;
-        this.setColorLamp([this.color]);
+        this.setColorLamp([this.color.substring(1)]);
       }
     },
     async setBrightnessLamp(body) {
@@ -169,7 +190,7 @@ export default {
         this.setResult(e);
       }
     },
-    callSetBrightness(){
+    callSetBrightness() {
       if (this.position !== this.previousPosition) {
         this.setBrightnessLamp([this.position]);
       }
@@ -183,10 +204,10 @@ export default {
     },
     stateChange(active) {
       if (!active) {
-          this.turnOffLamp(this.lamp);
+        this.turnOffLamp(this.lamp);
 
       } else {
-          this.turnOnLamp(this.lamp);
+        this.turnOnLamp(this.lamp);
       }
 
       this.deviceOn = active;
@@ -213,9 +234,22 @@ export default {
           this.turnOffLamp(this.lamp);
         }
       }
-    }
+    },
+
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
+      }
+    },
   },
   computed: {
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
     ...mapState("lamp", {
       on_off: (state) => state.on_off,
     }),
