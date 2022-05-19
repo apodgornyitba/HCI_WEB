@@ -9,14 +9,26 @@
           flat
           class="d-flex flex-wrap flex-row align-center justify-space-around"
       >
-        <btn-primary
+        <container-with-hint
             v-for="item in routines"
             :key="item.id"
-            class="justify-center align-center"
-            small
+
+            :hint="(item.id in routineButtons) ? routineButtons[item.id].hint : ''"
         >
-          {{ item.name }}
-        </btn-primary>
+          <btn-primary
+              class="justify-center align-center"
+              small
+              :loading="(item.id in routineButtons) ? routineButtons[item.id].waitingApi : false"
+              :color="(item.id in routineButtons) ? routineButtons[item.id].color : ''"
+              @click="routineClickHandler(item.id)"
+          >
+
+            <v-icon v-if="(item.id in routineButtons) ? routineButtons[item.id].icon : ''"> mdi-check-bold
+            </v-icon>
+            <div v-else> {{ item.name }}</div>
+
+          </btn-primary>
+        </container-with-hint>
       </v-card>
       <v-card
           v-else
@@ -78,17 +90,20 @@ import ContainerVertical from "@/components/containers/ContainerVertical";
 import BtnPrimary from "@/components/buttons/Primary";
 import {mapActions, mapState} from "vuex";
 import BtnDevice from "@/components/buttons/Device";
+import ContainerWithHint from "@/components/containers/ContainerWithHint";
 
 export default {
   name: "cardRutinas",
-  components: {BtnDevice, BtnPrimary, ContainerVertical},
+  components: {ContainerWithHint, BtnDevice, BtnPrimary, ContainerVertical},
   data() {
     return {
       tabs: [
         {id: 1, title: 'Rutinas', icon: 'mdi-phone', image: 'spinclock'},
         {id: 2, title: 'Dispositivos', icon: 'mdi-heart', image: 'bulb_smart'},
         {id: 3, title: 'QR mi hogar', icon: 'mdi-qrcode'},
-      ]
+      ],
+
+      routineButtons: {},
     }
   },
 
@@ -103,8 +118,8 @@ export default {
   },
 
   mounted() {
-    this.getAllRoutines();
     this.getAllDevices();
+    this.getAllRoutines().then(this.populateRoutineButtons);
   },
 
   methods: {
@@ -113,7 +128,51 @@ export default {
     }),
     ...mapActions("routine", {
       $getAllRoutines: "getAll",
+      $executeRoutine: "execute",
     }),
+
+    populateRoutineButtons() {
+      if (!this.routines) {
+        return;
+      }
+
+      for (const routineIdx in this.routines) {
+        this.routineButtons[this.routines[routineIdx].id] = {
+          waitingApi: false,
+          color: '',
+          icon: false,
+          hint: '',
+        }
+      }
+    },
+
+    async routineClickHandler(id) {
+      if (this.routineButtons[id].waitingApi || this.routineButtons[id].color) {
+        return;
+      }
+
+      this.routineButtons[id].waitingApi = true;
+      try {
+        this.controller = new AbortController();
+        await this.$executeRoutine([this.routines.find(e => e.id === id), this.controller]);
+        this.controller = null;
+
+        this.routineButtons[id].waitingApi = false;
+        this.routineButtons[id].color = 'info';
+        this.routineButtons[id].icon = true;
+
+        setTimeout(() => {
+          this.routineButtons[id].icon = false;
+          this.routineButtons[id].color = '';
+        }, 2000);
+
+      } catch (e) {
+        console.error("Error:", e);
+        this.routineButtons[id].hint = 'Se ha producido un error. Vuelva a intentarlo más tarde.';
+      }
+
+    }
+    ,
 
     async getAllDevices() {
       try {
@@ -123,7 +182,8 @@ export default {
       } catch (e) {
         console.error("Could not load devices due to: ", e);
       }
-    },
+    }
+    ,
 
     async getAllRoutines() {
       try {
