@@ -19,7 +19,7 @@
         <v-row no-gutters
                class="align-center justify-center">
           <container-with-hint
-            hint="Color actual"
+              hint="Color actual"
           >
             <v-sheet
                 :color="getColor()"
@@ -93,6 +93,8 @@ export default {
   components: {ContainerWithHint, HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
     waitingForApi: true,
+    intervalID: null,
+    routePath: '',
 
     deviceOn: false,
     position: 0,
@@ -121,18 +123,16 @@ export default {
   }),
 
   mounted() {
-    console.log("La previa");
     /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
 
-    setInterval(() => {
-      console.log("La partuza");
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
       this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
     }, 5000);
-
-    console.log("La resaca");
-
-
   },
 
   methods: {
@@ -150,23 +150,23 @@ export default {
     getDeviceState() {
       this.lamp = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.waitingForApi = true;
-      this.deviceOn = (this.lamp.state['status'] === 'on') ? true : false;
+      if (this.lamp) {
+        this.waitingForApi = true;
+        this.deviceOn = (this.lamp.state['status'] === 'on') ? true : false;
 
-      this.color = '#' + this.lamp.state['color'];
+        this.color = '#' + this.lamp.state['color'];
 
-      this.position = this.lamp.state['brightness'];
-      this.previousPosition = this.position;
+        this.position = this.lamp.state['brightness'];
+        this.previousPosition = this.position;
 
-      if (this.deviceOn) {
-        this.$refs.sliderPosition.setSliderValue(this.position);
+        if (this.deviceOn) {
+          this.$refs.sliderPosition.setSliderValue(this.position);
+        } else {
+          this.$refs.sliderPosition.setSliderValue(0);
+        }
+
+        this.$refs.devComponent.setStatus(this.deviceOn);
       }
-      else {
-        this.$refs.sliderPosition.setSliderValue(0);
-      }
-
-      this.$refs.devComponent.setStatus(this.deviceOn);
-
       this.waitingForApi = false;
     },
 
