@@ -13,8 +13,8 @@ class speakerApi {
         return await Api.put(speakerApi.getUrl(speaker.id), speaker, controller);
     }
 
-    static async modifyAction(speaker, action, controller) {
-        return await Api.put(`${ speakerApi.getUrl(speaker.id)}/${ action }`, speaker, controller);
+    static async modifyAction(speaker, action, body, controller) {
+        return await Api.put(`${ speakerApi.getUrl(speaker.id)}/${ action }`, body, controller);
     }
 
     static async delete(id, controller) {

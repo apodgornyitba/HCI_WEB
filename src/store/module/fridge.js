@@ -1,5 +1,4 @@
 import { fridge, fridgeApi } from "@/api/fridge";
-import {lampApi} from "@/api/lampara";
 
 export default {
     namespaced: true,
@@ -9,36 +8,36 @@ export default {
     actions: {
         async create({ dispatch }, fridge) {
             const result = await fridgeApi.add(fridge);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
         async modify({ dispatch }, fridge) {
             const result = await fridgeApi.modify(fridge);
-            dispatch("get");
+            dispatch("get", fridge.id);
             return result;
         },
-        async setFreezerTemperature({ dispatch }, fridge) {
-            const result = await lampApi.modifyAction(fridge, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+        async setFreezerTemperature({ dispatch }, [fridge, body]) {
+            const result = await fridgeApi.modifyAction(fridge, 'setFreezerTemperature',body);
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
-        async setTemperature({ dispatch }, fridge) {
-            const result = await lampApi.modifyAction(fridge, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+        async setTemperature({ dispatch }, [fridge, body]) {
+            const result = await fridgeApi.modifyAction(fridge, 'setTemperature',body);
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
-        async setMode({ dispatch }, fridge) {
-            const result = await lampApi.modifyAction(fridge, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+        async setMode({ dispatch }, [fridge, body]) {
+            const result = await fridgeApi.modifyAction(fridge, 'setMode', body);
+            dispatch("get", fridge.id);
             return Object.assign(new fridge(), result);
         },
         async delete({ dispatch }, id) {
             await fridgeApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await fridgeApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new fridge(), result);
         },
         async get({ commit }, id) {
@@ -48,13 +47,8 @@ export default {
         },
     },
     mutations: {
-        replace(state, fridge) {
-            if(fridge["state"]["status"] === "opened") {
-                state.on_off = true;
-            } else if(fridge["state"]["status"] === "closed"){
-                state.on_off = false;
-            }
-            //Agregar los cambios de estado que se realizarian
+        replace() {
+
         },
     },
 };

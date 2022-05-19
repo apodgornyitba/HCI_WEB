@@ -8,41 +8,41 @@ export default {
     actions: {
         async create({ dispatch }, door) {
             const result = await doorApi.add(door);
-            dispatch("get");
+            dispatch("get", door.id);
             return Object.assign(new door(), result);
         },
         async modify({ dispatch }, door) {
             const result = await doorApi.modify(door);
-            dispatch("get");
+            dispatch("get", door.id);
             return result;
         },
         async open({ dispatch }, door) {
             const result = await doorApi.modifyAction(door, 'open');
-            dispatch("get");
+            dispatch("get", door.id);
             return Object.assign(new door(), result);
         },
         async close({ dispatch }, door) {
             const result = await doorApi.modifyAction(door, 'close');
-            dispatch("get");
+            dispatch("get", door.id);
             return Object.assign(new door(), result);
         },
         async lock({ dispatch }, door) {
             const result = await doorApi.modifyAction(door, 'lock');
-            dispatch("get");
+            dispatch("get", door.id);
             return Object.assign(new door(), result);
         },
         async unlock({ dispatch }, door) {
             const result = await doorApi.modifyAction(door, 'unlock');
-            dispatch("get");
+            dispatch("get", door.id);
             return Object.assign(new door(), result);
         },
         async delete({ dispatch }, id) {
             await doorApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await doorApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new door(), result);
         },
         async get({ commit }, id) {

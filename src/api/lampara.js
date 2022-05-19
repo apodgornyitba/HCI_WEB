@@ -13,8 +13,8 @@ class lampApi {
         return await Api.put(lampApi.getUrl(lamp.id), lamp, controller);
     }
 
-    static async modifyAction(lamp, action, controller) {
-        return await Api.put(`${ lampApi.getUrl(lamp.id)}/${ action }`, lamp, controller);
+    static async modifyAction(lamp, action, body, controller) {
+        return await Api.put(`${ lampApi.getUrl(lamp.id)}/${ action }`, body, controller);
     }
 
     static async delete(id, controller) {

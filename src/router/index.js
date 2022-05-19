@@ -22,8 +22,9 @@ const routes = [
         component: () => import('../views/mainScreenView.vue')
     },
     {
-        path: '/roomScreen',
+        path: '/roomScreen/:room',
         name: 'roomScreen',
+        props: true,
         component: () => import('../views/roomScreenView.vue')
     },
     {

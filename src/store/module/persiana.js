@@ -8,36 +8,36 @@ export default {
     actions: {
         async create({ dispatch }, blinds) {
             const result = await blindsApi.add(blinds);
-            dispatch("get");
+            dispatch("get", blinds.id);
             return Object.assign(new blinds(), result);
         },
         async modify({ dispatch }, blinds) {
             const result = await blindsApi.modify(blinds);
-            dispatch("get");
+            dispatch("get", blinds.id);
             return result;
         },
         async open({ dispatch }, blinds) {
             const result = await blindsApi.modifyAction(blinds, 'open');
-            dispatch("get");
+            dispatch("get", blinds.id);
             return Object.assign(new blinds(), result);
         },
         async close({ dispatch }, blinds) {
             const result = await blindsApi.modifyAction(blinds, 'close');
-            dispatch("get");
+            dispatch("get", blinds.id);
             return Object.assign(new blinds(), result);
         },
         async setLevel({ dispatch }, [blinds, body]) {
             const result = await blindsApi.modifyAction(blinds, 'setLevel', body);
-            dispatch("get");
+            dispatch("get", blinds.id);
             return Object.assign(new blinds(), result);
         },
         async delete({ dispatch }, id) {
             await blindsApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await blindsApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new blinds(), result);
         },
         async get({ commit }, id) {

@@ -12,6 +12,7 @@
           :image-off="`icons/64/${room.meta.image}-bw.png`"
           :image-on="`icons/64/${room.meta.image}-color.png`"
           class="my-3 mx-1 pa-0"
+          @click="setPathRoom"
       >
         {{ room.name }}
       </btn-device>
@@ -21,7 +22,7 @@
       <v-card-text
           class="d-flex flex-wrap align-center justify-center text-center text-body-1"
       >
-        Todavía no agregaste ningún dispositivo.
+        Todavía no agregaste ningún ambiente.
       </v-card-text>
     </div>
   </container-horizontal>
@@ -42,6 +43,7 @@ export default {
   computed: {
     ...mapState("room", {
       rooms: (state) => state.rooms,
+      path: (state) => state.path,
     }),
   },
   mounted() {
@@ -50,6 +52,7 @@ export default {
   methods: {
     ...mapActions("room", {
       $getAllRooms: "getAll",
+      $getRoomPath: "getRoomPath",
     }),
     async getAllRooms() {
       try {

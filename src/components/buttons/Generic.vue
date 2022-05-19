@@ -117,7 +117,7 @@ export default {
   border: 3px solid var(--v-primary-darken1) !important;
 }
 
-.btn-generic.btn-generic--text {
+.btn-generic .btn-generic--text {
   white-space: pre-line;
 }
 </style>

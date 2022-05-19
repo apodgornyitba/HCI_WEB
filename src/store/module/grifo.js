@@ -9,36 +9,36 @@ export default {
     actions: {
         async create({dispatch}, faucet) {
             const result = await faucetApi.add(faucet);
-            dispatch("get");
+            dispatch("get", faucet.id);
             return Object.assign(new faucet(), result);
         },
         async modify({dispatch}, faucet) {
             const result = await faucetApi.modify(faucet);
-            dispatch("get");
+            dispatch("get", faucet.id);
             return result;
         },
         async open({dispatch}, faucet) {
             const result = await faucetApi.modifyAction(faucet, 'open', {});
-            dispatch("get");
+            dispatch("get", faucet.id);
             return Object.assign(new faucet(), result);
         },
         async close({dispatch}, faucet) {
             const result = await faucetApi.modifyAction(faucet, 'close', {});
-            dispatch("get");
+            dispatch("get", faucet.id);
             return Object.assign(new faucet(), result);
         },
         async dispense({dispatch}, [faucet, body]) {
             const result = await faucetApi.modifyAction(faucet, 'dispense', body);
-            dispatch("get");
+            dispatch("get", faucet.id);
             return Object.assign(new faucet(), result);
         },
         async delete({dispatch}, id) {
             await faucetApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({dispatch}, id) {
             const result = await faucetApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new faucet(), result);
         },
         async get({commit}, id) {

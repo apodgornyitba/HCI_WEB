@@ -8,46 +8,46 @@ export default {
     actions: {
         async create({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.add(aspiradora);
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return Object.assign(new aspiradora(), result);
         },
         async modify({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.modify(aspiradora);
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return result;
         },
         async start({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.modifyAction(aspiradora, 'start');
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return Object.assign(new aspiradora(), result);
         },
         async pause({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.modifyAction(aspiradora, 'pause');
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return Object.assign(new aspiradora(), result);
         },
         async dock({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.modifyAction(aspiradora, 'dock');
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return Object.assign(new aspiradora(), result);
         },
         async setMode({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.modifyAction(aspiradora, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return Object.assign(new aspiradora(), result);
         },
         async setLocation({ dispatch }, aspiradora) {
             const result = await aspiradoraApi.modifyAction(aspiradora, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", aspiradora.id);
             return Object.assign(new aspiradora(), result);
         },
         async delete({ dispatch }, id) {
             await aspiradoraApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await aspiradoraApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new aspiradora(), result);
         },
         async get({ commit }, id) {

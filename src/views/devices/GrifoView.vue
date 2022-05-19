@@ -84,7 +84,7 @@ export default {
     unit: 'l',
     //FIX: DEBE OBTENER UN GRIFO DE LAS LISTA DE LOS AGREGADOS
     faucet: {
-      id: "665f29102a302fcd",
+      id: "c40c5deea7400aa5",
       name: "faucet1",
       type: {
         id: "dbrlsh7o5sn8ur4i",
@@ -116,9 +116,6 @@ export default {
     }),
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
-    },
-    setUnitType(){
-      console.log(this.unit)
     },
     async openFaucet() {
       try {

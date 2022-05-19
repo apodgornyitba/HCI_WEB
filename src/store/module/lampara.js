@@ -8,41 +8,41 @@ export default {
     actions: {
         async create({ dispatch }, lamp) {
             const result = await lampApi.add(lamp);
-            dispatch("get");
+            dispatch("get", lamp.id);
             return Object.assign(new lamp(), result);
         },
         async modify({ dispatch }, lamp) {
             const result = await lampApi.modify(lamp);
-            dispatch("get");
+            dispatch("get", lamp.id);
             return result;
         },
         async turnOn({ dispatch }, lamp) {
             const result = await lampApi.modifyAction(lamp, 'turnOn');
-            dispatch("get");
+            dispatch("get", lamp.id);
             return Object.assign(new lamp(), result);
         },
         async turnOff({ dispatch }, lamp) {
             const result = await lampApi.modifyAction(lamp, 'turnOff');
-            dispatch("get");
+            dispatch("get", lamp.id);
             return Object.assign(new lamp(), result);
         },
-        async setColor({ dispatch }, lamp) {
-            const result = await lampApi.modifyAction(lamp, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+        async setColor({ dispatch }, [lamp, body]) {
+            const result = await lampApi.modifyAction(lamp, 'setColor', body);
+            dispatch("get", lamp.id);
             return Object.assign(new lamp(), result);
         },
-        async setBrightness({ dispatch }, lamp) {
-            const result = await lampApi.modifyAction(lamp, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+        async setBrightness({ dispatch }, [lamp, body]) {
+            const result = await lampApi.modifyAction(lamp, 'setBrightness', body);
+            dispatch("get", lamp.id);
             return Object.assign(new lamp(), result);
         },
         async delete({ dispatch }, id) {
             await lampApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await lampApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new lamp(), result);
         },
         async get({ commit }, id) {

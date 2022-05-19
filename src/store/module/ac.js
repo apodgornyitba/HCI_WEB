@@ -13,51 +13,51 @@ export default {
         },
         async modify({ dispatch }, ac) {
             const result = await acApi.modify(ac);
-            dispatch("get");
+            dispatch("get", ac.id);
             return result;
         },
         async turnOn({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, 'turnOn');
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async turnOff({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, 'turnOff');
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async setTemperature({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async setMode({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async setVerticalSwing({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async setHorizontalSwing({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async setFanSpeed({ dispatch }, ac) {
             const result = await acApi.modifyAction(ac, /* Agregar el parametro o parametros necesarios para dispense*/);
-            dispatch("get");
+            dispatch("get", ac.id);
             return Object.assign(new ac(), result);
         },
         async delete({ dispatch }, id) {
             await acApi.delete(id);
-            dispatch("get");
+            dispatch("get", id);
         },
         async getState({ dispatch }, id) {
             const result = await acApi.getState(id);
-            dispatch("get");
+            dispatch("get", id);
             return Object.assign(new ac(), result);
         },
         async get({ commit }, id) {

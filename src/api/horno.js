@@ -13,8 +13,8 @@ class ovenApi {
         return await Api.put(ovenApi.getUrl(oven.id), oven, controller);
     }
 
-    static async modifyAction(oven, action, controller) {
-        return await Api.put(`${ ovenApi.getUrl(oven.id)}/${ action }`, oven, controller);
+    static async modifyAction(oven, action, body, controller) {
+        return await Api.put(`${ ovenApi.getUrl(oven.id)}/${ action }`, body, controller);
     }
 
     static async delete(id, controller) {
