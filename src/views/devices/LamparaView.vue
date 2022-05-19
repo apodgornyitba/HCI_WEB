@@ -41,7 +41,6 @@
               ref="btnSetBrightness"
               @click="callSetBrightness"
           >
-            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
             <v-card-text>
               Definir intensidad
             </v-card-text>
@@ -129,7 +128,7 @@ export default {
   mounted() {
     this.getAllDevices().then(this.getDeviceState);
   },
-
+  //FIX: la lampara no setea la brightnes en 0 cuanod se apaga --> siempre piensa que esta prendida
   methods: {
     ...mapActions("lamp", {
       $modifyLamp: "modify",
@@ -144,7 +143,6 @@ export default {
 
     getDeviceState() {
       this.lamp = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
-
 
       this.position = this.lamp.state['brightness'];
       this.previousPosition = this.position;
