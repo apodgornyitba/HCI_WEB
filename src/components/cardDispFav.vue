@@ -11,6 +11,7 @@
             :key="dev.id"
             :image-off="`icons/64/${dev.meta.image}-bw.png`"
             :image-on="`icons/64/${dev.meta.image}-color.png`"
+            :path="`/${dev.type.id}/${dev.id}`"
             class="my-3 mx-1 pa-0"
         >
           {{ dev.name }}

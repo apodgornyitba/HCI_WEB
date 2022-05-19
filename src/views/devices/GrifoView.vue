@@ -5,7 +5,7 @@
     <template v-slot:left-pane>
       <device-component
           ref="devComponent"
-          name="Grifo"
+          :name="$route.params.deviceId"
           image="tap"
           on="Abierto"
           off="Cerrado"

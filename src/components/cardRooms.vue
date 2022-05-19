@@ -12,8 +12,7 @@
           :image-off="`icons/64/${room.meta.image}-bw.png`"
           :image-on="`icons/64/${room.meta.image}-color.png`"
           class="my-3 mx-1 pa-0"
-          :path="room.name"
-          @click="getRoomPath(room.id)"
+          :path="`/roomScreen/${room.id}`"
       >
         {{ room.name }}
       </btn-device>
@@ -47,14 +46,18 @@ export default {
       path: (state) => state.path,
     }),
   },
+
   mounted() {
     this.getAllRooms();
   },
+
   methods: {
     ...mapActions("room", {
       $getAllRooms: "getAll",
       $getRoomPath: "getRoomPath",
     }),
+
+    /* API */
     async getAllRooms() {
       try {
         this.controller = new AbortController();
@@ -63,15 +66,6 @@ export default {
       } catch (e) {
         console.error("Could not load rooms due to: ", e);
       }
-    },
-    async getRoomPath(id){
-      try{
-        await this.$getRoomPath(id);
-        console.log("path:", this.path);
-      }catch(e){
-        console.error("Could not load rooms due to: ", e);
-      }
-
     },
   }
 }

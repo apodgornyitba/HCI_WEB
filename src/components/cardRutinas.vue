@@ -39,6 +39,7 @@
             :image-on="`icons/64/${item.meta.image}-color.png`"
             class="justify-center align-center"
             small
+            :path="`/${item.type.id}/${item.id}`"
         >
           {{ item.name }}
         </btn-device>

@@ -6,7 +6,7 @@
       :width="this.width"
       :height="this.height"
       :color="bindProperty('color','primary base')"
-      :to="`/roomScreen/${ path }`"
+      :to="`${ path }`"
       raised
       elevation="3"
       @click="click"

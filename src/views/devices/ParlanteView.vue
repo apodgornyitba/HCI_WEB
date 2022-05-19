@@ -7,7 +7,7 @@
     >
 
       <device-component
-          name="Parlante"
+          :name="$route.params.deviceId"
           image="speaker"
           class="ma-auto align-center justify-center"
           @change="stateChange"
