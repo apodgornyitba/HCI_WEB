@@ -432,6 +432,17 @@ export default {
 
 
     spanishWords: {
+      'active': 'Activo',
+      'docked': 'En base',
+      'inactive': 'Inactivo',
+      'Vacuum': 'Aspiradora',
+      'vacuum': 'Aspiradora',
+      'opened': 'Abierto',
+      'closed': 'Cerrado',
+      'Stopped': 'Detenido',
+      'stopped': 'Detenido',
+      'closing': 'Cerrando',
+      'on': 'Encendido',
       'turnOn': 'Encender',
       'turnOff': 'Apagar',
       'setColor': 'Establecer color',
@@ -479,14 +490,14 @@ export default {
       'horizontalSwing': 'Desplazamiento de aspas horizontales',
       'setFanSpeed': 'Establecer velocidad de ventilador',
       'fanSpeed': 'Velocidad de ventilador',
-      'lock': 'Bloquar',
+      'lock': 'Bloquear',
       'unlock': 'Desbloquear',
       'start': 'Iniciar',
       'dock': 'Regresar a base de carga',
       'setLocation': 'Cambiar ubicación de base de carga',
       'roomId': 'Habitación',
       'setFreezerTemperature': 'Establecer temperatura del freezer',
-    }
+    },
   }),
 
   computed: {
@@ -736,7 +747,7 @@ export default {
       let i = 0;
       for (const action of this.routine.actions) {
 
-        const deviceName = `${this.getDeviceNameById(this.devices.selected.id)}`;
+        const deviceName = `${this.getDeviceNameById(action.device.id)}`;
         let actionString = '';
 
         if (action.params.join('').length === 0) {

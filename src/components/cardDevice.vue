@@ -137,16 +137,14 @@ export default {
         'horizontalSwing': 'Desplazamiento de aspas horizontales',
         'setFanSpeed': 'Establecer velocidad de ventilador',
         'fanSpeed': 'Velocidad de ventilador',
-        'lock': 'Bloquar',
+        'lock': 'Bloquear',
         'unlock': 'Desbloquear',
         'start': 'Iniciar',
         'dock': 'Regresar a base de carga',
         'setLocation': 'Cambiar ubicación de base de carga',
         'roomId': 'Habitación',
         'setFreezerTemperature': 'Establecer temperatura del freezer',
-      }
-
-
+      },
     }
   },
 
