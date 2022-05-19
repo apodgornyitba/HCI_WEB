@@ -3,6 +3,7 @@
     <template v-slot:left-pane>
       <device-component
           :name="$route.params.deviceId"
+          :always-active="true"
           image="refrigerator"
           class="ma-auto align-center justify-center"
           @change="stateChange"
@@ -23,15 +24,17 @@
         />
       </v-row>
       <v-row class="justify-center">
-        <btn-device
+        <btn-primary
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
             ref="btnSetFridgeTemperature"
             @click="callSetTemperature"
         >
-          <v-icon>mdi-thermometer-plus</v-icon>
-          DEFINIR TEMPERATURA HELADERA
-        </btn-device>
+          <v-icon class="mt-4 mb-n3">mdi-thermometer-plus</v-icon>
+          <v-card-text>
+            Definir temperatura heladera
+          </v-card-text>
+        </btn-primary>
       </v-row>
       <v-row
           class="my-10 align-center justify-center"
@@ -46,15 +49,17 @@
         />
       </v-row>
       <v-row class="justify-center">
-        <btn-device
+        <btn-primary
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
             ref="btnSetFreezerTemperature"
             @click="callSetFreezerTemperature"
         >
-          <v-icon>mdi-thermometer-plus</v-icon>
-          DEFINIR TEMPERATURA FREEZER
-        </btn-device>
+          <v-icon class="mt-4 mb-n3">mdi-thermometer-plus</v-icon>
+          <v-card-text>
+            Definir temperatura freezer
+          </v-card-text>
+        </btn-primary>
       </v-row>
     </template>
 
@@ -114,27 +119,32 @@ import DeviceComponent from "@/components/deviceComponent";
 import SliderMM from "@/components/accesories/SliderMM";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
+import BtnPrimary from "@/components/buttons/Primary";
 
 export default {
   name: "FridgeView",
-  components: {HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
+  components: {BtnPrimary, HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
-    deviceOn: false,
+    deviceOn: true,
     fridgePosition: 2,
     previousFridgePosition: 2,
     freezerPosition: -8,
     previousFreezerPosition: -8,
     fridge: {
-      id: "e82b46925d2bccdd",
-      name: "my fridge",
+      id: '',
+      name: '',
       type: {
-        id: "rnizejqr2di0okho",
-        name: "refrigerator",
-        powerUsage: 90,
+        id: '',
+        name: '',
       },
     },
   }),
+
+  mounted(){
+    this.getAllDevices().then(this.getDeviceState);
+  },
+
   methods: {
     ...mapActions("fridge", {
       $modifyFridge: "modify",
@@ -142,6 +152,23 @@ export default {
       $setFreezerTemperatureFridge: "setFreezerTemperature",
       $setModeFridge: "setMode",
     }),
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getDeviceState(){
+      this.fridge = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
+      this.fridgePosition = this.fridge.state['temperature'];
+      this.previousFridgePosition = this.fridgePosition;
+      this.$refs.fridgePosition.setSliderValue(this.fridgePosition);
+
+      this.freezerPosition = this.fridge.state['freezerTemperature'];
+      this.previousFreezerPosition = this.freezerPosition;
+      this.$refs.freezerPosition.setSliderValue(this.freezerPosition);
+
+    },
+
     setResult(result){
       this.result = JSON.stringify(result, null, 2);
     },
@@ -206,6 +233,21 @@ export default {
       this.$refs.btnPartyMode.setActive(false, e);
       this.$refs.btnNormalMode.setActive(false, e);
     },
+    async getAllDevices(){
+      try{
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+          console.error("Could not load devices due to: ", e);
+      }
+    },
+  },
+
+  computed:{
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
   },
 }
 </script>

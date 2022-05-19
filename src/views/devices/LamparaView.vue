@@ -41,7 +41,7 @@
               ref="btnSetBrightness"
               @click="callSetBrightness"
           >
-            <v-icon>mdi-plus-thick</v-icon>
+            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
             <v-card-text>
               Definir intensidad
             </v-card-text>
@@ -119,7 +119,6 @@ export default {
       type: {
         id: '',
         name: '',
-        powerUsage: 15,
       },
     },
     result: null,
@@ -145,6 +144,7 @@ export default {
 
     getDeviceState() {
       this.lamp = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
 
       this.position = this.lamp.state['brightness'];
       this.previousPosition = this.position;

@@ -10,6 +10,7 @@
           :name="$route.params.deviceId"
           image="speaker"
           class="ma-auto align-center justify-center"
+          :always-active="true"
           @change="stateChange"
       />
     </template>
@@ -60,22 +61,24 @@
         >
           <SliderMM
               title="Volumen"
-              ref="volume"
+              ref="volumePosition"
               :max="10"
               :disabled="!deviceOn"
               @change="volumeState"
           />
         </v-row>
         <v-row class="justify-center">
-          <btn-device
+          <btn-primary
               :disabled="!deviceOn"
               :disable-border="!deviceOn"
               ref="btnSetFreezerTemperature"
               @click="callSetVolume"
           >
-            <v-icon>mdi-plus-thick</v-icon>
-            DEFINIR VOLUMEN
-          </btn-device>
+            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
+            <v-card-text>
+              Definir volumen
+            </v-card-text>
+          </btn-primary>
         </v-row>
       </v-container>
     </template>
@@ -103,16 +106,18 @@
           </v-card>
         </v-row>
         <v-row class="justify-center ">
-          <btn-device
+          <btn-primary
               :disabled="!deviceOn"
               :disable-border="!deviceOn"
               ref="btnSetGenre"
               @click="callSetGenre"
 
           >
-            <v-icon>mdi-plus-thick</v-icon>
-            DEFINIR GENERO
-          </btn-device>
+            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
+            <v-card-text>
+              Definir genero
+            </v-card-text>
+          </btn-primary>
 
         </v-row>
         <v-row
@@ -154,32 +159,35 @@ import SliderMM from "@/components/accesories/SliderMM";
 import DeviceGeneric from "@/views/devices/DeviceGeneric";
 import HelpD from "@/components/accesories/helpD";
 import {mapActions, mapState} from "vuex";
-import BtnDevice from "@/components/buttons/Device";
+import BtnPrimary from "@/components/buttons/Primary";
 
 export default {
   name: "ParlanteView",
-  components: {BtnDevice, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {BtnPrimary, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
 
   data: () => ({
-    genres: ['rock','pop','latina','classical','dance','country'],
+    genres: ['rock', 'pop', 'latina', 'classical', 'dance', 'country'],
     genre: 'pop',
-    previosGenre: '',
-    /*REVISAR SI LA LISTA ESTA EN L API*/
+    previousGenre: '',
     speaker: {
-      id: "48edaf31e54fb1e6",
-      name: "my speaker",
+      id: '',
+      name: '',
       type: {
-        id: "c89b94e8581855bc",
-        name: "speaker",
-        powerUsage: 20,
+        id: '',
+        name: '',
       },
     },
-    deviceOn: false,
+    deviceOn: true,
     result: null,
     controller: null,
     volume: 5,
     previousVolume: 5,
   }),
+
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
+    setTimeout(() => this.getPlaylistSpeaker(), 1000);
+  },
 
   methods: {
     ...mapActions("speaker", {
@@ -193,8 +201,23 @@ export default {
       $setVolumeSpeaker: "setVolume",
       $setGenreSpeaker: "setGenre",
       $getPlaylistSpeaker: "getPlaylist",
-
     }),
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getDeviceState() {
+      this.speaker = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+
+      this.volume = this.speaker.state['volume'];
+      this.previousVolume = this.volume;
+      this.$refs.volumePosition.setSliderValue(this.volume);
+
+      this.genre = this.speaker.state['genre'];
+      this.previousGenre = this.genre;
+
+    },
+
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
@@ -219,8 +242,8 @@ export default {
         this.setResult(e);
       }
     },
-    callPauseSpeaker(){
-      if(this.speakerStatus !== 'paused' && this.speakerStatus !== 'stopped'){
+    callPauseSpeaker() {
+      if (this.speakerStatus !== 'paused' && this.speakerStatus !== 'stopped') {
         this.pauseSpeaker();
       }
     },
@@ -231,8 +254,8 @@ export default {
         this.setResult(e);
       }
     },
-    callStopSpeaker(){
-      if(this.speakerStatus !== 'stopped'){
+    callStopSpeaker() {
+      if (this.speakerStatus !== 'stopped') {
         this.stopSpeaker();
       }
     },
@@ -277,8 +300,8 @@ export default {
         this.setResult(e);
       }
     },
-    callSetGenre(){
-      if(this.genre !== this.previousGenre) {
+    callSetGenre() {
+      if (this.genre !== this.previousGenre) {
         this.setGenreSpeaker([this.genre]);
       }
       this.previousGenre = this.genre;
@@ -291,21 +314,34 @@ export default {
         this.setResult(e);
       }
     },
-    callGetPlaylist(){
+    callGetPlaylist() {
       this.getPlaylistSpeaker();
     },
     stateChange(active) {
       this.deviceOn = active;
-      this.callGetPlaylist();
     },
     volumeState() {
-        this.volume = this.$refs.volume.getValue();
-    }
+      this.volume = this.$refs.volumePosition.getValue();
+    },
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
+      }
+
+    },
   },
+
   computed: {
     ...mapState("speaker", {
       speakerStatus: (state) => state.speakerStatus,
       playlist: (state) => state.playlist,
+    }),
+    ...mapState("device", {
+      devices: (state) => state.devices,
     }),
     items() {
       return Array.from({length: this.playlist.length}, (_, i) => {
@@ -319,7 +355,6 @@ export default {
       })
     },
   },
-
 }
 </script>
 

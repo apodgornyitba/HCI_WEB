@@ -63,18 +63,19 @@
       <h2>{{ getState() }}</h2>
 
       <v-spacer/>
-
-      <v-switch
-          ref="componentSwitch"
-          v-model="active"
-          color="primary"
-          inset
-          @change="stateChange"
-      >
-        <!-- TODO: Add error handling
-                :error="!hasError"
-        -->
-      </v-switch>
+      <template v-if="!alwaysActive">
+        <v-switch
+            ref="componentSwitch"
+            v-model="active"
+            color="primary"
+            inset
+            @change="stateChange"
+        >
+          <!-- TODO: Add error handling
+                  :error="!hasError"
+          -->
+        </v-switch>
+      </template>
 
       <v-spacer/>
     </v-row>
@@ -93,6 +94,7 @@ export default {
     'image': String,
     'on': String,
     'off': String,
+    'alwaysActive': Boolean,
   },
   data: function () {
     return {
@@ -151,7 +153,7 @@ export default {
         return '';
       }
 
-      if (this.active) {
+      if (this.active || this.alwaysActive) {
         return require(`@/assets/icons/256/${this.image}-color.png`);
       }
       return require(`@/assets/icons/256/${this.image}-bw.png`);
@@ -161,7 +163,7 @@ export default {
         return '';
       }
 
-      if (this.active) {
+      if (this.active || this.alwaysActive) {
         return (this.on) ? this.on : "Encendido";
       }
       return (this.off) ? this.off : "Apagado";
