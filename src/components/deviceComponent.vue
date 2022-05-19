@@ -9,7 +9,7 @@
       <h2
           class="text-center"
       >
-        {{ this.name }}
+        {{ getDeviceNameById() }}
       </h2>
 
       <v-spacer/>
@@ -83,6 +83,8 @@
 </template>
 
 <script>
+import {mapActions, mapState} from "vuex";
+
 export default {
   name: "deviceComponent",
 
@@ -101,7 +103,32 @@ export default {
       hasError: false,
     }
   },
+
+  computed: {
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
+  },
+
+  mounted(){
+    this.getAllDevices();
+  },
+
   methods: {
+    ...mapActions("device", {
+        $getAllDevices:"getAll",
+    }),
+
+    getDeviceNameById() {
+      const device = this.devices.find(device => device.id === this.name);
+
+      if (device) {
+        return device.name;
+      }
+
+      return 'Dispositivo';
+    },
+
     getImageSize() {
       const size = 0.5 * Math.min(this.height, this.width);
       return {
@@ -149,7 +176,18 @@ export default {
     },
     setErrorStatus(status) {
       this.hasError = status;
-    }
+    },
+
+    /* API */
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load rooms due to: ", e);
+      }
+    },
   },
 }
 </script>

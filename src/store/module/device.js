@@ -4,7 +4,8 @@ export default {
     namespaced: true,
     state: {
         devices: [],
-        deviceTypes: [],
+        favorites: [],
+        types: [],
     },
     getters: {
         isInRoom(state) {
@@ -18,6 +19,13 @@ export default {
         },
         favoriteDevices(state) {
             return state.devices.filter(dev => dev.meta.favorite);
+        },
+
+        getActionByType(state) {
+            return function (id) {
+                const device = state.types.filter(type => type.id === id);
+                console.log("module/device.js: device:", device);
+            }
         },
     },
     actions: {
@@ -59,9 +67,10 @@ export default {
     mutations: {
         replace(state, devices) {
             state.devices = devices;
+            state.favorites = state.devices.filter(dev => dev.meta.favorite);
         },
-        replaceTypes(state, devices) {
-            state.deviceTypes = devices;
+        replaceTypes(state, types) {
+            state.types = types;
         },
     },
 };

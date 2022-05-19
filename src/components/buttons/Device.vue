@@ -6,7 +6,6 @@
       :width="this.width"
       :height="this.height"
       :image="getImage()"
-      :path="path"
       color="quaternary base"
       toggle
       @click="click"
@@ -29,8 +28,6 @@ export default {
     imageOn: String,
     imageOff: String,
     small: Boolean,
-    path: String,
-
   },
   data() {
     return {
@@ -89,6 +86,7 @@ export default {
         console.error("Invalid type.")
         return;
       }
+
       this.clickActions(value);
       this.$refs.btn.setActive(value, e);
     }

@@ -6,7 +6,7 @@
       :width="this.width"
       :height="this.height"
       :color="bindProperty('color','primary base')"
-      :to="`/roomScreen/${ path }`"
+      :to="this.path ? `${ path }` : ''"
       raised
       elevation="3"
       @click="click"
@@ -115,11 +115,12 @@ export default {
   flex-direction: column !important;
 }
 
-.btn-generic .btn--active {
+.btn-generic.btn--active {
   border: 3px solid var(--v-primary-darken1) !important;
 }
 
 .btn-generic .btn-generic--text {
   white-space: pre-line;
+  text-align: center;
 }
 </style>

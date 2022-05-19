@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+      class="fill-height"
+  >
     <floating-container>
       <div
           class="ma-1 pa-1"
@@ -28,79 +30,154 @@
           class="text-right"
       />
     </floating-container>
-    <v-row
-        no-gutters
-        class="align-center justify-end"
-    >
-            <v-col v-if="rooms">
-              <cardDispRoom
-                  :name="this.name"
-                  :roomid="this.roomid"
-              />
-            </v-col>
-    </v-row>
+
+    <v-container>
+      <v-row
+          v-if="roomInformation.name"
+          class="my-0 mx-auto align-center justify-center"
+      >
+        <h1>{{ roomInformation.name }}</h1>
+      </v-row>
+      <v-row
+      v-if="roomInformation.image"
+      class="mb-10 align-center justify-center"
+      >
+        <v-img
+            :src="require(`@/assets/icons/128/${roomInformation.image}-color.png`)"
+            max-width="64"
+            max-height="64"
+        />
+      </v-row>
+
+      <v-spacer/>
+
+      <v-row
+          v-if="roomInformation.devices"
+          class="align-center justify-space-between"
+      >
+        <card-device
+            v-for="device in roomInformation.devices"
+            :key="device.id"
+            :id="device.id"
+            :typeId="device.type.id"
+            :name="device.name"
+            :image="device.meta.image"
+            :state="device.state"
+            class="my-3 mx-5 pa-0"
+        />
+      </v-row>
+
+      <div v-else>
+        <v-card-text
+            class="d-flex flex-wrap align-center justify-center text-center text-body-1"
+        >
+          Todavía no agregaste ningún dispositivo.
+        </v-card-text>
+      </div>
+    </v-container>
   </div>
 </template>
 
 <script>
 
-import cardDispRoom from "@/components/cardDispRoom";
 import HelpButton from "@/components/accesories/helpButton";
 import FloatingContainer from "@/components/containers/FloatingContainer";
+import CardDevice from "@/components/cardDevice";
+
 import {mapActions, mapState} from "vuex";
-import {Room} from "@/api/room";
 
 export default {
   name: "roomScreenView",
-  components: {FloatingContainer, cardDispRoom, HelpButton},
-  props: {
-    mypath: {
-      type: String,
-      require: true,
+  components: {CardDevice, FloatingContainer, HelpButton},
+  props: {},
+
+  data() {
+    return {
+      roomInformation: {
+        id: '',
+        name: '',
+        image: '',
+        devices: [],
+      },
     }
   },
+
   computed: {
     ...mapState("room", {
       rooms: (state) => state.rooms,
-      path: (state) => state.path,
     }),
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
+
   },
   mounted() {
+    this.roomInformation.id = this.$route.params.roomId;
+
     this.getAllRooms();
+    this.getAllDevices();
+    this.getRoomName();
+    this.getRoomImage();
+    this.getRoomDevices();
   },
+
   methods: {
     ...mapActions("room", {
       $getAllRooms: "getAll",
     }),
-    destination() {
-      if (!this.rooms) {
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getRoomName() {
+      if (!this.roomInformation.id) {
         return;
       }
-      let roomsshow = new Room();
-      roomsshow = this.rooms.find(path => path.name === this.path);
-      this.name = roomsshow.name.toString();
-      console.log("name in destination: ", this.name);
-      this.roomid = roomsshow.id.toString();
-      console.log("id in destination: ", this.roomid);
 
+      this.roomInformation.name = this.rooms.find(e => e.id === this.roomInformation.id).name;
     },
+
+
+    getRoomImage() {
+      if (!this.roomInformation.id) {
+        return;
+      }
+
+      this.roomInformation.image = this.rooms.find(e => e.id === this.roomInformation.id).meta.image;
+    },
+
+    getRoomDevices() {
+      if (!this.devices) {
+        return;
+      }
+      this.roomInformation.devices = this.devices.filter((device) => {
+        if (device.meta && device.meta.room) {
+          if (device.meta.room === this.roomInformation.id) {
+            return true;
+          }
+        }
+        return false;
+      });
+    },
+
     async getAllRooms() {
       try {
         this.controller = new AbortController();
         await this.$getAllRooms(this.controller);
         this.controller = null;
-        this.destination();
       } catch (e) {
         console.error("Could not load rooms due to: ", e);
       }
     },
-
-  },
-  data() {
-    return {
-      name: '',
-      roomid: '',
-    }
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
+      }
+    },
   },
 }
 </script>

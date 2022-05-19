@@ -4,26 +4,31 @@
       class="ma-2 pa-0"
   >
     <template v-slot:tab-1>
-
-      <btn-primary
-          image="icons/64/cinema-bw.png"
-          class="mx-auto justify-center"
+      <v-card
+          v-if="routines"
+          flat
+          class="d-flex flex-wrap flex-row align-center justify-space-around"
       >
-        Hora de cine
-      </btn-primary>
-      <btn-primary
-          image="icons/64/sunrise-bw.png"
-          class="mx-auto justify-center"
+        <btn-primary
+            v-for="item in routines"
+            :key="item.id"
+            class="justify-center align-center"
+            small
+        >
+          {{ item.name }}
+        </btn-primary>
+      </v-card>
+      <v-card
+          v-else
+          flat
+          class="d-flex flex-wrap flex-row align-center justify-space-around"
       >
-        Hora de despertar
-      </btn-primary>
-
-      <btn-primary
-          image="icons/64/night-bw.png"
-          class="mx-auto justify-center"
-      >
-        Hora de dormir
-      </btn-primary>
+        <v-card-text
+            class="d-flex flex-wrap align-center justify-center text-center text-body-1"
+        >
+          Todavía no agregaste ninguna rutina.
+        </v-card-text>
+      </v-card>
     </template>
 
     <template v-slot:tab-2>
@@ -39,6 +44,7 @@
             :image-on="`icons/64/${item.meta.image}-color.png`"
             class="justify-center align-center"
             small
+            :path="`/${item.type.id}/${item.id}`"
         >
           {{ item.name }}
         </btn-device>
@@ -85,18 +91,30 @@ export default {
       ]
     }
   },
+
   computed: {
     ...mapState("device", {
       devices: (state) => state.devices,
     }),
+
+    ...mapState("routine", {
+      routines: (state) => state.routines,
+    }),
   },
+
   mounted() {
+    this.getAllRoutines();
     this.getAllDevices();
   },
+
   methods: {
     ...mapActions("device", {
       $getAllDevices: "getAll",
     }),
+    ...mapActions("routine", {
+      $getAllRoutines: "getAll",
+    }),
+
     async getAllDevices() {
       try {
         this.controller = new AbortController();
@@ -106,6 +124,16 @@ export default {
         console.error("Could not load devices due to: ", e);
       }
     },
+
+    async getAllRoutines() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllRoutines(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load routines due to: ", e);
+      }
+    }
   }
 }
 </script>

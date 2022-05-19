@@ -5,6 +5,7 @@ import user from "./module/user";
 
 import room from "./module/room";
 import device from "./module/device";
+import routine from "./module/routine";
 
 import faucet from "./module/grifo"
 import blinds from "./module/persiana"
@@ -23,6 +24,7 @@ export default new Vuex.Store({
         user,
         room,
         device,
+        routine,
         faucet,
         blinds,
         speaker,
