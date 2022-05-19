@@ -6,9 +6,11 @@
       <device-component
           ref="devComponent"
           :name="$route.params.deviceId"
+          :loading="waitingForApi"
           image="tap"
           on="Abierto"
           off="Cerrado"
+          :grifo-dispense="dispenseOn"
           class="ma-auto align-center justify-center"
           @change="stateChange"
       />
@@ -38,6 +40,8 @@
               ref="sliderPosition"
               title="Cantidad"
               :disabled="deviceOn"
+              :loading="waitingForApi"
+              @change="sliderStateChange"
           />
         </v-row>
       </v-container>
@@ -50,17 +54,17 @@
         />
       </v-row>
       <v-row class="justify-center ">
-        <btn-device
+        <btn-primary
             :disabled="deviceOn"
             :disable-border="deviceOn"
             ref="btnDispensar"
-            image-off="icons/64/tap_drop-bw.png"
-            image-on="icons/64/tap_drop-color.png"
             @click="callDispense()"
 
         >
-        DISPENSAR
-        </btn-device>
+          <v-card-text>
+            DISPENSAR
+          </v-card-text>
+        </btn-primary>
 
       </v-row>
     </template>
@@ -74,13 +78,18 @@ import SliderMM from "@/components/accesories/SliderMM";
 import DeviceComponent from "@/components/deviceComponent";
 import HelpD from "@/components/accesories/helpD";
 import {mapState, mapActions} from "vuex";
-import BtnDevice from "@/components/buttons/Device";
+import BtnPrimary from "@/components/buttons/Primary";
 
 export default {
   name: "GrifoView",
-  components: {BtnDevice, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
+  components: {BtnPrimary, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
-    unidades: ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'kl' ],
+    waitingForApi: true,
+    intervalID: null,
+    routePath: '',
+
+
+    unidades: ['ml', 'cl', 'dl', 'l', 'dal', 'hl', 'kl'],
     unit: 'l',
     faucet: {
       id: '',
@@ -100,7 +109,16 @@ export default {
   }),
   mounted() {
     this.getAllDevices().then(this.getDeviceState);
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
+
   computed: {
     ...mapState("faucet", {
       on_off: (state) => state.on_off,
@@ -127,54 +145,90 @@ export default {
     getDeviceState() {
       this.faucet = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.position = this.faucet.state['brightness'];
-      this.previousPosition = this.position;
-      this.$refs.sliderPosition.setSliderValue(this.position);
+      if (this.faucet) {
+        this.waitingForApi = true;
 
+        if (this.faucet.state['status'] === 'opened') {
+          this.deviceOn = true;
+          this.$refs.devComponent.setStatus(this.deviceOn);
+          if (this.faucet.state['quantity']) {
+
+            this.position = this.faucet.state['quantity'] - this.faucet.state['dispensedQuantity'];
+            this.previousPosition = this.position;
+            this.$refs.sliderPosition.setSliderValue(this.position);
+
+            this.unit = this.faucet.state['unit'];
+          }
+        } else if (this.faucet.state['status'] === 'closed') {
+          this.deviceOn = false;
+          this.$refs.devComponent.setStatus(this.deviceOn);
+        }
+      }
+      this.waitingForApi = false;
     },
     async openFaucet() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$openFaucet(this.faucet);
       } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
+
     async closeFaucet() {
+      if (this.waitingForApi) {
+        return;
+      }
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$closeFaucet(this.faucet);
       } catch (e) {
         this.setResult(e);
       }
+
+      this.waitingForApi = false;
+      this.$refs.devComponent.waitForExternalApi(false);
     },
     async dispenseFaucet(body) {
+      if (this.waitingForApi) {
+        return;
+      }
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$dispenseFaucet([this.faucet, body]);
       } catch (e) {
         this.setResult(e);
       }
 
+      this.waitingForApi = false;
+      this.$refs.devComponent.waitForExternalApi(false);
     },
-
-    callDispense(){
+    callDispense() {
       this.dispenseFaucet([this.position, this.unit]);
       this.dispenseOn = true;
       this.stateChange(true);
-      this.$refs.devComponent.setStatus(true);
     },
     stateChange(active) {
       if (!active) {
         this.closeFaucet();
         this.dispenseOn = false;
-      } else if(!this.dispenseOn) {
+      } else if (active && !this.dispenseOn) {
         this.openFaucet();
       }
       this.deviceOn = active;
-
-      if (active === false) {
-        this.$refs.sliderPosition.setSliderValue(0);
-      } else {
-        this.$refs.sliderPosition.setSliderValue(this.position);
-      }
+    },
+    sliderStateChange() {
+      this.position = this.$refs.sliderPosition.getValue();
     },
     async getAllDevices() {
       try {
@@ -185,16 +239,6 @@ export default {
         console.error("Could not load devices due to: ", e);
       }
     },
-    /*sliderStateChange(value) {
-      if (value > 0) {
-        this.$refs.devComponent.setStatus(true);
-        this.position = this.$refs.sliderPosition.getValue();
-        this.deviceOn = true;
-      } else {
-        this.$refs.devComponent.setStatus(false);
-        this.deviceOn = false;
-      }
-    } @change="sliderStateChange"*/
   },
 }
 </script>

@@ -5,6 +5,7 @@
       <device-component
           ref="devComponent"
           :name="$route.params.deviceId"
+          :loading="waitingForApi"
           image="oven"
           class="ma-auto align-center justify-center"
           @change="stateChange"
@@ -21,6 +22,7 @@
             <btn-device
                 :disabled="!deviceOn"
                 :disable-border="!deviceOn"
+                :loading="waitingForApi"
                 ref="btnAbajoMode"
                 image-off="icons/64/oven_mode_down-bw.png"
                 image-on="icons/64/oven_mode_down-color.png"
@@ -31,6 +33,7 @@
             <btn-device
                 :disabled="!deviceOn"
                 :disable-border="!deviceOn"
+                :loading="waitingForApi"
                 ref="btnConvencionalMode"
                 image-off="icons/64/oven_mode_common-bw.png"
                 image-on="icons/64/oven_mode_common-color.png"
@@ -41,6 +44,7 @@
             <btn-device
                 :disabled="!deviceOn"
                 :disable-border="!deviceOn"
+                :loading="waitingForApi"
                 ref="btnArribaMode"
                 image-off="icons/64/oven_mode_up-bw.png"
                 image-on="icons/64/oven_mode_up-color.png"
@@ -60,6 +64,7 @@
                   <btn-device
                       :disabled="!deviceOn"
                       :disable-border="!deviceOn"
+                      :loading="waitingForApi"
                       ref="btnGrillMode"
                       image-off="icons/64/grill-bw.png"
                       image-on="icons/64/grill-color.png"
@@ -74,6 +79,7 @@
                               v-model="grillState"
                               :items="grillStatus"
                               :disabled="!deviceOn"
+                              :loading="waitingForApi"
                     >
                     </v-select>
                   </v-card>
@@ -89,6 +95,7 @@
                   <btn-device
                       :disabled="!deviceOn"
                       :disable-border="!deviceOn"
+                      :loading="waitingForApi"
                       ref="btnConvectorMode"
                       image-off="icons/64/convector-bw.png"
                       image-on="icons/64/convector-color.png"
@@ -103,6 +110,7 @@
                               v-model="convectorState"
                               :items="convectorStatus"
                               :disabled="!deviceOn"
+                              :loading="waitingForApi"
                     >
                     </v-select>
                   </v-card>
@@ -130,6 +138,7 @@
             :min="90"
             :max="230"
             :disabled="!deviceOn"
+            :loading="waitingForApi"
             @change="sliderStateChange"
         />
       </v-row>
@@ -137,6 +146,7 @@
         <btn-primary
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
+            :loading="waitingForApi"
             ref="btnSetTemperature"
             @click="callSetTemperature"
         >
@@ -166,6 +176,10 @@ export default {
   components: {BtnPrimary, HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
 
+    waitingForApi: true,
+    intervalID: null,
+    routePath: '',
+
     grillStatus: ['eco', 'large', 'off' ],
     grillState: '',
     previousGrill: '',
@@ -190,6 +204,14 @@ export default {
 
   mounted() {
     this.getAllDevices().then(this.getDeviceState);
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {
@@ -209,66 +231,97 @@ export default {
     getDeviceState() {
       this.oven = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.position = this.oven.state['temperature'];
-      this.previousPosition = this.position;
-      this.$refs.sliderPosition.setSliderValue(this.position);
+      if(this.oven) {
+        this.waitingForApi = true;
 
-      this.grillState = this.oven.state['grill'];
-      this.previousGrill = this.grillState;
-      if(this.grillState === 'off'){
-        this.$refs.btnGrillMode.setActive(false);
-      } else if(this.grillState === 'eco' || this.grillState === 'large' ){
-        this.$refs.btnGrillMode.setActive(true);
+        this.position = this.oven.state['temperature'];
+        this.previousPosition = this.position;
+        this.$refs.sliderPosition.setSliderValue(this.position);
+
+        this.grillState = this.oven.state['grill'];
+        this.previousGrill = this.grillState;
+        if (this.grillState === 'off') {
+          this.$refs.btnGrillMode.setActive(false);
+        } else if (this.grillState === 'eco' || this.grillState === 'large') {
+          this.$refs.btnGrillMode.setActive(true);
+        }
+
+        this.convectorState = this.oven.state['convection'];
+        this.previousConvector = this.convectorState;
+        if (this.convectorState === 'off') {
+          this.$refs.btnConvectorMode.setActive(false);
+        } else if (this.convectorState === 'eco' || this.convectorState === 'normal') {
+          this.$refs.btnConvectorMode.setActive(true);
+        }
+
+        this.heatMode = this.oven.state['heat'];
+
+        if (this.heatMode === 'top') {
+          this.$refs.btnArribaMode.setActive(true);
+        } else if (this.heatMode === 'bottom') {
+          this.$refs.btnAbajoMode.setActive(true);
+        } else if (this.heatMode === 'conventional') {
+          this.$refs.btnConvencionalMode.setActive(true);
+        }
+
+        if (this.oven.state['status'] === 'on') {
+          this.deviceOn = true;
+        } else if (this.oven.state['status'] === 'off') {
+          this.deviceOn = false;
+        }
       }
-
-      this.convectorState = this.oven.state['convection'];
-      this.previousConvector = this.convectorState;
-      if(this.convectorState === 'off'){
-        this.$refs.btnConvectorMode.setActive(false);
-      } else if(this.convectorState === 'eco' || this.convectorState === 'normal' ){
-        this.$refs.btnConvectorMode.setActive(true);
-      }
-
-      this.heatMode = this.oven.state['heat'];
-
-      if(this.heatMode === 'top'){
-        this.$refs.btnArribaMode.setActive(true);
-      } else if(this.heatMode === 'bottom'){
-        this.$refs.btnAbajoMode.setActive(true);
-      }else if (this.heatMode === 'conventional'){
-        this.$refs.btnConvencionalMode.setActive(true);
-      }
-
-      if(this.oven.state['status'] === 'on'){
-        this.deviceOn = true;
-      } else if (this.oven.state['status'] === 'off'){
-        this.deviceOn = false;
-      }
+      this.waitingForApi = false;
     },
 
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
     async turnOnOven() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$turnOnOven(this.oven);
       } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     async turnOffOven() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$turnOffOven(this.oven);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     async setTemperature(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setTemperatureOven([this.oven, body]);
       } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callSetTemperature(){
       if(this.position !== this.previousPosition) {
@@ -277,11 +330,19 @@ export default {
       this.previousPosition = this.position;
     },
     async setHeat(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setHeatOven([this.oven, body]);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callSetHeat(mode){
       this.setHeat([mode]);
@@ -297,11 +358,19 @@ export default {
       this.setGrill([mode]);
     },
     async setConvection(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setConvectionOven([this.oven, body]);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callSetConvection(mode){
       this.setConvection([mode])
