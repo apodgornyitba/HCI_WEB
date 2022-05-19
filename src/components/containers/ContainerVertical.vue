@@ -14,7 +14,7 @@
       >
         <v-card-text
             v-if="numberOfTabs == 1"
-            class="ma-0 pt-0 pb-3 px-1 text-h3 text-center"
+            class="ma-0 pt-0 pb-3 px-1 text-h4 text-center"
         >
           {{ this.tabs[0].title }}
         </v-card-text>

@@ -113,11 +113,11 @@ export default {
   flex-direction: column !important;
 }
 
-.btn-generic .btn--active {
+.btn-generic.btn--active {
   border: 3px solid var(--v-primary-darken1) !important;
 }
 
-.btn-generic .btn-generic--text {
+.btn-generic.btn-generic--text {
   white-space: pre-line;
 }
 </style>

@@ -297,7 +297,7 @@ export default {
 
         switch (e.code) {
           case 1:
-            errorMsg = `El nombre '${this.deviceName} es inválido.'`;
+            errorMsg = `El nombre '${this.deviceName}' es inválido.`;
             break;
           case 2:
             errorMsg = `La habitación '${this.deviceName}' ya existe.`;
