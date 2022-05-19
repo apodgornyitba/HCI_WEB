@@ -141,12 +141,12 @@ export default {
 
     devices: [
       {id: 'c89b94e8581855bc', name: 'Parlante', image: 'speaker'},
-      {id: 'ofglvd9gqx8yfl3l', name: 'Aspiradora', image: 'vacuumcleaner_robot'},
+      //{id: 'ofglvd9gqx8yfl3l', name: 'Aspiradora', image: 'vacuumcleaner_robot'},
       {id: 'eu0v2xgprrhhg41g', name: 'Persiana', image: 'curtain'},
       {id: 'lsf78ly0eqrjbz91', name: 'Puerta', image: 'door'},
-      {id: 'mxztsyjzsrq7iaqc', name: 'Alarma', image: 'alarm'},
+      //{id: 'mxztsyjzsrq7iaqc', name: 'Alarma', image: 'alarm'},
       {id: 'go46xmbqeomjrsjr', name: 'Lámpara', image: 'lamp'},
-      {id: 'li6cbv5sdlatti0j', name: 'Aire Acondicionado', image: 'ac'},
+      //{id: 'li6cbv5sdlatti0j', name: 'Aire Acondicionado', image: 'ac'},
       {id: 'dbrlsh7o5sn8ur4i', name: 'Grifo', image: 'tap'},
       {id: 'rnizejqr2di0okho', name: 'Heladera', image: 'refrigerator'},
       {id: 'im77xxyulpegfmv8', name: 'Horno', image: 'oven'}

@@ -63,7 +63,7 @@ import DeviceComponent from "@/components/deviceComponent";
 import BtnDevice from "@/components/buttons/Device";
 import HelpD from "@/components/accesories/helpD";
 import ContainerWithHint from "@/components/containers/ContainerWithHint";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "PuertaView",
@@ -71,19 +71,23 @@ export default {
   data: () => ({
     deviceOn: false,
     locked: true,
-    //FIX: OBTENER EL ID DE LAS PUERTAS
     door: {
-      id: "185723ea2f6c70d2",
-      name: "my door",
+      id: '',
+      name:'',
       type: {
-        id: "lsf78ly0eqrjbz91",
-        name: "door",
+        id: '',
+        name: '',
         powerUsage: 350,
       },
     },
     result: null,
     controller: null,
   }),
+
+  mounted() {
+    this.getAllDevices().then(this.getDeviceState);
+  },
+
   methods: {
     ...mapActions("door", {
       $modifyDoor: "modify",
@@ -92,9 +96,30 @@ export default {
       $lockDoor: "lock",
       $unlockDoor: "unlock",
     }),
+    ...mapActions("device", {
+      $getAllDevices: "getAll",
+    }),
+
+    getDeviceState() {
+      this.door = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
+      if(this.door.state['status'] === "closed") {
+        this.deviceOn = false;
+      }
+      if(this.door.state['status'] === "opened") {
+        this.deviceOn = true;
+      }
+      if(this.door.state['lock'] === "unlocked") {
+        this.locked = false;
+      }
+      if(this.door.state['status'] === "locked") {
+        this.locked = true;
+      }
+    },
+
     setResult(result){
       this.result = JSON.stringify(result, null, 2);
     },
+    //FIX: no hace la parte visual --> si se guarda el state en la api
     async openDoor(){
       try{
         await this.$openDoor(this.door)
@@ -162,6 +187,23 @@ export default {
       }
       return "";
     },
+    async getAllDevices() {
+      try {
+        this.controller = new AbortController();
+        await this.$getAllDevices(this.controller);
+        this.controller = null;
+      } catch (e) {
+        console.error("Could not load devices due to: ", e);
+      }
+    },
+  },
+  computed: {
+    ...mapState("device", {
+      devices: (state) => state.devices,
+    }),
+    ...mapState("dooor", {
+      on_off: (state) => state.on_off,
+    }),
   }
 }
 

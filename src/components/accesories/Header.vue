@@ -15,7 +15,7 @@
     </div>
 
     <v-col
-        offset-sm="7"/>
+        offset-sm="6"/>
     <v-btn v-if="user.id"
            color="black"
            to="/mainScreen"
