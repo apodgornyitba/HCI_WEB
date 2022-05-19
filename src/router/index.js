@@ -22,7 +22,7 @@ const routes = [
         component: () => import('../views/mainScreenView.vue')
     },
     {
-        path: '/roomScreen/:room',
+        path: '/roomScreen/:roomId',
         name: 'roomScreen',
         props: true,
         component: () => import('../views/roomScreenView.vue')
@@ -59,53 +59,53 @@ const routes = [
         component: () => import('../views/addRoomView.vue')
     },
     {
-        path: '/parlante',
+        path: '/c89b94e8581855bc/:deviceId',
+        props: true,
         name: 'parlante',
         component: () => import('../views/devices/ParlanteView.vue')
     },
     {
-        path: '/lampara',
+        path: '/go46xmbqeomjrsjr/:deviceId',
         name: 'lampara',
-        component: () => import('../views/devices/LamparaView.vue')
+        component: () => import('../views/devices/LamparaView.vue'),
     },
     {
-        path: '/heladera',
+        path: '/rnizejqr2di0okho/:deviceId',
         name: 'heladera',
         component: () => import('../views/devices/FridgeView')
     },
     {
-        path: '/puerta',
+        path: '/lsf78ly0eqrjbz91/:deviceId',
         name: 'puerta',
-        component: () => import('../views/devices/PuertaView')
+        component: () => import('../views/devices/PuertaView'),
     },
     {
-        path: '/persiana',
+        path: '/eu0v2xgprrhhg41g/:deviceId',
         name: 'persiana',
         component: () => import('../views/devices/PersianaView')
     },
-
     {
-        path: '/grifo',
+        path: '/dbrlsh7o5sn8ur4i/:deviceId',
         name: 'grifo',
         component: () => import('../views/devices/GrifoView')
     },
     {
-        path: '/ac',
+        path: '/li6cbv5sdlatti0j/:deviceId',
         name: 'ac',
         component: () => import('../views/devices/ACView')
     },
     {
-        path: '/horno',
+        path: '/im77xxyulpegfmv8/:deviceId',
         name: 'horno',
         component: () => import('../views/devices/HornoView')
     },
     {
-        path: '/aspiradora',
+        path: '/ofglvd9gqx8yfl3l/:deviceId',
         name: 'aspiradora',
         component: () => import('../views/devices/AspiradoraView')
     },
     {
-        path: '/alarma',
+        path: '/mxztsyjzsrq7iaqc/:deviceId',
         name: 'alarma',
         component: () => import('../views/devices/AlarmaView')
     },

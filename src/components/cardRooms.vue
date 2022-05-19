@@ -12,7 +12,7 @@
           :image-off="`icons/64/${room.meta.image}-bw.png`"
           :image-on="`icons/64/${room.meta.image}-color.png`"
           class="my-3 mx-1 pa-0"
-          @click="setPathRoom"
+          :path="`/roomScreen/${room.id}`"
       >
         {{ room.name }}
       </btn-device>
@@ -46,14 +46,18 @@ export default {
       path: (state) => state.path,
     }),
   },
+
   mounted() {
     this.getAllRooms();
   },
+
   methods: {
     ...mapActions("room", {
       $getAllRooms: "getAll",
       $getRoomPath: "getRoomPath",
     }),
+
+    /* API */
     async getAllRooms() {
       try {
         this.controller = new AbortController();

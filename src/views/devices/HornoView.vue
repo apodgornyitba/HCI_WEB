@@ -3,7 +3,7 @@
 
     <template v-slot:left-pane>
       <device-component
-          name="Horno"
+          :name="$route.params.deviceId"
           image="oven"
           class="ma-auto align-center justify-center"
           @change="stateChange"

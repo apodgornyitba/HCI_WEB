@@ -5,7 +5,7 @@
         v-slot:left-pane
     >
       <device-component
-          name="Aspiradora"
+          :name="$route.params.deviceId"
           image="vacuumcleaner_robot"
           class="ma-auto align-center justify-center"
           @change="stateChange"

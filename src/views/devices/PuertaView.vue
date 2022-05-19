@@ -4,7 +4,7 @@
     <template v-slot:left-pane>
       <device-component
           ref="devComponent"
-          name="Puerta"
+          :name="$route.params.deviceId"
           image="door"
           on="Abierto"
           off="Cerrado"

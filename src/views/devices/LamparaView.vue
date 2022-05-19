@@ -4,7 +4,7 @@
     <template v-slot:left-pane>
       <device-component
           ref="devComponent"
-          name="Lampara"
+          :name="$route.params.deviceId"
           image="lamp"
           class="ma-auto align-center justify-center"
           @change="stateChange"
@@ -131,6 +131,7 @@ export default {
       $setColorLamp: "setColor",
       $setBrightnessLamp: "setBrightness",
     }),
+
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },

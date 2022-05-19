@@ -6,7 +6,7 @@
     >
 
       <device-component
-          name="Alarma"
+          :name="$route.params.deviceId"
           image="alarm"
           on="Activado"
           off="Desactivado"

@@ -5,7 +5,7 @@
     <template v-slot:left-pane>
       <device-component
           ref="devComponent"
-          name="Persiana"
+          :name="$route.params.deviceId"
           image="curtain"
           on="Abierto"
           off="Cerrado"

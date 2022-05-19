@@ -4,7 +4,7 @@
     <template v-slot:left-pane>
 
       <device-component
-        name="AC"
+        :name="$route.params.deviceId"
         image="ac"
         class="ma-auto align-center justify-center"
         @change="stateChange"
