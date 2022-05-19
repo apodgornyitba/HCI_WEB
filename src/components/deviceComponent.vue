@@ -57,29 +57,27 @@
     </v-row>
 
     <v-row
-        class="align-center justify-center"
+        class="align-center justify-space-around"
     >
-      <v-spacer/>
+      <h2> {{ getState() }} </h2>
 
-      <h2>{{ getState() }}</h2>
+      <v-switch
+          v-if="showSwitch && !alwaysActive"
 
-      <v-spacer/>
-      <template v-if="!alwaysActive">
-        <v-switch
-            ref="componentSwitch"
-            v-model="active"
-            color="primary"
-            inset
-            :loading="loading || waitingForApi"
-            @change="stateChange"
-        >
-          <!-- TODO: Add error handling
-                  :error="!hasError"
-          -->
-        </v-switch>
-      </template>
+          ref="componentSwitch"
 
-      <v-spacer/>
+          v-model="active"
+
+          hide-details
+          color="primary"
+          inset
+          class="ma-0 pa-0"
+
+          :loading="loading || waitingForApi"
+
+          @change="stateChange"
+      >
+      </v-switch>
     </v-row>
 
   </v-container>
@@ -101,6 +99,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showSwitch: {
+      type: Boolean,
+      default: true
+    }
   },
   data: function () {
     return {
@@ -108,7 +110,6 @@ export default {
       height: 400,
       active: false,
       favorite: false,
-      hasError: false,
       waitingForApi: false,
     }
   },
@@ -133,6 +134,10 @@ export default {
       $getAllDevices: "getAll",
       $modifyDevice: "modify",
     }),
+
+    waitForExternalApi(value) {
+      this.waitingForApi = value;
+    },
 
     getDeviceNameById() {
       const device = this.devices.find(device => device.id === this.name);
@@ -190,15 +195,16 @@ export default {
     setStatus(status) {
       this.active = status;
     },
-    setErrorStatus(status) {
-      this.hasError = status;
-    },
 
     getDeviceState() {
       const device = this.devices.find(device => device.id === this.name);
 
-      this.favorite = device.meta.favorite;
-      this.active = (device.state.status && device.state.status === "on") ? true : false;
+      if(device) {
+        this.waitingForApi = true;
+        this.favorite = device.meta.favorite;
+        this.active = (device.state.status && device.state.status === "on") ? true : false;
+      }
+      this.waitingForApi = false;
     },
 
     /* API */
@@ -228,10 +234,11 @@ export default {
         this.controller = new AbortController();
         await this.$modifyDevice(device, this.controller);
         this.controller = null;
-        this.waitingForApi = false;
       } catch (e) {
         console.error("Could not load device due to: ", e);
       }
+
+      this.waitingForApi = false;
     }
   },
 }

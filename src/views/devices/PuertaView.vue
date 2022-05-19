@@ -4,10 +4,15 @@
     <template v-slot:left-pane>
       <device-component
           ref="devComponent"
+
           :name="$route.params.deviceId"
-          image="door"
+          :loading="waitingForApi"
+          :show-switch="!locked"
+
           on="Abierto"
           off="Cerrado"
+          image="door"
+
           class="ma-auto align-center justify-center"
           @change="stateChange"
       />
@@ -23,20 +28,28 @@
               :hint="lockHint()"
           >
             <btn-device
-                :disabled="deviceOn"
                 ref="btnLockMode"
+
+                :disabled="deviceOn"
+                :loading="waitingForApi"
+
                 image-off="icons/64/lock_closed-bw.png"
                 image-on="icons/64/lock_closed-color.png"
+
                 @click="clickLockMode"
             >
               Bloquear
             </btn-device>
 
             <btn-device
-                :disabled="deviceOn"
                 ref="btnUnlockMode"
+
+                :disabled="deviceOn"
+                :loading="waitingForApi"
+
                 image-off="icons/64/lock_open-bw.png"
                 image-on="icons/64/lock_open-color.png"
+
                 @click="clickUnlockMode"
             >
               Desbloquear
@@ -69,11 +82,15 @@ export default {
   name: "PuertaView",
   components: {ContainerWithHint, HelpD, BtnDevice, DeviceGeneric, DeviceComponent},
   data: () => ({
+    waitingForApi: true,
+    intervalID: null,
+    routePath: '',
+
     deviceOn: false,
     locked: true,
     door: {
       id: '',
-      name:'',
+      name: '',
       type: {
         id: '',
         name: '',
@@ -85,7 +102,18 @@ export default {
   }),
 
   mounted() {
+    /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
+
+    /*
+        this.routePath = this.$route.path;
+        this.intervalID = setInterval(() => {
+          this.getAllDevices().then(this.getDeviceState);
+          if (!this.routePath || this.$route.path !== this.routePath) {
+            clearInterval(this.intervalID);
+          }
+        }, 5000);
+    */
   },
 
   methods: {
@@ -102,65 +130,107 @@ export default {
 
     getDeviceState() {
       this.door = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
-      if(this.door.state['status'] === "closed") {
-        this.deviceOn = false;
+
+      if (this.door) {
+        this.waitingForApi = true;
+
+        if (this.door.state['status'] === "opened") {
+          this.deviceOn = true;
+        } else {
+          this.deviceOn = false;
+        }
+        this.$refs.devComponent.setStatus(this.deviceOn);
+
+        if (this.door.state['lock'] === "unlocked") {
+          this.locked = false;
+          this.$refs.btnLockMode.setActive(false);
+          this.$refs.btnUnlockMode.setActive(true);
+        } else {
+          this.locked = true;
+          this.$refs.btnUnlockMode.setActive(false);
+          this.$refs.btnLockMode.setActive(true);
+        }
+
       }
-      if(this.door.state['status'] === "opened") {
-        this.deviceOn = true;
-      }
-      if(this.door.state['lock'] === "unlocked") {
-        this.locked = false;
-      }
-      if(this.door.state['status'] === "locked") {
-        this.locked = true;
-      }
+
+      this.waitingForApi = false;
     },
 
-    setResult(result){
+    setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
+
     //FIX: no hace la parte visual --> si se guarda el state en la api
-    async openDoor(){
-      try{
+    async openDoor() {
+      if (this.waitingForApi) {
+        return;
+      }
+
+      try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$openDoor(this.door)
-      }catch (e){
+      } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
-    async closeDoor(){
-      try{
+    async closeDoor() {
+      if (this.waitingForApi) {
+        return;
+      }
+
+      try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$closeDoor(this.door)
-      }catch (e){
+      } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
-    async lockDoor(){
-      try{
-        await this.$lockDoor(this.door)
-      }catch (e){
+    async lockDoor() {
+      if (this.waitingForApi) {
+        return;
+      }
+
+      try {
+        this.waitingForApi = true;
+        await this.$lockDoor(this.door);
+      } catch (e) {
         this.setResult(e);
       }
+
+      this.waitingForApi = false;
     },
-    async unlockDoor(){
-      try{
-        await this.$unlockDoor(this.door)
-      }catch (e){
+    async unlockDoor() {
+      if (this.waitingForApi) {
+        return;
+      }
+
+      try {
+        this.waitingForApi = true;
+        await this.$unlockDoor(this.door);
+      } catch (e) {
         this.setResult(e);
       }
+
+      this.waitingForApi = false;
     },
 
     stateChange(active) {
-      if (this.locked) {
-        if (active) {
-          this.$refs.devComponent.setErrorStatus(true);
-        } else {
-          this.$refs.devComponent.setErrorStatus(false);
-        }
+      if (this.waitingForApi) {
+        return;
+      }
 
+      if (this.locked) {
         this.$refs.devComponent.setStatus(false);
       } else {
-        this.$refs.devComponent.setErrorStatus(false);
-        if(active) {
+        if (active) {
           this.openDoor();
         } else {
           this.closeDoor();
@@ -197,6 +267,7 @@ export default {
       }
     },
   },
+
   computed: {
     ...mapState("device", {
       devices: (state) => state.devices,
