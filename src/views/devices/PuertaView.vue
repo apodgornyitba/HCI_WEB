@@ -136,7 +136,7 @@ export default {
         this.waitingForApi = true;
         this.$refs.devComponent.waitForExternalApi(true);
 
-        if (this.door.state['status'] === "opened") {
+        if(this.door.state['status'] === "opened") {
           this.deviceOn = true;
         } else {
           this.deviceOn = false;

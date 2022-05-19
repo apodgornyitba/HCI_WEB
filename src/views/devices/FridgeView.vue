@@ -2,8 +2,10 @@
   <device-generic>
     <template v-slot:left-pane>
       <device-component
+          ref="devComponent"
           :name="$route.params.deviceId"
           :always-active="true"
+          :loading="waitingForApi"
           image="refrigerator"
           class="ma-auto align-center justify-center"
           @change="stateChange"
@@ -16,6 +18,7 @@
       >
         <SliderMM
             :disabled="!deviceOn"
+            :loading="waitingForApi"
             title="Temperatura Heladera (°C)"
             ref="fridgePosition"
             :max="8"
@@ -27,6 +30,7 @@
         <btn-primary
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
+            :loading="waitingForApi"
             ref="btnSetFridgeTemperature"
             @click="callSetTemperature"
         >
@@ -40,6 +44,7 @@
       >
         <SliderMM
             :disabled="!deviceOn"
+            :loading="waitingForApi"
             title="Temperatura Freezer (°C)"
             ref="freezerPosition"
             :max="-8"
@@ -51,6 +56,7 @@
         <btn-primary
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
+            :loading="waitingForApi"
             ref="btnSetFreezerTemperature"
             @click="callSetFreezerTemperature"
         >
@@ -76,6 +82,7 @@
         <btn-device
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
+            :loading="waitingForApi"
             ref="btnPartyMode"
             image-off="icons/64/champagneglass-bw.png"
             image-on="icons/64/champagneglass-color.png"
@@ -87,6 +94,7 @@
         <btn-device
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
+            :loading="waitingForApi"
             ref="btnNormalMode"
             image-off="icons/64/refrigerator_small-bw.png"
             image-on="icons/64/refrigerator_small-color.png"
@@ -98,6 +106,7 @@
         <btn-device
             :disabled="!deviceOn"
             :disable-border="!deviceOn"
+            :loading="waitingForApi"
             ref="btnVacationMode"
             image-off="icons/64/beach-bw.png"
             image-on="icons/64/beach-color.png"
@@ -124,6 +133,10 @@ export default {
   name: "FridgeView",
   components: {BtnPrimary, HelpD, BtnDevice, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
+    waitingForApi: true,
+    intervalID: null,
+    routePath: '',
+
     deviceOn: true,
     fridgePosition: 2,
     previousFridgePosition: 2,
@@ -141,6 +154,14 @@ export default {
 
   mounted(){
     this.getAllDevices().then(this.getDeviceState);
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {
@@ -157,24 +178,46 @@ export default {
     getDeviceState(){
       this.fridge = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.fridgePosition = this.fridge.state['temperature'];
-      this.previousFridgePosition = this.fridgePosition;
-      this.$refs.fridgePosition.setSliderValue(this.fridgePosition);
+      if(!this.fridge){
+        return;
+      }
+      try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
 
-      this.freezerPosition = this.fridge.state['freezerTemperature'];
-      this.previousFreezerPosition = this.freezerPosition;
-      this.$refs.freezerPosition.setSliderValue(this.freezerPosition);
+        this.fridgePosition = this.fridge.state['temperature'];
+        this.previousFridgePosition = this.fridgePosition;
+        this.$refs.fridgePosition.setSliderValue(this.fridgePosition);
 
+        this.freezerPosition = this.fridge.state['freezerTemperature'];
+        this.previousFreezerPosition = this.freezerPosition;
+        this.$refs.freezerPosition.setSliderValue(this.freezerPosition);
+      } catch (e){
+        console.error("Error while getting device state. Moving on anyway.", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
+      }
     },
 
     setResult(result){
       this.result = JSON.stringify(result, null, 2);
     },
     async setTemperatureFridge(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setTemperatureFridge([this.fridge, body]);
-      } catch (e) {
+      }  catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     callSetTemperature() {
@@ -185,10 +228,20 @@ export default {
       this.previousFridgePosition = this.fridgePosition;
     },
     async setFreezerTemperatureFridge(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setFreezerTemperatureFridge([this.fridge, body]);
-      } catch (e) {
+      }  catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     callSetFreezerTemperature(){
@@ -198,10 +251,20 @@ export default {
       this.previousFreezerPosition = this.freezerPosition;
     },
     async setModeFridge(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setModeFridge([this.fridge, body]);
-      } catch (e) {
+      }  catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     callSetMode(mode){

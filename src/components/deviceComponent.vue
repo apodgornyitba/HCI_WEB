@@ -124,9 +124,9 @@ export default {
     /* Llamada antes del loop */
     this.getAllDevices().then(this.getDeviceState);
 
-    setInterval(() => {
-      this.getAllDevices().then(this.getDeviceState);
-    }, 10000);
+    // setInterval(() => {
+    //   this.getAllDevices().then(this.getDeviceState);
+    // }, 10000);
   },
 
   methods: {

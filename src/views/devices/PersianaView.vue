@@ -34,8 +34,6 @@
       </v-row>
       <v-row class="justify-center ">
         <btn-primary
-            :disabled="deviceOn"
-            :disable-border="deviceOn"
             ref="btnSetLevel"
             @click="callSetLevel"
         >
@@ -62,6 +60,10 @@ export default {
   name: "PersianaView",
   components: {BtnPrimary, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
   data: () => ({
+    waitingForApi: true,
+    intervalID: null,
+    routePath: '',
+
     blinds: {
       id: '',
       name: '',
@@ -80,6 +82,14 @@ export default {
   //FIX: guarda el state en la api pero no se me mantiene la parte visual --> el switch no se mantiene
   mounted() {
     this.getAllDevices().then(this.getDeviceState);
+
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
   computed:{
     ...mapState("device", {
@@ -103,33 +113,85 @@ export default {
     getDeviceState() {
       this.blinds = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.position = this.blinds.state['level'];
-      this.previousPosition = this.position;
-      this.$refs.sliderPosition.setSliderValue(this.position);
+      if (!this.blinds) {
+        return;
+      }
+      try {
+          this.waitingForApi = true;
+          this.$refs.devComponent.waitForExternalApi(true);
+          if(this.blinds.state['status'] === 'closed'){
+            this.deviceOn = false;
+          } else if (this.blinds.state['status'] === 'opened'){
+            this.deviceOn = true;
+          } else if(this.blinds.state['status'] === 'closing' || this.blinds.state['status'] === 'opening'){
+            this.position = this.blinds.state['currentLevel'];
+            this.previousPosition = this.position;
+            this.$refs.sliderPosition.setSliderValue(this.position);
+          }
+          this.position = this.blinds.state['level'];
+          this.previousPosition = this.position;
+          this.$refs.sliderPosition.setSliderValue(this.position);
+
+        } catch (e) {
+          console.error("Error while getting device state. Moving on anyway.", e);
+        } finally {
+          this.$refs.devComponent.waitForExternalApi(false);
+          this.waitingForApi = false;
+        }
     },
 
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
     async openBlinds() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$openBlinds(this.blinds)
-      } catch (e) {
+      }  catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     async closeBlinds() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$closeBlinds(this.blinds)
       } catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     async setLevelBlinds(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setLevelBlinds([this.blinds, body]);
-      } catch (e) {
+      }catch (e) {
         this.setResult(e);
+        console.error("Error opening door:", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
       }
     },
     callSetLevel() {
@@ -145,20 +207,9 @@ export default {
         this.openBlinds();
       }
       this.deviceOn = active;
-
-      // if (active === false) {
-      //   this.$refs.sliderPosition.setSliderValue(0);
-      // } else {
-      //   this.$refs.sliderPosition.setSliderValue(this.position);
-      // }
     },
     sliderStateChange() {
-      // if (value > 0) {
-      //   this.$refs.devComponent.setStatus(true);
       this.position = this.$refs.sliderPosition.getValue();
-      // } else {
-      //   this.$refs.devComponent.setStatus(false);
-      // }
     },
     async getAllDevices() {
       try {

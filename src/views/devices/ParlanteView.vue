@@ -7,7 +7,9 @@
     >
 
       <device-component
+          ref="devComponent"
           :name="$route.params.deviceId"
+          :loading="waitingForApi"
           image="speaker"
           class="ma-auto align-center justify-center"
           :always-active="true"
@@ -26,30 +28,35 @@
           >
             <v-btn
                 :disabled="!deviceOn"
+                :loading="waitingForApi"
                 @click="previousSongSpeaker"
             >
               <v-icon>mdi-step-backward</v-icon>
             </v-btn>
             <v-btn
                 :disabled="!deviceOn"
+                :loading="waitingForApi"
                 @click="callPauseSpeaker"
             >
               <v-icon>mdi-pause</v-icon>
             </v-btn>
             <v-btn
                 :disabled="!deviceOn"
+                :loading="waitingForApi"
                 @click="callPlaySpeaker"
             >
               <v-icon>mdi-play</v-icon>
             </v-btn>
             <v-btn
                 :disabled="!deviceOn"
+                :loading="waitingForApi"
                 @click="callStopSpeaker"
             >
               <v-icon>mdi-stop</v-icon>
             </v-btn>
             <v-btn
                 :disabled="!deviceOn"
+                :loading="waitingForApi"
                 @click="nextSongSpeaker"
             >
               <v-icon>mdi-step-forward</v-icon>
@@ -64,6 +71,7 @@
               ref="volumePosition"
               :max="10"
               :disabled="!deviceOn"
+              :loading="waitingForApi"
               @change="volumeState"
           />
         </v-row>
@@ -71,10 +79,10 @@
           <btn-primary
               :disabled="!deviceOn"
               :disable-border="!deviceOn"
+              :loading="waitingForApi"
               ref="btnSetFreezerTemperature"
               @click="callSetVolume"
           >
-            <v-icon class="mt-4 mb-n2">mdi-plus-thick</v-icon>
             <v-card-text>
               Definir volumen
             </v-card-text>
@@ -100,6 +108,7 @@
                       :items="genres"
                       v-model="genre"
                       :disabled="!deviceOn"
+                      :loading="waitingForApi"
             >
 
             </v-select>
@@ -109,6 +118,7 @@
           <btn-primary
               :disabled="!deviceOn"
               :disable-border="!deviceOn"
+              :loading="waitingForApi"
               ref="btnSetGenre"
               @click="callSetGenre"
 
@@ -165,6 +175,9 @@ export default {
   components: {BtnPrimary, HelpD, DeviceGeneric, SliderMM, DeviceComponent},
 
   data: () => ({
+    waitingForApi: true,
+    intervalID: null,
+    routePath: '',
     genres: ['rock', 'pop', 'latina', 'classical', 'dance', 'country'],
     genre: 'pop',
     previousGenre: '',
@@ -185,7 +198,13 @@ export default {
 
   mounted() {
     this.getAllDevices().then(this.getDeviceState);
-    setTimeout(() => this.getPlaylistSpeaker(), 1000);
+    this.routePath = this.$route.path;
+    this.intervalID = setInterval(() => {
+      this.getAllDevices().then(this.getDeviceState);
+      if (!this.routePath || this.$route.path !== this.routePath) {
+        clearInterval(this.intervalID);
+      }
+    }, 5000);
   },
 
   methods: {
@@ -208,24 +227,36 @@ export default {
     getDeviceState() {
       this.speaker = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      this.volume = this.speaker.state['volume'];
-      this.previousVolume = this.volume;
-      this.$refs.volumePosition.setSliderValue(this.volume);
+      if(this.speaker) {
+        this.waitingForApi = true;
+        this.volume = this.speaker.state['volume'];
+        this.previousVolume = this.volume;
+        this.$refs.volumePosition.setSliderValue(this.volume);
 
-      this.genre = this.speaker.state['genre'];
-      this.previousGenre = this.genre;
-
+        this.genre = this.speaker.state['genre'];
+        this.previousGenre = this.genre;
+      }
+      this.waitingForApi = false;
     },
 
     setResult(result) {
       this.result = JSON.stringify(result, null, 2);
     },
     async playSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$playSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callPlaySpeaker() {
       if (this.speakerStatus === 'paused') {
@@ -235,11 +266,19 @@ export default {
       }
     },
     async pauseSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$pauseSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callPauseSpeaker() {
       if (this.speakerStatus !== 'paused' && this.speakerStatus !== 'stopped') {
@@ -247,11 +286,20 @@ export default {
       }
     },
     async stopSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$stopSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
       }
+
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callStopSpeaker() {
       if (this.speakerStatus !== 'stopped') {
@@ -259,32 +307,64 @@ export default {
       }
     },
     async resumeSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$resumeSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     async nextSongSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$nextSongSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     async previousSongSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$previousSongSpeaker(this.speaker);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     async setVolumeSpeaker(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setVolumeSpeaker([this.speaker, body]);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callSetVolume() {
       if (this.volume !== this.previousVolume) {
@@ -293,11 +373,19 @@ export default {
       this.previousVolume = this.volume;
     },
     async setGenreSpeaker(body) {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$setGenreSpeaker([this.speaker, body]);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callSetGenre() {
       if (this.genre !== this.previousGenre) {
@@ -307,11 +395,19 @@ export default {
       setTimeout(() => this.callGetPlaylist(), 1000);
     },
     async getPlaylistSpeaker() {
+      if (this.waitingForApi) {
+        return;
+      }
+
       try {
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
         await this.$getPlaylistSpeaker([this.speaker, this.result]);
       } catch (e) {
         this.setResult(e);
       }
+      this.$refs.devComponent.waitForExternalApi(false);
+      this.waitingForApi = false;
     },
     callGetPlaylist() {
       this.getPlaylistSpeaker();
