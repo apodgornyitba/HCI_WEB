@@ -92,7 +92,7 @@ export default {
   name: "LamparaView",
   components: {ContainerWithHint, HelpD, SliderMM, DeviceGeneric, DeviceComponent},
   data: () => ({
-    waitingForApi: true,
+    waitingForApi: false,
     intervalID: null,
     routePath: '',
 
@@ -150,22 +150,28 @@ export default {
     getDeviceState() {
       this.lamp = this.devices.filter(e => e.id === this.$route.params.deviceId)[0];
 
-      if (this.lamp) {
-        this.waitingForApi = true;
-        this.deviceOn = (this.lamp.state['status'] === 'on') ? true : false;
+      try {
+        if (this.lamp) {
+          this.waitingForApi = true;
+          this.deviceOn = (this.lamp.state['status'] === 'on') ? true : false;
 
-        this.color = '#' + this.lamp.state['color'];
+          this.color = '#' + this.lamp.state['color'];
 
-        this.position = this.lamp.state['brightness'];
-        this.previousPosition = this.position;
+          this.position = this.lamp.state['brightness'];
+          this.previousPosition = this.position;
 
-        if (this.deviceOn) {
-          this.$refs.sliderPosition.setSliderValue(this.position);
-        } else {
-          this.$refs.sliderPosition.setSliderValue(0);
+          if (this.deviceOn) {
+            this.$refs.sliderPosition.setSliderValue(this.position);
+          } else {
+            this.$refs.sliderPosition.setSliderValue(0);
+          }
+
+          this.$refs.devComponent.setStatus(this.deviceOn);
         }
-
-        this.$refs.devComponent.setStatus(this.deviceOn);
+      } catch (e) {
+        console.error("Error loading API information:", e);
+      } finally {
+        this.waitingForApi = false;
       }
       this.waitingForApi = false;
     },
@@ -184,8 +190,7 @@ export default {
         await this.$turnOnLamp(this.lamp)
       } catch (e) {
         this.setResult(e);
-      }
-      finally {
+      } finally {
         this.$refs.devComponent.waitForExternalApi(false);
         this.waitingForApi = false;
       }
@@ -257,7 +262,6 @@ export default {
     stateChange(active) {
       if (!active) {
         this.turnOffLamp(this.lamp);
-
       } else {
         this.turnOnLamp(this.lamp);
       }
@@ -278,6 +282,7 @@ export default {
 
         this.callSetBrightness();
 
+        this.waitingForApi = false;
         this.turnOnLamp();
       } else {
         this.$refs.devComponent.setStatus(false);
