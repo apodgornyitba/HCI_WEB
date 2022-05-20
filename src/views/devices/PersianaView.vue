@@ -7,6 +7,7 @@
           ref="devComponent"
           :name="$route.params.deviceId"
           image="curtain"
+          :loading="waitingForApi || blindsMoving"
           on="Abierto"
           off="Cerrado"
           class="ma-auto align-center justify-center"
@@ -21,8 +22,23 @@
         <SliderMM
             ref="sliderPosition"
             title="Posicion"
+            :disabled="waitingForApi || blindsMoving"
             @change="sliderStateChange"
         />
+      </v-row>
+
+      <v-row
+          v-if="blindsMoving"
+          class="ma-5 pa-0"
+      >
+        <v-progress-linear
+            height="35"
+            color="primary darken1"
+            rounded
+            striped
+        >
+          <strong>{{ Math.round(currentLevel * 100 / position) }}%</strong>
+        </v-progress-linear>
       </v-row>
     </template>
 
@@ -35,10 +51,11 @@
       <v-row class="justify-center ">
         <btn-primary
             ref="btnSetLevel"
+            :loading="waitingForApi || blindsMoving"
             @click="callSetLevel"
         >
           <v-card-text>
-          Definir nivel
+            Definir nivel
           </v-card-text>
         </btn-primary>
 
@@ -62,13 +79,15 @@ export default {
   data: () => ({
     waitingForApi: true,
     intervalID: null,
+    intervalTime: 5000,
     routePath: '',
 
+    blindsMoving: false,
     blinds: {
       id: '',
       name: '',
       type: {
-        id:'',
+        id: '',
         name: '',
         powerUsage: 350,
       },
@@ -78,6 +97,8 @@ export default {
     deviceOn: false,
     position: 0,
     previousPosition: 0,
+
+    currentLevel: 0,
   }),
   //FIX: guarda el state en la api pero no se me mantiene la parte visual --> el switch no se mantiene
   mounted() {
@@ -91,7 +112,7 @@ export default {
       }
     }, 5000);
   },
-  computed:{
+  computed: {
     ...mapState("device", {
       devices: (state) => state.devices,
     }),
@@ -117,27 +138,27 @@ export default {
         return;
       }
       try {
-          this.waitingForApi = true;
-          this.$refs.devComponent.waitForExternalApi(true);
-          if(this.blinds.state['status'] === 'closed'){
-            this.deviceOn = false;
-          } else if (this.blinds.state['status'] === 'opened'){
-            this.deviceOn = true;
-          } else if(this.blinds.state['status'] === 'closing' || this.blinds.state['status'] === 'opening'){
-            this.position = this.blinds.state['currentLevel'];
-            this.previousPosition = this.position;
-            this.$refs.sliderPosition.setSliderValue(this.position);
-          }
-          this.position = this.blinds.state['level'];
+        this.waitingForApi = true;
+        this.$refs.devComponent.waitForExternalApi(true);
+        if (this.blinds.state['status'] === 'closed') {
+          this.deviceOn = false;
+        } else if (this.blinds.state['status'] === 'opened') {
+          this.deviceOn = true;
+        } else if (this.blinds.state['status'] === 'closing' || this.blinds.state['status'] === 'opening') {
+          this.position = this.blinds.state['currentLevel'];
           this.previousPosition = this.position;
           this.$refs.sliderPosition.setSliderValue(this.position);
-
-        } catch (e) {
-          console.error("Error while getting device state. Moving on anyway.", e);
-        } finally {
-          this.$refs.devComponent.waitForExternalApi(false);
-          this.waitingForApi = false;
         }
+        this.position = this.blinds.state['level'];
+        this.previousPosition = this.position;
+        this.$refs.sliderPosition.setSliderValue(this.position);
+
+      } catch (e) {
+        console.error("Error while getting device state. Moving on anyway.", e);
+      } finally {
+        this.$refs.devComponent.waitForExternalApi(false);
+        this.waitingForApi = false;
+      }
     },
 
     setResult(result) {
@@ -151,8 +172,11 @@ export default {
       try {
         this.waitingForApi = true;
         this.$refs.devComponent.waitForExternalApi(true);
+
+        console.log("open:", this.blinds);
+
         await this.$openBlinds(this.blinds)
-      }  catch (e) {
+      } catch (e) {
         this.setResult(e);
         console.error("Error opening door:", e);
       } finally {
@@ -186,7 +210,7 @@ export default {
         this.waitingForApi = true;
         this.$refs.devComponent.waitForExternalApi(true);
         await this.$setLevelBlinds([this.blinds, body]);
-      }catch (e) {
+      } catch (e) {
         this.setResult(e);
         console.error("Error opening door:", e);
       } finally {
@@ -195,12 +219,20 @@ export default {
       }
     },
     callSetLevel() {
+      if(this.waitingForApi || this.blindsMoving) {
+        return;
+      }
+
       if (this.position !== this.previousPosition) {
         this.setLevelBlinds([this.position]);
       }
       this.previousPosition = this.position;
     },
     stateChange(active) {
+      if(this.waitingForApi || this.blindsMoving) {
+        return;
+      }
+
       if (!active) {
         this.closeBlinds();
       } else {

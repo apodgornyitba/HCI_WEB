@@ -73,6 +73,7 @@
           inset
           class="ma-0 pa-0"
 
+          :readonly="loading || waitingForApi"
           :loading="loading || waitingForApi"
 
           @change="stateChange"
